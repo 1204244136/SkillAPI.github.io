@@ -18,7 +18,7 @@ function Skill(name)
 	// Skill data
 	this.data = [
 		new StringValue('Name', 'name', name).setTooltip('The name of the skill. This should not contain color codes'),
-		new StringValue('Type', 'type', 'Dynamic').setTooltip('The flavor text describing the skill such as "AOE utility" or whatever you want it to be'),
+		new StringValue('Type', 'type', '单体技能').setTooltip('The flavor text describing the skill such as "AOE utility" or whatever you want it to be'),
 		new IntValue('Max Level', 'max-level', 5).setTooltip('The maximum level the skill can reach'),
 		new ListValue('Skill Req', 'skill-req', ['None'], 'None').setTooltip('The skill that needs to be upgraded before this one can be unlocked'),
 		new IntValue('Skill Req Level', 'skill-req-lvl', 1).setTooltip('The level that the required skill needs to reach before this one can be unlocked'),
@@ -28,20 +28,20 @@ function Skill(name)
 		new AttributeValue('Cooldown', 'cooldown', 0, 0).setTooltip('The time in seconds before the skill can be cast again (only works with the Cast trigger)'),
 		new AttributeValue('Mana', 'mana', 0, 0).setTooltip('The amount of mana it takes to cast the skill (only works with the Cast trigger)'),
 		new AttributeValue('Min Spent', 'points-spent-req', 0, 0).setTooltip('The amount of skill points that need to be spent before upgrading this skill'),
-		new StringValue('Cast Message', 'msg', '&6{player} &2has cast &6{skill}').setTooltip('The message to display to players around the caster when the skill is cast. The radius of the area is in the config.yml options'),
+		new StringValue('Cast Message', 'msg', '&6{player} &2释放了 &6{skill}').setTooltip('The message to display to players around the caster when the skill is cast. The radius of the area is in the config.yml options'),
         new StringValue('Combo', 'combo', '').setTooltip('The click combo to assign the skill (if enabled). Use L, R, S, LS, RS, P, and Q for the types of clicks separated by spaces. For example, "L L R R" would work for 4 click combos.'),
         new ListValue('Indicator', 'indicator', [ '2D', '3D', 'None' ], '2D').setTooltip('[PREMIUM] What sort of display to use for cast previews. This applies to the "hover bar" in the casting bars setup.'),
 		new ListValue('Icon', 'icon', getMaterials, 'Jack O Lantern').setTooltip('The item used to represent the skill in skill trees'),
 		new IntValue('Icon Data', 'icon-data', 0).setTooltip('The data/durability value of the item used to represent the skill in skill trees'),
 		new StringListValue('Icon Lore', 'icon-lore', [
 			'&d{name} &7({level}/{max})',
-			'&2Type: &6{type}',
+			'&2类型: &6{type}',
 			'',
-			'{req:level}Level: {attr:level}',
-			'{req:cost}Cost: {attr:cost}',
+			'{req:level}等级: {attr:level}',
+			'{req:cost}技能点消耗: {attr:cost}',
 			'',
-			'&2Mana: {attr:mana}',
-			'&2Cooldown: {attr:cooldown}'
+			'&2法力值消耗: {attr:mana}',
+			'&2冷却时间: {attr:cooldown}'
 		]).setTooltip('The description shown for the item in skill trees. Include values of mechanics such as damage dealt using their "Icon Key" values'),
 		new StringListValue('Incompatible', 'incompatible', []).setTooltip('List of skill names that must not be upgraded in order to upgrade this skill')
 	];
