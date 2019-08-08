@@ -17,8 +17,8 @@ function Skill(name)
 	
 	// Skill data
 	this.data = [
-		new StringValue('技能', 'name', name).setTooltip('技能名称，不要使用颜色代码'),
-		new StringValue('类型', 'type', '单体技能').setTooltip('技能类型，例如 范围技能 单体技能，随便填'),
+		new StringValue('技能名称', 'name', name).setTooltip('技能名称，不要使用颜色代码'),
+		new StringValue('技能类型', 'type', '单体技能').setTooltip('技能类型，例如 范围技能 单体技能，随便填'),
 		new IntValue('最高等级', 'max-level', 5).setTooltip('技能所能升到的最高等级'),
 		new ListValue('父技能', 'skill-req', ['None'], 'None').setTooltip('先解锁父技能才可以学习该技能 None为不需要 如需添加请将父技能加载至该编辑器'),
 		new IntValue('父技能等级', 'skill-req-lvl', 1).setTooltip('将父技能提升至特定等级才能学习该技能'),
