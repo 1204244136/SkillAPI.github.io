@@ -290,7 +290,7 @@ function getSkill(name)
 }
 
 
-var activeSkill = new Skill('技能1');
+var activeSkill = new Skill('Skill 1');
 var activeComponent = undefined;
 var skills = [activeSkill];
 activeSkill.createFormHTML();
