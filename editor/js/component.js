@@ -49,15 +49,15 @@ var Trigger = {
  * Available target component data
  */
 var Target = {
-    AREA     : { name: 'Area',     container: true, construct: TargetArea     },
-    CONE     : { name: 'Cone',     container: true, construct: TargetCone     },
-    LINEAR   : { name: 'Linear',   container: true, construct: TargetLinear   },
-    LOCATION : { name: 'Location', container: true, construct: TargetLocation },
-    NEAREST  : { name: 'Nearest',  container: true, construct: TargetNearest  },
-    OFFSET   : { name: 'Offset',   container: true, construct: TargetOffset   },
-    REMEMBER : { name: 'Remember', container: true, construct: TargetRemember },
-    SELF     : { name: 'Self',     container: true, construct: TargetSelf     },
-    SINGLE   : { name: 'Single',   container: true, construct: TargetSingle   }
+    AREA     : { name: '半径',     container: true, construct: TargetArea     },
+    CONE     : { name: '圆锥',     container: true, construct: TargetCone     },
+    LINEAR   : { name: '直线',   container: true, construct: TargetLinear   },
+    LOCATION : { name: '坐标', container: true, construct: TargetLocation },
+    NEAREST  : { name: '最近',  container: true, construct: TargetNearest  },
+    OFFSET   : { name: '偏移',   container: true, construct: TargetOffset   },
+    REMEMBER : { name: '标记', container: true, construct: TargetRemember },
+    SELF     : { name: '自身',     container: true, construct: TargetSelf     },
+    SINGLE   : { name: '个体',   container: true, construct: TargetSingle   }
 };
 
 /**
@@ -264,7 +264,7 @@ Component.prototype.createBuilderHTML = function(target)
 
     // Component label
     var label = document.createElement('h3');
-    label.title = 'Edit ' + this.name + ' options';
+    label.title = '编辑 ' + this.name + ' 信息';
     label.className = this.type + 'Label';
     label.innerHTML = this.name;
     label.component = this;
@@ -279,7 +279,7 @@ Component.prototype.createBuilderHTML = function(target)
     {
         var add = document.createElement('div');
         add.className = 'builderButton';
-        add.innerHTML = '+ Add Child';
+        add.innerHTML = '+ 添加子内容';
         add.component = this;
         add.addEventListener('click', function(e) {
             activeComponent = this.component;
@@ -288,7 +288,7 @@ Component.prototype.createBuilderHTML = function(target)
         div.appendChild(add);
 
         var vision = document.createElement('div');
-        vision.title = 'Hide Children';
+        vision.title = '隐藏子内容';
         vision.className = 'builderButton smallButton';
         vision.style.background = 'url("editor/img/eye.png") no-repeat center #222';
         vision.component = this;
@@ -315,7 +315,7 @@ Component.prototype.createBuilderHTML = function(target)
     {
         var duplicate = document.createElement('div');
         duplicate.className = 'builderButton smallButton';
-        duplicate.title = 'Duplicate';
+        duplicate.title = '复制';
         duplicate.style.background = 'url("editor/img/duplicate.png") no-repeat center #222';
         duplicate.component = this;
         duplicate.addEventListener('click', function(e) {
@@ -329,7 +329,7 @@ Component.prototype.createBuilderHTML = function(target)
 
     // Add the remove button
     var remove = document.createElement('div');
-    remove.title = 'Remove';
+    remove.title = '删除';
     remove.className = 'builderButton smallButton cancelButton';
     remove.style.background = 'url("editor/img/delete.png") no-repeat center #f00';
     remove.component = this;
