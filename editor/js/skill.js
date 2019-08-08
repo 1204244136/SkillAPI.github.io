@@ -104,7 +104,7 @@ Skill.prototype.createFormHTML = function()
 Skill.prototype.createEditButton = function(form) {
     var done = document.createElement('h5');
 	done.className = 'doneButton';
-	done.innerHTML = 'Edit Effects',
+	done.innerHTML = '编辑效果',
 	done.skill = this;
 	done.form = form;
 	done.addEventListener('click', function(e) {
