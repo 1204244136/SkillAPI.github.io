@@ -30,7 +30,7 @@ function Skill(name)
 		new AttributeValue('最小技能点花费', 'points-spent-req', 0, 0).setTooltip('在升级此技能前需要至少花费多少技能点'),
 		new StringValue('释放信息', 'msg', '&6{player} &2释放了 &6{skill}').setTooltip('技能释放时显示给玩家的信息，信息半径在 config.yml 文件中设置'),
         new StringValue('组合键', 'combo', '').setTooltip('使用组合键释放技能(如果开启). 使用 L, R, S, LS, RS, P, 和 Q 去释放，字母间需要一个空格(L为左键,R为右键,S为下蹲键,Q为丢物品键，P为鼠标滚轮键. 举个例子, “L L R R”就是左键左键右键右键来释放技能'),
-        new ListValue('指示器', 'indicator', [ '2D', '3D', 'None' ], '2D').setTooltip('[付费版专享] 图标显示在物品栏中的材质'),
+        new ListValue('指示器', 'indicator', [ '2D', '3D', 'None' ], '2D').setTooltip('[付费版专享] 图标在物品栏中显示的材质'),
 		new ListValue('图标', 'icon', getMaterials, 'Jack O Lantern').setTooltip('在GUI中技能显示的图标'),
 		new IntValue('图标数据', 'icon-data', 0).setTooltip('图标的数据值/耐久度'),
 		new StringListValue('图标Lore', 'icon-lore', [
@@ -290,7 +290,7 @@ function getSkill(name)
 }
 
 
-var activeSkill = new Skill('Skill 1');
+var activeSkill = new Skill('技能 1');
 var activeComponent = undefined;
 var skills = [activeSkill];
 activeSkill.createFormHTML();
