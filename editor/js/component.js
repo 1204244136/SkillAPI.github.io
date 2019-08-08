@@ -27,22 +27,22 @@ var Type = {
  * Available triggers for activating skill effects
  */
 var Trigger = {
-    BLOCK_BREAK          : { name: 'Block Break',          container: true, construct: TriggerBlockBreak,        premium: true },
-    BLOCK_PLACE          : { name: 'Block Place',          container: true, construct: TriggerBlockPlace,        premium: true },
-    CAST                 : { name: 'Cast',                 container: true, construct: TriggerCast               },
-    CLEANUP              : { name: 'Cleanup',              container: true, construct: TriggerCleanup            },
-    CROUCH               : { name: 'Crouch',               container: true, construct: TriggerCrouch             },
-    DEATH                : { name: 'Death',                container: true, construct: TriggerDeath              },
-    ENVIRONMENT_DAMAGE   : { name: 'Environment Damage',   container: true, construct: TriggerEnvironmentDamage, premium: true },
-    INITIALIZE           : { name: 'Initialize',           container: true, construct: TriggerInitialize         },
-    KILL                 : { name: 'Kill',                 container: true, construct: TriggerKill               },
-    LAND                 : { name: 'Land',                 container: true, construct: TriggerLand               },
-    LAUNCH               : { name: 'Launch',               container: true, construct: TriggerLaunch             },
-    MOVE                 : { name: 'Move',                 container: true, construct: TriggerMove,              premium: true },
-    PHYSICAL_DAMAGE      : { name: 'Physical Damage',      container: true, construct: TriggerPhysicalDamage     },
-    SKILL_DAMAGE         : { name: 'Skill Damage',         container: true, construct: TriggerSkillDamage        },
-    TOOK_PHYSICAL_DAMAGE : { name: 'Took Physical Damage', container: true, construct: TriggerTookPhysicalDamage },
-    TOOK_SKILL_DAMAGE    : { name: 'Took Skill Damage',    container: true, construct: TriggerTookSkillDamage    }
+    BLOCK_BREAK          : { name: '方块破坏',          container: true, construct: TriggerBlockBreak,        premium: true },
+    BLOCK_PLACE          : { name: '方块放置',          container: true, construct: TriggerBlockPlace,        premium: true },
+    CAST                 : { name: '主动释放',                 container: true, construct: TriggerCast               },
+    CLEANUP              : { name: '技能清除',              container: true, construct: TriggerCleanup            },
+    CROUCH               : { name: '下蹲',               container: true, construct: TriggerCrouch             },
+    DEATH                : { name: '死亡',                container: true, construct: TriggerDeath              },
+    ENVIRONMENT_DAMAGE   : { name: '环境伤害',   container: true, construct: TriggerEnvironmentDamage, premium: true },
+    INITIALIZE           : { name: '复活',           container: true, construct: TriggerInitialize         },
+    KILL                 : { name: '击杀',                 container: true, construct: TriggerKill               },
+    LAND                 : { name: '落地',                 container: true, construct: TriggerLand               },
+    LAUNCH               : { name: '射击',               container: true, construct: TriggerLaunch             },
+    MOVE                 : { name: '移动',                 container: true, construct: TriggerMove,              premium: true },
+    PHYSICAL_DAMAGE      : { name: '造成物理伤害',      container: true, construct: TriggerPhysicalDamage     },
+    SKILL_DAMAGE         : { name: '造成技能伤害',         container: true, construct: TriggerSkillDamage        },
+    TOOK_PHYSICAL_DAMAGE : { name: '受到到物理伤害', container: true, construct: TriggerTookPhysicalDamage },
+    TOOK_SKILL_DAMAGE    : { name: '受到技能伤害',    container: true, construct: TriggerTookSkillDamage    }
 };
 
 /**
