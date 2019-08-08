@@ -71,7 +71,7 @@ Skill.prototype.createFormHTML = function()
 	var form = document.createElement('form');
 	
 	var header = document.createElement('h4');
-	header.innerHTML = 'Skill Details';
+	header.innerHTML = '细节设置';
 	form.appendChild(header);
 	
     form.appendChild(document.createElement('hr'));
