@@ -49,7 +49,7 @@ var Trigger = {
  * Available target component data
  */
 var Target = {
-    AREA     : { name: '范围',     container: true, construct: TargetArea     },
+    AREA     : { name: '半径',     container: true, construct: TargetArea     },
     CONE     : { name: '圆锥',     container: true, construct: TargetCone     },
     LINEAR   : { name: '直线',   container: true, construct: TargetLinear   },
     LOCATION : { name: '坐标', container: true, construct: TargetLocation },
@@ -57,15 +57,15 @@ var Target = {
     OFFSET   : { name: '偏移',   container: true, construct: TargetOffset   },
     REMEMBER : { name: '标记', container: true, construct: TargetRemember },
     SELF     : { name: '自身',     container: true, construct: TargetSelf     },
-    SINGLE   : { name: '单体',   container: true, construct: TargetSingle   }
+    SINGLE   : { name: '个体',   container: true, construct: TargetSingle   }
 };
 
 /**
  * Available condition component data
  */
 var Condition = {
-    ARMOR:       { name: 'Armor',       container: true, construct: ConditionArmor      },
-    ATTRIBUTE:   { name: 'Attribute',   container: true, construct: ConditionAttribute  },
+    ARMOR:       { name: '护甲',       container: true, construct: ConditionArmor      },
+    ATTRIBUTE:   { name: '属性',   container: true, construct: ConditionAttribute  },
     BIOME:       { name: 'Biome',       container: true, construct: ConditionBiome      },
     BLOCK:       { name: 'Block',       container: true, construct: ConditionBlock      },
     CEILING:     { name: 'Ceiling',     container: true, construct: ConditionCeiling,   premium: true },
@@ -199,7 +199,7 @@ function Component(name, type, container, parent)
     this.parent = parent;
     this.html = undefined;
     this.components = [];
-    this.data = [new StringValue('Icon Key', 'icon-key', '').setTooltip('The key used by the component in the Icon Lore. If this is set to "example" and has a value name of "value", it can be referenced using the string "{attr:example.value}".')];
+    this.data = [new StringValue('数值变量', 'icon-key', '').setTooltip('在技能图标Lore中添加上"{attr:"该行的内容"."注释里中括号内的英文"},显示为被注释目标的值.例如：先请移步至“范围”，在该栏填上“example”,则{attr:example.radius}=半径数值')];
     if (this.type == Type.MECHANIC) {
         this.data.push(new ListValue('Counts as Cast', 'counts', [ 'True', 'False' ], 'True')
             .setTooltip('Whether or not this mechanic running treats the skill as "casted" and will consume mana and start the cooldown. Set to false if it is a mechanic appled when the skill fails such as cleanup or an error message.')
@@ -207,11 +207,11 @@ function Component(name, type, container, parent)
     }
     else if (this.type == Type.TRIGGER && name != 'Cast' && name != 'Initialize' && name != 'Cleanup')
     {
-        this.data.push(new ListValue('Mana', 'mana', [ 'True', 'False' ], 'False')
-            .setTooltip('Whether or not this trigger requires the mana cost to activate')
+        this.data.push(new ListValue('需要法力值', 'mana', [ 'True', 'False' ], 'False')
+            .setTooltip('触发该条件是否需要消耗法力值 False为不需要')
         );
-        this.data.push(new ListValue('Cooldown', 'cooldown', [ 'True', 'False' ], 'False')
-            .setTooltip('Whether or not this trigger requires to be off cooldown to activate')
+        this.data.push(new ListValue('冷却时间归零激活', 'cooldown', [ 'True', 'False' ], 'False')
+            .setTooltip('触发该条件是否需要等冷却时间归零')
         );
     }
 
@@ -279,7 +279,7 @@ Component.prototype.createBuilderHTML = function(target)
     {
         var add = document.createElement('div');
         add.className = 'builderButton';
-        add.innerHTML = '+ 添加子内容';
+        add.innerHTML = '+ 添加内容';
         add.component = this;
         add.addEventListener('click', function(e) {
             activeComponent = this.component;
@@ -288,7 +288,7 @@ Component.prototype.createBuilderHTML = function(target)
         div.appendChild(add);
 
         var vision = document.createElement('div');
-        vision.title = '隐藏子内容';
+        vision.title = '隐藏内容';
         vision.className = 'builderButton smallButton';
         vision.style.background = 'url("editor/img/eye.png") no-repeat center #222';
         vision.component = this;
@@ -594,75 +594,75 @@ function CustomComponent(data) {
 
 extend('TriggerBlockBreak', 'Component');
 function TriggerBlockBreak() {
-    this.super('Block Break', Type.TRIGGER, true);
-    this.description = 'Applies skill effects when a player breaks a block matching  the given details';
+    this.super('方块破坏', Type.TRIGGER, true);
+    this.description = '当玩家破坏指定信息的方块时触发技能';
 
-    this.data.push(new MultiListValue('Material', 'material', getAnyMaterials, [ 'Any' ])
+    this.data.push(new MultiListValue('方块类型', 'material', getAnyMaterials, [ 'Any' ])
         .setTooltip('The type of block expected to be broken')
     );
-    this.data.push(new IntValue('Data', 'data', -1)
-        .setTooltip('The expected data value of the block (-1 for any data value)')
+    this.data.push(new IntValue('数量', 'data', -1)
+        .setTooltip('需要破坏的方块数量(-1为破坏多少都可以)')
     );
 }
 
 extend('TriggerBlockPlace', 'Component');
 function TriggerBlockPlace() {
-    this.super('Block Place', Type.TRIGGER, true);
-    this.description = 'Applies skill effects when a player places a block matching  the given details';
+    this.super('方块放置', Type.TRIGGER, true);
+    this.description = '当玩家放置指定信息的方块时触发技能';
 
-    this.data.push(new MultiListValue('Material', 'material', getAnyMaterials, [ 'Any' ])
+    this.data.push(new MultiListValue('方块类型', 'material', getAnyMaterials, [ 'Any' ])
         .setTooltip('The type of block expected to be placed')
     );
-    this.data.push(new IntValue('Data', 'data', -1)
-        .setTooltip('The expected data value of the block (-1 for any data value)')
+    this.data.push(new IntValue('数量', 'data', -1)
+        .setTooltip('需要放置的方块数量(-1为放置多少都可以)')
     );
 }
 
 extend('TriggerCast', 'Component');
 function TriggerCast()
 {
-    this.super('Cast', Type.TRIGGER, true);
+    this.super('主动释放', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player casts the skill using either the cast command, the skill bar, or click combos.';
+    this.description = '使用技能栏/组合键/指令来触发技能';
 }
 
 extend('TriggerCleanup', 'Component');
 function TriggerCleanup()
 {
-    this.super('Cleanup', Type.TRIGGER, true);
+    this.super('技能清除', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when the player disconnects or unlearns the skill. This is always applied with a skill level of 1 just for the sake of math.';
+    this.description = '当玩家遗忘或删除技能时触发,通常用于限定技';
 }
 
 extend('TriggerCrouch', 'Component');
 function TriggerCrouch()
 {
-    this.super('Crouch', Type.TRIGGER, true);
+    this.super('下蹲', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player starts or stops crouching using the shift key.';
+    this.description = '当玩家按下或松开下蹲键(shift)触发技能';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Start Crouching', 'Stop Crouching', 'Both' ], 'Start Crouching')
-        .setTooltip('Whether or not you want to apply components when crouching or not crouching')
+    this.data.push(new ListValue('类型', 'type', [ 'Start Crouching', 'Stop Crouching', 'Both' ], 'Start Crouching')
+        .setTooltip('分别为 按下/松开/两者')
     );
 }
 
 extend('TriggerDeath', 'Component');
 function TriggerDeath()
 {
-    this.super('Death', Type.TRIGGER, true);
+    this.super('死亡', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player dies.';
+    this.description = '玩家死亡时触发技能';
 }
 
 extend('TriggerEnvironmentDamage', 'Component');
 function TriggerEnvironmentDamage()
 {
-    this.super('Environment Damage', Type.TRIGGER, true);
+    this.super('环境伤害', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player takes environmental damage.';
+    this.description = '当玩家受到环境伤害时触发技能';
 
-    this.data.push(new ListValue('Type', 'type', DAMAGE_TYPES, 'FALL')
-        .setTooltip('The source of damage to apply for')
+    this.data.push(new ListValue('种类', 'type', DAMAGE_TYPES, 'FALL')
+        .setTooltip('伤害的种类')
     );
 }
 
@@ -670,132 +670,132 @@ function TriggerEnvironmentDamage()
 extend('TriggerInitialize', 'Component');
 function TriggerInitialize()
 {
-    this.super('Initialize', Type.TRIGGER, true);
+    this.super('复活', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects immediately. This can be used for passive abilities.';
+    this.description = '玩家复活时触发技能,可以用来做被动技能';
 }
 
 extend('TriggerKill', 'Component');
 function TriggerKill()
 {
-    this.super('Kill', Type.TRIGGER, true);
+    this.super('击杀', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects upon killing something';
+    this.description = '击杀实体时触发技能';
 }
 
 extend('TriggerLand', 'Component');
 function TriggerLand()
 {
-    this.super('Land', Type.TRIGGER, true);
+    this.super('落地', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player lands on the ground.';
+    this.description = '玩家落地时触发技能';
 
-    this.data.push(new DoubleValue('Min Distance', 'min-distance', 0)
-        .setTooltip('The minimum distance the player should fall before effects activating.')
+    this.data.push(new DoubleValue('最小距离', 'min-distance', 0)
+        .setTooltip('距离地面的最小距离')
     );
 }
 
 extend('TriggerLaunch', 'Component');
 function TriggerLaunch()
 {
-    this.super('Launch', Type.TRIGGER, true);
+    this.super('射击', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player launches a projectile.';
+    this.description = '玩家射击/投掷某物时触发技能';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Any', 'Arrow', 'Egg', 'Ender Pearl', 'Fireball', 'Fishing Hook', 'Snowball' ], 'Any')
-        .setTooltip('The type of projectile that should be launched.')
+    this.data.push(new ListValue('类型', 'type', [ 'Any', 'Arrow', 'Egg', 'Ender Pearl', 'Fireball', 'Fishing Hook', 'Snowball' ], 'Any')
+        .setTooltip('分别为 任何东西 弓箭 蛋 暗影珍珠 火球 鱼钩 雪球')
     );
 }
 
 extend('TriggerMove', 'Component');
 function TriggerMove()
 {
-    this.super('Move', Type.TRIGGER, true);
+    this.super('移动', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player moves around. This triggers every tick the player is moving, so use this sparingly. Use the "api-moved" value to check/use the distance traveled.';
+    this.description = '玩家移动时发动.这会占用大量资源,尽量少用.使用 "api-moved" 去查看/调用移动距离';
 }
 
 extend('TriggerPhysicalDamage', 'Component');
 function TriggerPhysicalDamage()
 {
-    this.super('Physical Damage', Type.TRIGGER, true);
+    this.super('物理伤害', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player deals physical (or non-skill) damage. This includes melee attacks and firing a bow.';
+    this.description = '当玩家造成物理伤害(即非技能伤害)时触发.包括近战攻击和火焰伤害';
 
-    this.data.push(new ListValue('Target Caster', 'target', [ 'True', 'False' ], 'True')
-        .setTooltip('True makes children target the caster. False makes children target the damaged entity')
+    this.data.push(new ListValue('目标指向', 'target', [ 'True', 'False' ], 'True')
+        .setTooltip('True 使目标指向玩家. False 使目标指向受到伤害的实体')
     );
-    this.data.push(new ListValue('Type', 'type', [ 'Both', 'Melee', 'Projectile' ], 'Both')
-        .setTooltip('The type of damage dealt')
+    this.data.push(new ListValue('类型', 'type', [ 'Both', 'Melee', 'Projectile' ], 'Both')
+        .setTooltip('分别为 两者 近战 远程')
     );
-    this.data.push(new DoubleValue("Min Damage", "dmg-min", 0)
-        .setTooltip('The minimum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最小伤害", "dmg-min", 0)
+        .setTooltip('当造成的伤害大于最小伤害就触发技能')
     );
-    this.data.push(new DoubleValue("Max Damage", "dmg-max", 999)
-        .setTooltip('The maximum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最大伤害", "dmg-max", 999)
+        .setTooltip('当造成的伤害大于最大伤害就取消技能,两者配合以确定一个伤害区间')
     );
 }
 
 extend('TriggerSkillDamage', 'Component');
 function TriggerSkillDamage()
 {
-    this.super('Skill Damage', Type.TRIGGER, true);
+    this.super('技能伤害', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player deals damage with a skill.';
+    this.description = '当玩家造成技能伤害时触发';
 
-    this.data.push(new ListValue('Target Caster', 'target', [ 'True', 'False' ], 'True')
-        .setTooltip('True makes children target the caster. False makes children target the damaged entity')
+    this.data.push(new ListValue('目标指向', 'target', [ 'True', 'False' ], 'True')
+        .setTooltip('True 使目标指向玩家. False 使目标指向受到伤害的实体')
     );
-    this.data.push(new DoubleValue("Min Damage", "dmg-min", 0)
-        .setTooltip('The minimum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最小伤害", "dmg-min", 0)
+        .setTooltip('当造成的伤害大于最小伤害就触发技能')
     );
-    this.data.push(new DoubleValue("Max Damage", "dmg-max", 999)
-        .setTooltip('The maximum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最大伤害", "dmg-max", 999)
+        .setTooltip('当造成的伤害大于最大伤害就取消技能,两者配合以确定一个伤害区间')
     );
-    this.data.push(new StringListValue('Category', 'category', [ 'default' ] )
-        .setTooltip('The type of skill damage to apply for. Leave this empty to apply to all skill damage.')
+    this.data.push(new StringListValue('类型', 'category', [ 'default' ] )
+        .setTooltip('技能伤害的类型,不填以应用于所有技能伤害')
     );
 }
 
 extend('TriggerTookPhysicalDamage', 'Component');
 function TriggerTookPhysicalDamage()
 {
-    this.super('Took Physical Damage', Type.TRIGGER, true);
+    this.super('受到物理伤害', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player takes physical (or non-skill) damage. This includes melee attacks and projectiles not fired by a skill.';
+    this.description = '当玩家受到物理伤害(即非技能伤害)时触发.包括近战攻击和火焰伤害';
 
-    this.data.push(new ListValue('Target Caster', 'target', [ 'True', 'False' ], 'True')
-        .setTooltip('True makes children target the caster. False makes children target the attacking entity')
+    this.data.push(new ListValue('目标指向', 'target', [ 'True', 'False' ], 'True')
+        .setTooltip('True 使目标指向玩家. False 使目标指向攻击者')
     );
-    this.data.push(new ListValue('Type', 'type', [ 'Both', 'Melee', 'Projectile' ], 'Both')
-        .setTooltip('The type of damage dealt')
+    this.data.push(new ListValue('类型', 'type', [ 'Both', 'Melee', 'Projectile' ], 'Both')
+        .setTooltip('分别为 两者 近战 远程')
     );
-    this.data.push(new DoubleValue("Min Damage", "dmg-min", 0)
-        .setTooltip('The minimum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最小伤害", "dmg-min", 0)
+        .setTooltip('当受到的伤害大于最小伤害就触发技能')
     );
-    this.data.push(new DoubleValue("Max Damage", "dmg-max", 999)
-        .setTooltip('The maximum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最大伤害", "dmg-max", 999)
+        .setTooltip('当受到的伤害大于最大伤害就取消技能,两者配合以确定一个伤害区间')
     );
 }
 
 extend('TriggerTookSkillDamage', 'Component');
 function TriggerTookSkillDamage()
 {
-    this.super('Took Skill Damage', Type.TRIGGER, true);
+    this.super('受到技能伤害', Type.TRIGGER, true);
 
-    this.description = 'Applies skill effects when a player takes damage from a skill other than their own.';
+    this.description = '当玩家受到技能伤害时触发，包括对自己的伤害';
 
-    this.data.push(new ListValue('Target Caster', 'target', [ 'True', 'False' ], 'True')
-        .setTooltip('True makes children target the caster. False makes children target the attacking entity')
+    this.data.push(new ListValue('目标指向', 'target', [ 'True', 'False' ], 'True')
+        .setTooltip('True 使目标指向玩家. False 使目标指向攻击者')
     );
-    this.data.push(new DoubleValue("Min Damage", "dmg-min", 0)
-        .setTooltip('The minimum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最小伤害", "dmg-min", 0)
+        .setTooltip('当受到的伤害大于最小伤害就触发技能')
     );
-    this.data.push(new DoubleValue("Max Damage", "dmg-max", 999)
-        .setTooltip('The maximum damage that needs to be dealt')
+    this.data.push(new DoubleValue("最大伤害", "dmg-max", 999)
+        .setTooltip('当受到的伤害大于最大伤害就取消技能,两者配合以确定一个伤害区间')
     );
-    this.data.push(new StringListValue('Category', 'category', [ 'default' ] )
-        .setTooltip('The type of skill damage to apply for. Leave this empty to apply to all skill damage.')
+    this.data.push(new StringListValue('类型', 'category', [ 'default' ] )
+        .setTooltip('技能伤害的类型,不填以应用于所有技能伤害')
     );
 }
 
@@ -804,179 +804,179 @@ function TriggerTookSkillDamage()
 extend('TargetArea', 'Component');
 function TargetArea()
 {
-    this.super('Area', Type.TARGET, true);
+    this.super('范围', Type.TARGET, true);
 
-    this.description = 'Targets all units in a radius from the current target (the casting player is the default target).';
+    this.description = '将目标指向一定半径内的所有实体';
 
-    this.data.push(new AttributeValue("Radius", "radius", 3, 0)
-        .setTooltip('The radius of the area to target in blocks')
+    this.data.push(new AttributeValue("半径", "radius", 3, 0)
+        .setTooltip('范围的半径,单位为方块')
     );
-    this.data.push(new ListValue("Group", "group", ["Ally", "Enemy", "Both"], "Enemy")
-        .setTooltip('The alignment of targets to get')
+    this.data.push(new ListValue("群组", "group", ["Ally", "Enemy", "Both"], "Enemy")
+        .setTooltip('攻击范围内的实体群组 分别为：盟友 敌人 两者')
     );
-    this.data.push(new ListValue("Through Wall", "wall", ['True', 'False'], 'False')
-        .setTooltip('Whether or not to allow targets to be on the other side of a wall')
+    this.data.push(new ListValue("穿墙", "wall", ['True', 'False'], 'False')
+        .setTooltip('是否允许技能穿过墙壁寻找目标 False为不允许')
     );
-    this.data.push(new ListValue("Include Caster", "caster", [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to include the caster in the target list')
+    this.data.push(new ListValue("包括施法者", "caster", [ 'True', 'False' ], 'False')
+        .setTooltip('目标是否包括施法者 False为不包括')
     );
-    this.data.push(new AttributeValue("Max Targets", "max", 99, 0)
-        .setTooltip('The max amount of targets to apply children to')
+    this.data.push(new AttributeValue("最大目标", "max", 99, 0)
+        .setTooltip('目标数量的最大值,超出部分无效,如果目标包括施法者,施法者也计入')
     );
-    this.data.push(new ListValue("Random", "random", [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to randomize the targets selected')
+    this.data.push(new ListValue("随机", "random", [ 'True', 'False' ], 'False')
+        .setTooltip('是否随机选取目标 False为不随机')
     );
 }
 
 extend('TargetCone', 'Component');
 function TargetCone()
 {
-    this.super('Cone', Type.TARGET, true);
+    this.super('圆锥', Type.TARGET, true);
 
-    this.description = 'Targets all units in a line in front of the current target (the casting player is the default target). If you include the caster, that counts towards the max amount.';
+    this.description = '将目标指向施法者前面的一行中的所有生物(圆锥形).';
 
-    this.data.push(new AttributeValue("Range", "range", 5, 0)
-        .setTooltip('The max distance away any target can be in blocks')
+    this.data.push(new AttributeValue("距离", "range", 5, 0)
+        .setTooltip('最大距离,单位为方块')
     );
-    this.data.push(new AttributeValue("Angle", "angle", 90, 0)
-        .setTooltip('The angle of the cone arc in degrees')
+    this.data.push(new AttributeValue("角度", "angle", 90, 0)
+        .setTooltip('圆锥弧线角度')
     );
-    this.data.push(new ListValue("Group", "group", ["Ally", "Enemy", "Both"], "Enemy")
-        .setTooltip('The alignment of targets to get')
+    this.data.push(new ListValue("群组", "group", ["Ally", "Enemy", "Both"], "Enemy")
+        .setTooltip('攻击范围内的实体群组 分别为：盟友 敌人 两者')
     );
-    this.data.push(new ListValue("Through Wall", "wall", ['True', 'False'], 'False')
-        .setTooltip('Whether or not to allow targets to be on the other side of a wall')
+    this.data.push(new ListValue("穿墙", "wall", ['True', 'False'], 'False')
+        .setTooltip('是否允许技能穿过墙壁寻找目标 False为不允许')
     );
-    this.data.push(new ListValue("Include Caster", "caster", [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to include the caster in the target list')
+    this.data.push(new ListValue("包括施法者", "caster", [ 'True', 'False' ], 'False')
+        .setTooltip('目标是否包括施法者 False为不包括')
     );
-    this.data.push(new AttributeValue("Max Targets", "max", 99, 0)
-        .setTooltip('The max amount of targets to apply children to')
+    this.data.push(new AttributeValue("最大目标", "max", 99, 0)
+        .setTooltip('目标数量的最大值,超出部分无效,如果目标包括施法者,施法者也计入')
     );
 }
 
 extend('TargetLinear', 'Component');
 function TargetLinear()
 {
-    this.super('Linear', Type.TARGET, true);
+    this.super('直线', Type.TARGET, true);
 
-    this.description = 'Targets all units in a line in front of the current target (the casting player is the default target).';
+    this.description = '将目标指向施法者前面的一行中的所有生物(直线)';
 
-    this.data.push(new AttributeValue("Range", "range", 5, 0)
-        .setTooltip('The max distance away any target can be in blocks')
+    this.data.push(new AttributeValue("距离", "range", 5, 0)
+        .setTooltip('最大距离,单位为方块')
     );
-    this.data.push(new AttributeValue("Tolerance", "tolerance", 4, 0)
-        .setTooltip('How lenient the targeting is. Larger numbers allow easier targeting. It is essentially how wide a cone is which is where you are targeting.')
+    this.data.push(new AttributeValue("宽度", "tolerance", 4, 0)
+        .setTooltip('直线的宽度,单位为方块,越宽越容易被指向')
     );
-    this.data.push(new ListValue("Group", "group", ["Ally", "Enemy", "Both"], "Enemy")
-        .setTooltip('The alignment of targets to get')
+    this.data.push(new ListValue("群组", "group", ["Ally", "Enemy", "Both"], "Enemy")
+        .setTooltip('攻击范围内的实体群组 分别为：盟友 敌人 两者')
     );
-    this.data.push(new ListValue("Through Wall", "wall", ['True', 'False'], 'False')
-        .setTooltip('Whether or not to allow targets to be on the other side of a wall')
+    this.data.push(new ListValue("穿墙", "wall", ['True', 'False'], 'False')
+        .setTooltip('是否允许技能穿过墙壁寻找目标 False为不允许')
     );
-    this.data.push(new ListValue("Include Caster", "caster", [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to include the caster in the target list')
+    this.data.push(new ListValue("包括施法者", "caster", [ 'True', 'False' ], 'False')
+        .setTooltip('目标是否包括施法者 False为不包括')
     );
-    this.data.push(new AttributeValue("Max Targets", "max", 99, 0)
-        .setTooltip('The max amount of targets to apply children to')
+    this.data.push(new AttributeValue("最大目标", "max", 99, 0)
+        .setTooltip('目标数量的最大值,超出部分无效,如果目标包括施法者,施法者也计入')
     );
 }
 
 extend('TargetLocation', 'Component');
 function TargetLocation()
 {
-    this.super('Location', Type.TARGET, true);
+    this.super('坐标', Type.TARGET, true);
 
-    this.description = 'Targets the reticle location of the target or caster. Combine this with another targeting type for ranged area effects.';
+    this.description = '目标指向玩家十字准星所在位置. 将另一种目标选取与此结合以实现远程区域效果(与"范围"结合类似火男的W)';
 
-    this.data.push(new AttributeValue('Range', 'range', 5, 0)
-        .setTooltip('The max distance the location can be')
+    this.data.push(new AttributeValue('距离', 'range', 5, 0)
+        .setTooltip('最大距离,单位为方块')
     );
-    this.data.push(new ListValue('Ground Only', 'ground', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not a player is only allowed to target the ground or other units')
+    this.data.push(new ListValue('地面单位', 'ground', [ 'True', 'False' ], 'True')
+        .setTooltip('准星坐标是否只能只在地面上(True 坐标必须在地上,False 坐标可以在空中)')
     );
 }
 
 extend('TargetNearest', 'Component');
 function TargetNearest()
 {
-    this.super('Nearest', Type.TARGET, true);
+    this.super('最近', Type.TARGET, true);
 
-    this.description = 'Targets the closest unit(s) in a radius from the current target (the casting player is the default target). If you include the caster, that counts towards the max number.';
+    this.description = '以施法者为中心，指向最近的实体';
 
-    this.data.push(new AttributeValue("Radius", "radius", 3, 0)
-        .setTooltip('The radius of the area to target in blocks')
+    this.data.push(new AttributeValue("半径", "radius", 3, 0)
+        .setTooltip('范围的半径,单位为方块')
     );
-    this.data.push(new ListValue("Group", "group", ["Ally", "Enemy", "Both"], "Enemy")
-        .setTooltip('The alignment of targets to get')
+    this.data.push(new ListValue("群组", "group", ["Ally", "Enemy", "Both"], "Enemy")
+        .setTooltip('攻击范围内的实体群组 分别为：盟友 敌人 两者')
     );
-    this.data.push(new ListValue("Through Wall", "wall", ['True', 'False'], 'False')
-        .setTooltip('Whether or not to allow targets to be on the other side of a wall')
+    this.data.push(new ListValue("穿墙", "wall", ['True', 'False'], 'False')
+        .setTooltip('是否允许技能穿过墙壁寻找目标 False为不允许')
     );
-    this.data.push(new ListValue("Include Caster", "caster", [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to include the caster in the target list')
+    this.data.push(new ListValue("包括施法者", "caster", [ 'True', 'False' ], 'False')
+        .setTooltip('目标是否包括施法者 False为不包括')
     );
-    this.data.push(new AttributeValue("Max Targets", "max", 1, 0)
-        .setTooltip('The max amount of targets to apply children to')
+    this.data.push(new AttributeValue("最大目标", "max", 1, 0)
+        .setTooltip('目标数量的最大值,超出部分无效,如果目标包括施法者,施法者也计入')
     );
 }
 
 extend('TargetOffset', 'Component');
 function TargetOffset()
 {
-    this.super('Offset', Type.TARGET, true);
+    this.super('偏移', Type.TARGET, true);
 
-    this.description = 'Targets a location that is the given offset away from each target.';
+    this.description = '对目标选取的范围进行一定的偏移(需要之前就有一个"目标选取")并重新指向偏移后的范围';
 
-    this.data.push(new AttributeValue('Forward', 'forward', 0, 0)
-        .setTooltip('The offset from the target in the direction they are facing. Negative numbers go backwards.')
+    this.data.push(new AttributeValue('向前', 'forward', 0, 0)
+        .setTooltip('目标前方(面向)的偏移量,负数为向后偏移')
     );
-    this.data.push(new AttributeValue('Upward', 'upward', 2, 0.5)
-        .setTooltip('The offset from the target upwards. Negative numbers go below them.')
+    this.data.push(new AttributeValue('向上', 'upward', 2, 0.5)
+        .setTooltip('目标上方的偏移量,负数为向下偏移')
     );
-    this.data.push(new AttributeValue('Right', 'right', 0, 0)
-        .setTooltip('The offset from the target to their right. Negative numbers go to the left.')
+    this.data.push(new AttributeValue('向右', 'right', 0, 0)
+        .setTooltip('目标右方的偏移量,负数为向右偏移')
     );
 }
 
 extend('TargetRemember', 'Component');
 function TargetRemember()
 {
-    this.super('Remember', Type.TARGET, true);
+    this.super('标记', Type.TARGET, true);
 
-    this.description = 'Targets entities stored using the "Remember Targets" mechanic for the matching key. If it was never set, this will fail.';
+    this.description = '指向标记目标,使用"Remember Targets"(标记目标)效果来标记目标,没有标记则释放失败';
 
-    this.data.push(new StringValue('Key', 'key', 'target')
-        .setTooltip('The unique key for the target group that should match that used by the "Remember Targets" skill')
+    this.data.push(new StringValue('标记名称', 'key', 'target')
+        .setTooltip('标记的名称,不可重复')
     );
 }
 
 extend('TargetSelf', 'Component');
 function TargetSelf()
 {
-    this.super('Self', Type.TARGET, true);
+    this.super('自身', Type.TARGET, true);
 
-    this.description = 'Returns the current target back to the caster.';
+    this.description = '指向自己';
 }
 
 extend('TargetSingle', 'Component');
 function TargetSingle()
 {
-    this.super('Single', Type.TARGET, true);
+    this.super('单体', Type.TARGET, true);
 
-    this.description = 'Targets a single unit in front of the current target (the casting player is the default target).';
+    this.description = '指向在施法者前面的一个单位';
 
-    this.data.push(new AttributeValue("Range", "range", 5, 0)
-        .setTooltip('The max distance away any target can be in blocks')
+    this.data.push(new AttributeValue("距离", "range", 5, 0)
+        .setTooltip('最大距离,单位为方块')
     );
-    this.data.push(new AttributeValue("Tolerance", "tolerance", 4, 0)
-        .setTooltip('How lenient the targeting is. Larger numbers allow easier targeting. It is essentially how wide a cone is which is where you are targeting.')
+    this.data.push(new AttributeValue("宽度", "tolerance", 4, 0)
+        .setTooltip('宽度,单位为方块,越宽越容易被指向')
     );
-    this.data.push(new ListValue("Group", "group", ["Ally", "Enemy", "Both"], "Enemy")
-        .setTooltip('The alignment of targets to get')
+    this.data.push(new ListValue("群组", "group", ["Ally", "Enemy", "Both"], "Enemy")
+        .setTooltip('攻击范围内的实体群组 分别为：盟友 敌人 两者')
     );
-    this.data.push(new ListValue("Through Wall", "wall", ['True', 'False'], 'False')
-        .setTooltip('Whether or not to allow targets to be on the other side of a wall')
+    this.data.push(new ListValue("穿墙", "wall", ['True', 'False'], 'False')
+        .setTooltip('是否允许技能穿过墙壁寻找目标 False为不允许')
     );
 }
 
@@ -985,11 +985,11 @@ function TargetSingle()
 extend('ConditionArmor', 'Component');
 function ConditionArmor()
 {
-    this.super('Armor', Type.CONDITION, true);
-    this.description = "Applies child components when the target is wearing an armor item matching the given details.";
+    this.super('装备', Type.CONDITION, true);
+    this.description = "目标需要穿戴物品至指定槽位";
 
-    this.data.push(new ListValue('Armor', 'armor', [ 'Helmet', 'Chestplate', 'Leggings', 'Boots', 'Any' ], 'Any')
-        .setTooltip('The type of armor to check')
+    this.data.push(new ListValue('护甲槽', 'armor', [ 'Helmet', 'Chestplate', 'Leggings', 'Boots', 'Any' ], 'Any')
+        .setTooltip('指定的槽位,分别为头盔 胸甲 护腿 靴子 任意')
     );
 
     addItemOptions(this);
@@ -998,75 +998,75 @@ function ConditionArmor()
 extend('ConditionAttribute', 'Component');
 function ConditionAttribute()
 {
-    this.super('Attribute', Type.CONDITION, true);
+    this.super('属性', Type.CONDITION, true);
 
-    this.description = 'Requires the target to have a given number of attributes';
+    this.description = '目标需要拥有指定属性的指定值';
 
-    this.data.push(new StringValue('Attribute', 'attribute', 'Vitality')
-        .setTooltip('The name of the attribute you are checking the value of')
+    this.data.push(new StringValue('属性', 'attribute', 'Vitality')
+        .setTooltip('指定的属性名称')
     );
-    this.data.push(new AttributeValue('Min', 'min', 0, 0)
-        .setTooltip('The minimum amount of the attribute the target requires')
+    this.data.push(new AttributeValue('最小值', 'min', 0, 0)
+        .setTooltip('属性不能低于最小值')
     );
-    this.data.push(new AttributeValue('Max', 'max', 999, 0)
-        .setTooltip('The maximum amount of the attribute the target requires')
+    this.data.push(new AttributeValue('最大值', 'max', 999, 0)
+        .setTooltip('属性不能高于最大值')
     );
 }
 
 extend('ConditionBiome', 'Component');
 function ConditionBiome()
 {
-    this.super('Biome', Type.CONDITION, true);
+    this.super('生物群系', Type.CONDITION, true);
 
-    this.description = 'Applies child components when in a specified biome.';
+    this.description = '目标需要在(或不在)指定的生物群系';
 
-    this.data.push(new ListValue('Type', 'type', [ 'In Biome', 'Not In Biome' ], 'In Biome')
-        .setTooltip('Whether or not the target should be in the biome. If checking for in the biome, they must be in any one of the checked biomes. If checking for the opposite, they must not be in any of the checked biomes.')
+    this.data.push(new ListValue('类型', 'type', [ 'In Biome', 'Not In Biome' ], 'In Biome')
+        .setTooltip('分别为:在指定生物群系中 不在指定生物群系中')
     );
-    this.data.push(new MultiListValue('Biome', 'biome', getBiomes, [ 'Forest' ])
-            .setTooltip('The biomes to check for. The expectation would be any of the selected biomes need to match')
+    this.data.push(new MultiListValue('生物群系', 'biome', getBiomes, [ 'Forest' ])
+            .setTooltip('指定的生物群系')
     );
 }
 
 extend('ConditionBlock', 'Component');
 function ConditionBlock()
 {
-    this.super('Block', Type.CONDITION, true);
+    this.super('方块', Type.CONDITION, true);
 
-    this.description = 'Applies child components if the target is currently standing on a block of the given type.';
+    this.description = '目标需要以指定方式接触指定方块';
 
-    this.data.push(new ListValue('Type', 'standing', [ 'On Block', 'Not On Block', 'In Block', 'Not In Block' ], 'On Block')
-        .setTooltip('Specifies which block to check and whether or not it should match the selected mateiral. "On Block" is directly below the player while "In Block" is the block a player\'s feet are in.')
+    this.data.push(new ListValue('方式', 'standing', [ 'On Block', 'Not On Block', 'In Block', 'Not In Block' ], 'On Block')
+        .setTooltip('分别为 在方块上 不在方块上 在方块里 不在方块里.在/不在方块上检测的是脚下的方块 在/不在方块里检测的是脚所在位置的方块')
     );
-    this.data.push(new ListValue('Material', 'material', getMaterials, 'Dirt')
-        .setTooltip('The type of the block to require the targets to stand on')
+    this.data.push(new ListValue('类型', 'material', getMaterials, 'Dirt')
+        .setTooltip('方块的类型')
     );
 }
 
 extend('ConditionCeiling', 'Component');
 function ConditionCeiling()
 {
-    this.super('Ceiling', Type.CONDITION, true);
+    this.super('天花板', Type.CONDITION, true);
 
-    this.description = 'Checks the height of the ceiling above each target';
+    this.description = '目标需要与天花板(即头顶最近的一个方块)保持指定距离';
 
-    this.data.push(new AttributeValue('Distance', 'distance', 5, 0)
-        .setTooltip('How high to check for the ceiling')
+    this.data.push(new AttributeValue('距离', 'distance', 5, 0)
+        .setTooltip('保持的距离,单位为方块')
     );
-    this.data.push(new ListValue('At least', 'at-least', [ 'True', 'False' ], 'True')
-        .setTooltip('When true, the ceiling must be at least the give number of blocks high. If false, the ceiling must be lower than the given number of blocks')
+    this.data.push(new ListValue('高于或低于', 'at-least', [ 'True', 'False' ], 'True')
+        .setTooltip('True表示必须高于指定距离 False表示必须低于指定距离')
     );
 }
 
 extend('ConditionChance', 'Component');
 function ConditionChance()
 {
-    this.super('Chance', Type.CONDITION, true);
+    this.super('几率', Type.CONDITION, true);
 
-    this.description = 'Rolls a chance to apply child components.';
+    this.description = '有几率释放技能';
 
     this.data.push(new AttributeValue('Chance', 'chance', 25, 0)
-        .setTooltip('The chance to execute children as a percentage. "25" would be 25%.')
+        .setTooltip('技能释放的几率 "25" 表示几率为25%')
     );
 }
 
@@ -2841,40 +2841,40 @@ var activeComponent = undefined;
  */
 function addItemOptions(component) {
     
-    component.data.push(new ListValue('Check Material', 'check-mat', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not the item needs to be a certain type')
+    component.data.push(new ListValue('物品形状', 'check-mat', [ 'True', 'False' ], 'True')
+        .setTooltip('物品是否需要指定形状 True为需要')
     );
-    component.data.push(new ListValue('Material', 'material', getMaterials, 'Arrow')
+    component.data.push(new ListValue('形状', 'material', getMaterials, 'Arrow')
         .requireValue('check-mat', [ 'True' ])
-        .setTooltip('The type the item needs to be')
+        .setTooltip('物品的形状')
     );
     
-    component.data.push(new ListValue('Check Data', 'check-data', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the item needs to have a certain data value')
+    component.data.push(new ListValue('物品数据', 'check-data', [ 'True', 'False' ], 'False')
+        .setTooltip('物品是否需要指定的数据值 False为不需要')
     );
-    component.data.push(new IntValue('Data', 'data', 0)
+    component.data.push(new IntValue('数据', 'data', 0)
         .requireValue('check-data', [ 'True' ])
-        .setTooltip('The data value the item must have')
+        .setTooltip('物品的数据值')
     );
     
-    component.data.push(new ListValue('Check Lore', 'check-lore', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the item requires a bit of text in its lore')
+    component.data.push(new ListValue('物品Lore', 'check-lore', [ 'True', 'False' ], 'False')
+        .setTooltip('物品是否需要指定的Lore False为不需要')
     );
     component.data.push(new StringValue('Lore', 'lore', 'text')
         .requireValue('check-lore', [ 'True' ])
-        .setTooltip('The text the item requires in its lore')
+        .setTooltip('物品的Lore')
     );
     
-    component.data.push(new ListValue('Check Name', 'check-name', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the item needs to have a bit of text in its display name')
+    component.data.push(new ListValue('显示名称', 'check-name', [ 'True', 'False' ], 'False')
+        .setTooltip('是否需要指定的显示名称 False为不需要')
     );
-    component.data.push(new StringValue('Name', 'name', 'name')
+    component.data.push(new StringValue('名称', 'name', 'name')
         .requireValue('check-name', [ 'True' ])
-        .setTooltip('The text the item requires in its display name')
+        .setTooltip('物品的名称')
     );
     
-    component.data.push(new ListValue('Regex', 'regex', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the name and lore checks are regex strings. If you do not know what regex is, leave this option alone.')
+    component.data.push(new ListValue('正则表达式', 'regex', [ 'True', 'False' ], 'False')
+        .setTooltip('物品的名字和lore是否需要被正则表达式所检索,False为不需要')
     );
 }
 
