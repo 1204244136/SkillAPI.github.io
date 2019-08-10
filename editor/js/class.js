@@ -30,9 +30,9 @@ function Class(name)
 		new IntValue('图标数据', 'icon-data', 0).setTooltip('图标的数据值/耐久度'),
 		new StringListValue('图标Lore', 'icon-lore', [
 			'&d' + name
-		]),
-		new StringListValue('Unusable Items', 'blacklist', [ ]).setTooltip('The types of items that the class cannot use (one per line)'),
-		new StringValue('Action Bar', 'action-bar', '').setTooltip('The format for the action bar. Leave blank to use the default formatting.')
+		]).setTooltip('在GUI中图标显示的Lore'),
+		new StringListValue('不可用物品', 'blacklist', [ ]).setTooltip('该职业无法使用的物品(一行一个)'),
+		new StringValue('Action Bar', 'action-bar', '').setTooltip('action bar中所使用的格式 不填为默认格式')
 	];
     
     this.updateAttribs(10);
