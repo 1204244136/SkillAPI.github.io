@@ -17,10 +17,10 @@ function canDrop(thing, target) {
  * Types of components
  */
 var Type = {
-    TRIGGER   : 'trigger',
-    TARGET    : 'target',
-    CONDITION : 'condition',
-    MECHANIC  : 'mechanic'
+    TRIGGER   : '触发方式',
+    TARGET    : '选取目标',
+    CONDITION : '触发条件',
+    MECHANIC  : '技能效果'
 };
 
 /**
