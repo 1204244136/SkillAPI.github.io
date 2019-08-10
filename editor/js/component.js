@@ -49,7 +49,7 @@ var Trigger = {
  * Available target component data
  */
 var Target = {
-    AREA     : { name: '半径',     container: true, construct: TargetArea     },
+    AREA     : { name: '范围',     container: true, construct: TargetArea     },
     CONE     : { name: '圆锥',     container: true, construct: TargetCone     },
     LINEAR   : { name: '直线',   container: true, construct: TargetLinear   },
     LOCATION : { name: '坐标', container: true, construct: TargetLocation },
