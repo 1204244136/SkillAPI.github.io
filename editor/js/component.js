@@ -49,7 +49,7 @@ var Trigger = {
  * Available target component data
  */
 var Target = {
-    AREA     : { name: '半径',     container: true, construct: TargetArea     },
+    AREA     : { name: '范围',     container: true, construct: TargetArea     },
     CONE     : { name: '圆锥',     container: true, construct: TargetCone     },
     LINEAR   : { name: '直线',   container: true, construct: TargetLinear   },
     LOCATION : { name: '坐标', container: true, construct: TargetLocation },
@@ -57,7 +57,7 @@ var Target = {
     OFFSET   : { name: '偏移',   container: true, construct: TargetOffset   },
     REMEMBER : { name: '标记', container: true, construct: TargetRemember },
     SELF     : { name: '自身',     container: true, construct: TargetSelf     },
-    SINGLE   : { name: '个体',   container: true, construct: TargetSingle   }
+    SINGLE   : { name: '单体',   container: true, construct: TargetSingle   }
 };
 
 /**
