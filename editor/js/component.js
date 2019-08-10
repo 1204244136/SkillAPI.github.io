@@ -57,7 +57,7 @@ var Target = {
     OFFSET   : { name: '偏移',   container: true, construct: TargetOffset   },
     REMEMBER : { name: '标记', container: true, construct: TargetRemember },
     SELF     : { name: '自身',     container: true, construct: TargetSelf     },
-    SINGLE   : { name: '个体',   container: true, construct: TargetSingle   }
+    SINGLE   : { name: '单体',   container: true, construct: TargetSingle   }
 };
 
 /**
