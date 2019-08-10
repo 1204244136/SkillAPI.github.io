@@ -1036,7 +1036,7 @@ function ConditionBlock()
     this.description = '目标需要以指定方式接触指定方块';
 
     this.data.push(new ListValue('方式', 'standing', [ 'On Block', 'Not On Block', 'In Block', 'Not In Block' ], 'On Block')
-        .setTooltip('分别为 在方块上 不在方块上 在方块里 不在方块里.在/不在方块上检测的是脚下的方块 在/不在方块里检测的是脚所在位置的方块')
+        .setTooltip('分别为 在方块上 不在方块上 在方块里 不在方块里 在/不在方块上检测的是脚下的方块 在/不在方块里检测的是脚所在位置的方块')
     );
     this.data.push(new ListValue('类型', 'material', getMaterials, 'Dirt')
         .setTooltip('方块的类型')
@@ -1046,9 +1046,9 @@ function ConditionBlock()
 extend('ConditionCeiling', 'Component');
 function ConditionCeiling()
 {
-    this.super('天花板', Type.CONDITION, true);
+    this.super('头上空间', Type.CONDITION, true);
 
-    this.description = '目标需要与天花板(即头顶最近的一个方块)保持指定距离';
+    this.description = '目标需要与头上空间保持指定距离';
 
     this.data.push(new AttributeValue('距离', 'distance', 5, 0)
         .setTooltip('保持的距离,单位为方块')
@@ -1065,7 +1065,7 @@ function ConditionChance()
 
     this.description = '有几率释放技能';
 
-    this.data.push(new AttributeValue('Chance', 'chance', 25, 0)
+    this.data.push(new AttributeValue('几率', 'chance', 25, 0)
         .setTooltip('技能释放的几率 "25" 表示几率为25%')
     );
 }
@@ -1073,57 +1073,57 @@ function ConditionChance()
 extend('ConditionClass', 'Component');
 function ConditionClass()
 {
-    this.super('Class', Type.CONDITION, true);
+    this.super('职业', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target is the given class or optionally a profession of that class. For example, if you check for "Fighter" which professes into "Warrior", a "Warrior" will pass the check if you do not enable "exact".';
+    this.description = '目标需要为指定职业';
 
-    this.data.push(new StringValue('Class', 'class', 'Fighter')
-        .setTooltip('The class the player should be')
+    this.data.push(new StringValue('职业', 'class', 'Fighter')
+        .setTooltip('所需要的职业')
     );
-    this.data.push(new ListValue('Exact', 'exact', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the player must be exactly the given class. If false, they can be a later profession of the class.')
+    this.data.push(new ListValue('精确', 'exact', [ 'True', 'False' ], 'False')
+        .setTooltip('是否需要精确的职业,False为不需要,代表曾经为该职业也算,True代表当前必须是该职业')
     );
 }
 
 extend('ConditionClassLevel', 'Component');
 function ConditionClassLevel()
 {
-    this.super('Class Level', Type.CONDITION, true);
+    this.super('职业等级', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the level of the class with this skill is within the range. This only checks the level of the caster, not the targets.';
+    this.description = '施法者职业等级需要在指定范围内';
 
-    this.data.push(new IntValue('Min Level', 'min-level', 2)
-        .setTooltip('The minimum class level the player should be. If the player has multiple classes, this will be of their main class')
+    this.data.push(new IntValue('最小等级', 'min-level', 2)
+        .setTooltip('职业等级需要高于最小等级,如果有多个职业,则取决于主职业')
     );
-    this.data.push(new IntValue('Max Level', 'max-level', 99)
-        .setTooltip('The maximum class level the player should be. If the player has multiple classes, this will be of their main class')
+    this.data.push(new IntValue('最大等级', 'max-level', 99)
+        .setTooltip('职业等级需要低于于最大等级,如果有多个职业,则取决于主职业')
     );
 }
 
 extend('ConditionCombat', 'Component');
 function ConditionCombat()
 {
-    this.super('Combat', Type.CONDITION, true);
+    this.super('战斗状态', Type.CONDITION, true);
 
-    this.description = 'Applies child components to targets that are in/out of combat, depending on the settings.';
+    this.description = '目标需要在指定战斗状态保持指定时间';
 
-    this.data.push(new ListValue('In Combat', 'combat', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not the target should be in or out of combat')
+    this.data.push(new ListValue('战斗状态', 'combat', [ 'True', 'False' ], 'True')
+        .setTooltip('True表示在战斗状态,False表示脱离战斗状态')
     );
-    this.data.push(new DoubleValue('Seconds', 'seconds', 10)
-        .setTooltip('The time in seconds since the last combat activity before something is considered not in combat')
+    this.data.push(new DoubleValue('时间', 'seconds', 10)
+        .setTooltip('距离上个战斗状态的时间')
     );
 }
 
 extend('ConditionCrouch', 'Component');
 function ConditionCrouch()
 {
-    this.super('Crouch', Type.CONDITION, true);
+    this.super('下蹲', Type.CONDITION, true);
 
-    this.description = 'Applies child components if the target player(s) are crouching';
+    this.description = '目标需要在(或不在)下蹲状态';
 
-    this.data.push(new ListValue('Crouching', 'crouch', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not the player should be crouching')
+    this.data.push(new ListValue('在下蹲', 'crouch', [ 'True', 'False' ], 'True')
+        .setTooltip('目标是否在下蹲.True表示在下蹲')
     );
 }
 
