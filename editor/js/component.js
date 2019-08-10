@@ -1132,31 +1132,31 @@ function ConditionDirection()
 {
     this.super('朝向', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target or caster is facing the correct direction relative to the other.';
+    this.description = '当施法者或目标需要朝向(或不朝)对方';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Target', 'Caster' ], 'Target')
-        .setTooltip('The entity to check the direction of')
+    this.data.push(new ListValue('类型', 'type', [ 'Target', 'Caster' ], 'Target')
+        .setTooltip('选择施法者或目标,Target为目标,Caster为施法者')
     );
-    this.data.push(new ListValue('Direction', 'direction', [ 'Away', 'Towards' ], 'Away')
-        .setTooltip('The direction the chosen entity needs to be looking relative to the other.')
+    this.data.push(new ListValue('方向', 'direction', [ 'Away', 'Towards' ], 'Away')
+        .setTooltip('施法者或目标需要的朝向,Away为不朝向,Towards为朝向')
     );
 }
 
 extend('ConditionElevation', 'Component');
 function ConditionElevation()
 {
-    this.super('Elevation', Type.CONDITION, true);
+    this.super('高度', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the elevation of the target matches the settings.';
+    this.description = '目标需要到达指定高度';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Normal', 'Difference' ], 'Normal')
-        .setTooltip('The type of comparison to make. Normal is just their Y-coordinate. Difference would be the difference between that the caster\'s Y-coordinate')
+    this.data.push(new ListValue('类型', 'type', [ 'Normal', 'Difference' ], 'Normal')
+        .setTooltip('Normal代表目标的高度需要到达指定区域,Difference代表目标与施法者的高度差需要到达指定区域')
     );
-    this.data.push(new AttributeValue('Min Value', 'min-value', 0, 0)
-        .setTooltip('The minimum value for the elevation required. A positive minimum value with a "Difference" type would be for when the target is higher up than the caster')
+    this.data.push(new AttributeValue('最小值', 'min-value', 0, 0)
+        .setTooltip('Normal类型下,目标高度需要大于最小值. Difference类型下,正值代表目标需要至少高于施法者一定距离')
     );
-    this.data.push(new AttributeValue('Max Value', 'max-value', 255, 0)
-        .setTooltip('The maximum value for the elevation required. A negative maximum value with a "Difference" type would be for when the target is below the caster')
+    this.data.push(new AttributeValue('最大值', 'max-value', 255, 0)
+        .setTooltip('Normal类型下,目标高度需要小于最大值. Difference类型下,负值代表目标至多低于施法者的距离')
     );
 }
 
