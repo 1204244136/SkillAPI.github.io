@@ -1123,14 +1123,14 @@ function ConditionCrouch()
     this.description = '目标需要在(或不在)下蹲状态';
 
     this.data.push(new ListValue('在下蹲', 'crouch', [ 'True', 'False' ], 'True')
-        .setTooltip('目标是否在下蹲.True表示在下蹲')
+        .setTooltip('True表示需要目标在下蹲状态,False表示需要目标不在下蹲状态')
     );
 }
 
 extend('ConditionDirection', 'Component');
 function ConditionDirection()
 {
-    this.super('Direction', Type.CONDITION, true);
+    this.super('朝向', Type.CONDITION, true);
 
     this.description = 'Applies child components when the target or caster is facing the correct direction relative to the other.';
 
