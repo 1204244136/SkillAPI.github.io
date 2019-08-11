@@ -906,7 +906,7 @@ MultiListValue.prototype.createHTML = function (target) {
     this.select.id = this.key;
 
     let option = document.createElement('option');
-    option.innerHTML = '- Select -';
+    option.innerHTML = '- 选择 -';
     this.select.add(option);
     const list = typeof this.list == 'function' ? this.list() : this.list;
     for (let i = 0; i < list.length; i++) {
