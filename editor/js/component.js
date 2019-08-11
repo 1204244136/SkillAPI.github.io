@@ -659,7 +659,7 @@ function TriggerEnvironmentDamage()
 {
     this.super('环境伤害', Type.TRIGGER, true);
 
-    this.description = '当玩家受到环境伤害时触发技能';
+    this.description = '当玩家受到指定种类的环境伤害时触发技能';
 
     this.data.push(new ListValue('种类', 'type', DAMAGE_TYPES, 'FALL')
         .setTooltip('伤害的种类')
@@ -700,7 +700,7 @@ function TriggerLaunch()
 {
     this.super('射击', Type.TRIGGER, true);
 
-    this.description = '玩家射击/投掷某物时触发技能';
+    this.description = '玩家射击/投掷指定物品时触发技能';
 
     this.data.push(new ListValue('类型', 'type', [ 'Any', 'Arrow', 'Egg', 'Ender Pearl', 'Fireball', 'Fishing Hook', 'Snowball' ], 'Any')
         .setTooltip('分别为 任何东西 弓箭 蛋 暗影珍珠 火球 鱼钩 雪球')
@@ -806,7 +806,7 @@ function TargetArea()
 {
     this.super('范围', Type.TARGET, true);
 
-    this.description = '将目标指向一定半径内的所有实体';
+    this.description = '将目标指向指定半径内的所有实体';
 
     this.data.push(new AttributeValue("半径", "radius", 3, 0)
         .setTooltip('范围的半径,单位为方块')
@@ -833,7 +833,7 @@ function TargetCone()
 {
     this.super('圆锥', Type.TARGET, true);
 
-    this.description = '将目标指向施法者前面的一行中的所有生物(圆锥形).';
+    this.description = '将目标指向施法者前面的一行中的所有实体(圆锥形).';
 
     this.data.push(new AttributeValue("距离", "range", 5, 0)
         .setTooltip('最大距离,单位为方块')
@@ -860,7 +860,7 @@ function TargetLinear()
 {
     this.super('直线', Type.TARGET, true);
 
-    this.description = '将目标指向施法者前面的一行中的所有生物(直线)';
+    this.description = '将目标指向施法者前面的一行中的所有实体(直线)';
 
     this.data.push(new AttributeValue("距离", "range", 5, 0)
         .setTooltip('最大距离,单位为方块')
@@ -926,7 +926,7 @@ function TargetOffset()
 {
     this.super('偏移', Type.TARGET, true);
 
-    this.description = '对目标选取的范围进行一定的偏移(需要之前就有一个"目标选取")并重新指向偏移后的范围';
+    this.description = '对目标选取的范围进行指定的偏移(需要之前就有一个"目标选取")并重新指向偏移后的范围';
 
     this.data.push(new AttributeValue('向前', 'forward', 0, 0)
         .setTooltip('目标前方(面向)的偏移量,负数为向后偏移')
