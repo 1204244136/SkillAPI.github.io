@@ -927,7 +927,7 @@ MultiListValue.prototype.createHTML = function (target) {
     target.appendChild(this.select);
 
     this.help = document.createElement('label');
-    this.help.innerHTML = '- Click to remove -';
+    this.help.innerHTML = '- 点击移除 -';
     this.help.className = 'grayed';
     target.appendChild(this.help);
 
