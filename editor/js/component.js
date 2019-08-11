@@ -64,7 +64,7 @@ var Target = {
  * Available condition component data
  */
 var Condition = {
-    ARMOR:       { name: '护甲',       container: true, construct: ConditionArmor      },
+    ARMOR:       { name: '装备',       container: true, construct: ConditionArmor      },
     ATTRIBUTE:   { name: '属性',   container: true, construct: ConditionAttribute  },
     BIOME:       { name: '生物群系',       container: true, construct: ConditionBiome      },
     BLOCK:       { name: '方块',       container: true, construct: ConditionBlock      },
