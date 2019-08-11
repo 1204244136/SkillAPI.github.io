@@ -55,7 +55,7 @@ var Target = {
     LOCATION : { name: '坐标', container: true, construct: TargetLocation },
     NEAREST  : { name: '最近',  container: true, construct: TargetNearest  },
     OFFSET   : { name: '偏移',   container: true, construct: TargetOffset   },
-    REMEMBER : { name: '标记', container: true, construct: TargetRemember },
+    REMEMBER : { name: '记忆', container: true, construct: TargetRemember },
     SELF     : { name: '自身',     container: true, construct: TargetSelf     },
     SINGLE   : { name: '单体',   container: true, construct: TargetSingle   }
 };
@@ -942,12 +942,12 @@ function TargetOffset()
 extend('TargetRemember', 'Component');
 function TargetRemember()
 {
-    this.super('标记', Type.TARGET, true);
+    this.super('记忆', Type.TARGET, true);
 
-    this.description = '指向标记目标,使用"Remember Targets"(标记目标)效果来标记目标,没有标记则释放失败';
+    this.description = '指向被记忆目标,使用"Remember Targets"(标记目标)效果来记忆目标,没有记忆目标则释放失败';
 
-    this.data.push(new StringValue('标记名称', 'key', 'target')
-        .setTooltip('标记的名称,不可重复')
+    this.data.push(new StringValue('记忆名称', 'key', 'target')
+        .setTooltip('记忆的名称,不可重复')
     );
 }
 
@@ -1153,95 +1153,95 @@ function ConditionElevation()
         .setTooltip('Normal代表目标的高度需要到达指定区域,Difference代表目标与施法者的高度差需要到达指定区域')
     );
     this.data.push(new AttributeValue('最小值', 'min-value', 0, 0)
-        .setTooltip('Normal类型下,目标高度需要大于最小值. Difference类型下,正值代表目标需要至少高于施法者一定距离')
+        .setTooltip('Normal类型下,目标高度需要大于最小值. Difference类型下,正值代表目标需要至少高于施法者指定距离')
     );
     this.data.push(new AttributeValue('最大值', 'max-value', 255, 0)
-        .setTooltip('Normal类型下,目标高度需要小于最大值. Difference类型下,负值代表目标至多低于施法者的距离')
+        .setTooltip('Normal类型下,目标高度需要小于最大值. Difference类型下,负值代表目标至多低于施法者指定距离')
     );
 }
 
 extend('ConditionElse', 'Component');
 function ConditionElse()
 {
-    this.super('Else', Type.CONDITION, true);
+    this.super('或', Type.CONDITION, true);
 
-    this.description = 'Applies child elements if the previous component failed to execute. This not only applies for conditions not passing, but mechanics failing due to no target or other cases.';
+    this.description = '如果上一个触发条件没满足,则检查下一个触发条件,需要在这个的下面再填写一个触发条件,如果上一个条件满足,则跳过下面的触发条件.这不仅适用于条件未满足,还用于由于没有目标或其他情况而导致的技能释放失败';
 }
 
 extend('ConditionEntityType', 'Component');
 function ConditionEntityType()
 {
-    this.super('Entity Type', Type.CONDITION, true);
+    this.super('实体类型', Type.CONDITION, true);
 
-    this.description = 'Applies child elements if the target matches one of the selected entity types'
+    this.description = '需要目标与指定的实体类型相同'
 
-    this.data.push(new MultiListValue('Types', 'types', getEntities)
-        .setTooltip('The entity types to target')
+    this.data.push(new MultiListValue('类型', 'types', getEntities)
+        .setTooltip('指定的实体类型')
     );
 }
 
 extend('ConditionFire', 'Component');
 function ConditionFire()
 {
-    this.super('Fire', Type.CONDITION, true);
+    this.super('燃烧', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target is on fire.';
+    this.description = '需要目标在(或不在)燃烧';
 
-    this.data.push(new ListValue('Type', 'type', [ 'On Fire', 'Not On Fire' ], 'On Fire')
-        .setTooltip('Whether or not the target should be on fire')
+    this.data.push(new ListValue('类型', 'type', [ 'On Fire', 'Not On Fire' ], 'On Fire')
+        .setTooltip('分别为 在燃烧 不在燃烧 ')
     );
 }
 
 extend('ConditionFlag', 'Component');
 function ConditionFlag()
 {
-    this.super('Flag', Type.CONDITION, true);
+    this.super('标记', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target is marked by the appropriate flag.';
+    this.description = '需要目标被(或不被)标记(与"选取目标"中的"记忆"区别在于,"记忆"是永久的,而"标记"可以设置持续时间,并且二者用于不同的位置)';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Set', 'Not Set' ], 'Set')
-        .setTooltip('Whether or not the flag should be set')
+    this.data.push(new ListValue('类型', 'type', [ 'Set', 'Not Set' ], 'Set')
+        .setTooltip('分别为 被标记 不被标记')
     );
-    this.data.push(new StringValue('Key', 'key', 'key')
-        .setTooltip('The unique key representing the flag. This should match the key for when you set it using the Flag mechanic or the Flat Toggle mechanic')
+    this.data.push(new StringValue('标记名称', 'key', 'key')
+        .setTooltip('标记的名称')
     );
 }
 
 extend('ConditionGround', 'Component');
 function ConditionGround()
 {
-    this.super('Ground', Type.CONDITION, true);
+    this.super('地面', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target is on the ground';
+    this.description = '需要目标在(或不在)地面上';
 
-    this.data.push(new ListValue('Type', 'type', [ 'On Ground', 'Not On Ground' ], 'On Ground')
-        .setTooltip('Whether or not the target should be on the ground')
+    this.data.push(new ListValue('类型', 'type', [ 'On Ground', 'Not On Ground' ], 'On Ground')
+        .setTooltip('分别为 在地面 不在地面')
     );
 }
 
 extend('ConditionHealth', 'Component');
 function ConditionHealth()
 {
-    this.super('Health', Type.CONDITION, true);
+    this.super('血量', Type.CONDITION, true);
 
-    this.description = "Applies child components when the target's health matches the settings.";
+    this.description = "需要目标血量在指定范围内";
 
-    this.data.push(new ListValue('Type', 'type', [ 'Health', 'Percent', 'Difference', 'Difference Percent' ], 'Health')
-        .setTooltip('The type of measurement to use for the health. Health is their flat health left. Percent is the percentage of health they have left. Difference is the difference between the target\'s flat health and the caster\'s. Difference percent is the difference between the target\'s percentage health left and the caster\s')
+    this.data.push(new ListValue('类型', 'type', [ 'Health', 'Percent', 'Difference', 'Difference Percent' ], 'Health')
+        .setTooltip('分别为 血量 血量百分比(自带百分号) 与施法者血量的差距 与施法者血量的差距的百分比')
     );
-    this.data.push(new AttributeValue('Min Value', 'min-value', 0, 0)
-        .setTooltip('The minimum health required. A positive minimum with one of the "Difference" types would be for when the target has more health')
+    this.data.push(new AttributeValue('最小值', 'min-value', 0, 0)
+        .setTooltip('目标血量或血量百分比需要高于最小值,Difference类型下,正值代表目标血量需要至少高于施法者指定数值')
     );
     this.data.push(new AttributeValue('Max Value', 'max-value', 10, 2)
-        .setTooltip('The maximum health required. A negative maximum with one of the "Difference" types would be for when the target has less health')
+        .setTooltip('目标血量或血量百分比需要低于最大值,Difference类型下,负值代表目标血量需要至多低于施法者指定数值')
     );
 }
 
 extend('ConditionItem', 'Component');
 function ConditionItem()
 {
-    this.super('Item', Type.CONDITION, true);
-    this.description = "Applies child components when the target is wielding an item matching the given material.";
+    this.super('手持物品', Type.CONDITION, true);
+    this.description = "目标需要手持指定物品";
 
     addItemOptions(this);
 }
@@ -1249,12 +1249,12 @@ function ConditionItem()
 extend('ConditionInventory', 'Component');
 function ConditionInventory()
 {
-    this.super('Inventory', Type.CONDITION, true);
+    this.super('背包物品', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target player contains the given item in their inventory. This does not work on mobs.';
+    this.description = '目标背包的指定区域需要有指定物品(对怪物无效)';
 
-    this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
-        .setTooltip('The amount of the item needed in the player\'s inventory')
+    this.data.push(new AttributeValue('数量', 'amount', 1, 0)
+        .setTooltip('物品所需要的数量')
     );
 
     addItemOptions(this);
@@ -1263,59 +1263,59 @@ function ConditionInventory()
 extend('ConditionLight', 'Component');
 function ConditionLight()
 {
-    this.super('Light', Type.CONDITION, true);
+    this.super('亮度', Type.CONDITION, true);
 
-    this.description = "Applies child components when the light level at the target's location matches the settings.";
+    this.description = "需要目标位置的亮度到达指定数值";
 
-    this.data.push(new AttributeValue('Min Light', 'min-light', 0, 0)
-        .setTooltip('The minimum light level needed. 16 is full brightness while 0 is complete darkness')
+    this.data.push(new AttributeValue('最小亮度', 'min-light', 0, 0)
+        .setTooltip('目标位置的亮度需要大于最小亮度,16表示最亮,0表示最暗')
     );
-    this.data.push(new AttributeValue('Max Light', 'max-light', 16, 16)
-        .setTooltip('The maximum light level needed. 16 is full brightness while 0 is complete darkness')
+    this.data.push(new AttributeValue('最大亮度', 'max-light', 16, 16)
+        .setTooltip('目标位置的亮度需要小于最大亮度,16表示最亮,0表示最暗')
     );
 }
 
 extend('ConditionMana', 'Component');
 function ConditionMana()
 {
-    this.super('Mana', Type.CONDITION, true);
+    this.super('法力值', Type.CONDITION, true);
 
-    this.description = "Applies child components when the target's mana matches the settings.";
+    this.description = "目标的法力值需要在指定范围";
 
-    this.data.push(new ListValue('Type', 'type', [ 'Mana', 'Percent', 'Difference', 'Difference Percent' ], 'Mana')
-        .setTooltip('The type of measurement to use for the mana. Mana is their flat mana left. Percent is the percentage of mana they have left. Difference is the difference between the target\'s flat mana and the caster\'s. Difference percent is the difference between the target\'s percentage mana left and the caster\s')
+    this.data.push(new ListValue('类型', 'type', [ 'Mana', 'Percent', 'Difference', 'Difference Percent' ], 'Mana')
+        .setTooltip('分别为 法力值 法力值百分比(自带百分号) 与施法者法力值的差距 与施法者法力值的差距的百分比')
     );
-    this.data.push(new AttributeValue('Min Value', 'min-value', 0, 0)
-        .setTooltip('The minimum amount of mana needed')
+    this.data.push(new AttributeValue('最小值', 'min-value', 0, 0)
+        .setTooltip('目标法力值或法力值百分比需要高于最小值,Difference类型下,正值代表目标法力值需要至少高于施法者指定数值')
     );
     this.data.push(new AttributeValue('Max Value', 'max-value', 10, 2)
-        .setTooltip('The maximum amount of mana needed')
+        .setTooltip('目标法力值或法力值百分比需要低于最大值,Difference类型下,负值代表目标法力值需要至多低于施法者指定数值')
     );
 }
 
 extend('ConditionName', 'Component');
 function ConditionName()
 {
-    this.super('Name', Type.CONDITION, true);
+    this.super('名字', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target has a name matching the settings.';
+    this.description = '目标的名字需要包含(或不包含)指定文本';
 
-    this.data.push(new ListValue('Contains Text', 'contains', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not the target should have a name containing the text')
+    this.data.push(new ListValue('类型', 'contains', [ 'True', 'False' ], 'True')
+        .setTooltip('True为包含,False为不包含')
     );
-    this.data.push(new ListValue('Regex', 'regex', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the text is formatted as regex. If you do not know what regex is, ignore this option')
+    this.data.push(new ListValue('正则表达式', 'regex', [ 'True', 'False' ], 'False')
+        .setTooltip('物品的名字和lore是否需要被正则表达式所检索,False为不需要')
     );
-    this.data.push(new StringValue('Text', 'text', 'text')
-        .setTooltip('The text to look for in the target\'s name')
+    this.data.push(new StringValue('文本', 'text', 'text')
+        .setTooltip('目标的名字需要包含(或不包含)的文本')
     );
 }
 
 extend('ConditionOffhand', 'Component');
 function ConditionOffhand()
 {
-    this.super('Offhand', Type.CONDITION, true);
-    this.description = "Applies child components when the target is wielding an item matching the given material as an offhand item. This is for v1.9+ servers only.";
+    this.super('副手', Type.CONDITION, true);
+    this.description = "需要副手所持有的物品与指定物品一致,这个设置只对1.9及以上的服务器生效";
 
     addItemOptions(this);
 }
@@ -1323,62 +1323,62 @@ function ConditionOffhand()
 extend('ConditionPermission', 'Component');
 function ConditionPermission()
 {
-    this.super('Permission', Type.CONDITION, true);
+    this.super('权限', Type.CONDITION, true);
 
-    this.description = 'Applies child components if the caster has the required permission';
+    this.description = '需要施法者拥有指定权限';
 
-    this.data.push(new StringValue('Permission', 'perm', 'some.permission')
-        .setTooltip('The permission the player needs to have')
+    this.data.push(new StringValue('权限名', 'perm', 'some.permission')
+        .setTooltip('施法者所需要拥有的权限名称')
     );
 }
 
 extend('ConditionPotion', 'Component');
 function ConditionPotion()
 {
-    this.super('Potion', Type.CONDITION, true);
+    this.super('药水效果', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target has the potion effect.';
+    this.description = '需要目标有(或没有)指定的药水效果';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Active', 'Not Active' ], 'Active')
-        .setTooltip('Whether or not the potion should be active')
+    this.data.push(new ListValue('类型', 'type', [ 'Active', 'Not Active' ], 'Active')
+        .setTooltip('分别为 有 没有')
     );
-    this.data.push(new ListValue('Potion', 'potion', getAnyPotion, 'Any')
-        .setTooltip('The type of potion to look for')
+    this.data.push(new ListValue('药水效果', 'potion', getAnyPotion, 'Any')
+        .setTooltip('药水效果的类型')
     );
-    this.data.push(new AttributeValue('Min Rank', 'min-rank', 0, 0)
-        .setTooltip('The minimum rank the potion effect can be')
+    this.data.push(new AttributeValue('最小等级', 'min-rank', 0, 0)
+        .setTooltip('药水效果的等级需要大于最小等级')
     );
-    this.data.push(new AttributeValue('Max Rank', 'max-rank', 999, 0)
-        .setTooltip('The maximum rank the potion effect can be')
+    this.data.push(new AttributeValue('最大等级', 'max-rank', 999, 0)
+        .setTooltip('药水效果的等级需要小于于最大等级')
     );
 }
 
 extend('ConditionSkillLevel', 'Component');
 function ConditionSkillLevel(skill)
 {
-    this.super('Skill Level', Type.CONDITION, true);
+    this.super('技能等级', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the skill level is with the range. This checks the skill level of the caster, not the targets.';
+    this.description = '需要施法者的技能等级在指定范围内,可用于技能到达一定等级后增加效果';
 
-    this.data.push(new StringValue('Skill', 'skill', skill)
-        .setTooltip('The name of the skill to check the level of. If you want to check the current skill, enter the current skill\'s name anyway')
+    this.data.push(new StringValue('技能', 'skill', skill)
+        .setTooltip('所需要检测等级的技能的名称')
     );
-    this.data.push(new IntValue('Min Level', 'min-level', 2)
-        .setTooltip('The minimum level of the skill needed')
+    this.data.push(new IntValue('最小等级', 'min-level', 2)
+        .setTooltip('技能的等级需要大于于最小等级')
     );
-    this.data.push(new IntValue('Max Level', 'max-level', 99)
-        .setTooltip('The maximum level of the skill needed')
+    this.data.push(new IntValue('最大等级', 'max-level', 99)
+        .setTooltip('技能的等级需要小于于最大等级')
     );
 }
 
 extend('ConditionSlot', 'Component');
 function ConditionSlot()
 {
-    this.super('Slot', Type.CONDITION, true);
-    this.description = "Applies child components when the target player has a matching item in the given slot.";
+    this.super('槽位', Type.CONDITION, true);
+    this.description = "需要目标玩家指定槽位有指定物品";
 
-    this.data.push(new StringListValue('Slots (one per line)', 'slot', [9])
-        .setTooltip('The slots to look at. Slots 0-8 are the hot bar, 9-35 are the main inventory, 36-39 are armor, and 40 is the offhand slot. Multiple slots will check if any of the slots match.')
+    this.data.push(new StringListValue('槽位(一行一个)', 'slot', [9])
+        .setTooltip('位的位置 0-8代表快捷栏 9-35代表物品栏 36-39是护甲栏 40是副手,如果有多个,则需要全部满足')
     );
 
     addItemOptions(this);
@@ -1387,84 +1387,84 @@ function ConditionSlot()
 extend('ConditionStatus', 'Component');
 function ConditionStatus()
 {
-    this.super('Status', Type.CONDITION, true);
+    this.super('状态', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target has the status condition.';
+    this.description = '目标需要在(或不在)指定状态';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Active', 'Not Active' ], 'Active')
-        .setTooltip('Whether or not the status should be active')
+    this.data.push(new ListValue('类型', 'type', [ 'Active', 'Not Active' ], 'Active')
+        .setTooltip('分别为在 不在')
     );
-    this.data.push(new ListValue('Status', 'status', [ 'Any', 'Absorb', 'Curse', 'Disarm', 'Invincible', 'Root', 'Silence', 'Stun' ], 'Any')
-        .setTooltip('The status to look for')
+    this.data.push(new ListValue('状态', 'status', [ 'Any', 'Absorb', 'Curse', 'Disarm', 'Invincible', 'Root', 'Silence', 'Stun' ], 'Any')
+        .setTooltip('目标需要的状态,分别为 任意 吸收 诅咒 缴械 无敌 禁锢 沉默 眩晕')
     );
 }
 
 extend('ConditionTime', 'Component');
 function ConditionTime()
 {
-    this.super('Time', Type.CONDITION, true);
+    this.super('时间', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the server time matches the settings.';
+    this.description = '需要当前世界到达指定时间';
 
-    this.data.push(new ListValue('Time', 'time', [ 'Day', 'Night' ], 'Day')
-        .setTooltip('The time to check for in the current world')
+    this.data.push(new ListValue('时间', 'time', [ 'Day', 'Night' ], 'Day')
+        .setTooltip('分别为 白天 黑夜')
     );
 }
 
 extend('ConditionTool', 'Component');
 function ConditionTool()
 {
-    this.super('Tool', Type.CONDITION, true);
+    this.super('工具', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target is wielding a matching tool.';
+    this.description = '需要目标挥舞指定工具';
 
-    this.data.push(new ListValue('Material', 'material', [ 'Any', 'Wood', 'Stone', 'Iron', 'Gold', 'Diamond' ], 'Any')
-        .setTooltip('The material the held tool needs to be made out of')
+    this.data.push(new ListValue('材质', 'material', [ 'Any', 'Wood', 'Stone', 'Iron', 'Gold', 'Diamond' ], 'Any')
+        .setTooltip('工具的材质,分别为 任意 木头 石头 铁 金 钻石')
     );
-    this.data.push(new ListValue('Tool', 'tool', [ 'Any', 'Axe', 'Hoe', 'Pickaxe', 'Shovel', 'Sword' ], 'Any')
-        .setTooltip('The type of tool it needs to be')
+    this.data.push(new ListValue('工具', 'tool', [ 'Any', 'Axe', 'Hoe', 'Pickaxe', 'Shovel', 'Sword' ], 'Any')
+        .setTooltip('工具的类型，分别为 任意 斧子 锄头 稿子 铲子 剑')
     );
 }
 
 extend('ConditionValue', 'Component');
 function ConditionValue()
 {
-    this.super('Value', Type.CONDITION, true);
+    this.super('数值', Type.CONDITION, true);
 
-    this.description = 'Applies child components if a stored value is within the given range.';
+    this.description = '需要目标的指定数值达到指定范围';
 
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique string used for the value set by the Value mechanics.')
+    this.data.push(new StringValue('数值名', 'key', 'value')
+        .setTooltip('不可重复,可在"技能效果"中添加或更改')
     );
-    this.data.push(new AttributeValue('Min Value', 'min-value', 1, 0)
-        .setTooltip('The lower bound of the required value')
+    this.data.push(new AttributeValue('最小值', 'min-value', 1, 0)
+        .setTooltip('需要大于最小值')
     );
-    this.data.push(new AttributeValue('Max Value', 'max-value', 999, 0)
-        .setTooltip('The upper bound of the required value')
+    this.data.push(new AttributeValue('最大值', 'max-value', 999, 0)
+        .setTooltip('需要小于最大值')
     );
 }
 
 extend('ConditionWater', 'Component');
 function ConditionWater()
 {
-    this.super('Water', Type.CONDITION, true);
+    this.super('水', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target is in or out of water, depending on the settings.';
+    this.description = '目标需要在(或不在)水中';
 
-    this.data.push(new ListValue('State', 'state', [ 'In Water', 'Out Of Water' ], 'In Water')
-        .setTooltip('Whether or not the target needs to be in the water')
+    this.data.push(new ListValue('类型', 'state', [ 'In Water', 'Out Of Water' ], 'In Water')
+        .setTooltip('分别为 在水中 不在水中')
     );
 }
 
 extend('ConditionWeather', 'Component');
 function ConditionWeather()
 {
-    this.super('Weather', Type.CONDITION, true);
+    this.super('天气', Type.CONDITION, true);
 
-    this.description = 'Applies child components when the target\'s location has the given weather condition';
+    this.description = '目标所在位置需要有指定的天气';
 
-    this.data.push(new ListValue('Type', 'type', [ 'None', 'Rain', 'Snow', 'Thunder' ], 'Rain')
-        .setTooltip('Whether or not the target needs to be in the water')
+    this.data.push(new ListValue('天气类型', 'type', [ 'None', 'Rain', 'Snow', 'Thunder' ], 'Rain')
+        .setTooltip('分别为 晴朗 雨天 雪天 雷雨天')
     );
 }
 
