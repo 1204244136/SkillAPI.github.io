@@ -202,7 +202,7 @@ function Component(name, type, container, parent)
     this.data = [new StringValue('数值变量', 'icon-key', '').setTooltip('在技能图标Lore中添加上"{attr:"该行的内容"."注释里中括号内的英文"},显示为被注释目标的值.例如：先请移步至“范围”，在该栏填上“example”,则{attr:example.radius}=半径数值')];
     if (this.type == Type.MECHANIC) {
         this.data.push(new ListValue('类型', 'counts', [ 'True', 'False' ], 'True')
-            .setTooltip('True为技能释放成功(消耗法力并开始冷却)时的效果,False为技能释放失败时的效果,该项可用于技能释放失败的惩罚?')
+            .setTooltip('True为技能释放成功(消耗法力并开始冷却)时的效果,False为技能释放失败时的效果,该项可用于技能释放失败的惩罚')
         );
     }
     else if (this.type == Type.TRIGGER && name != 'Cast' && name != 'Initialize' && name != 'Cleanup')
@@ -1575,7 +1575,7 @@ function MechanicCancel()
 {
     this.super('伤害取消', Type.MECHANIC, false);
 
-    this.description = '取消由于该技能被触发的伤害.例如,该技能的触发需要"进行一次射击"则技能效果为该选项会取消射击所造成的伤害?';
+    this.description = '取消由于该技能被触发的伤害.例如,该技能的触发需要"进行一次射击"则技能效果为该选项会取消射击所造成的伤害';
 }
 
 extend('MechanicCancelEffect', 'Component');
@@ -1583,7 +1583,7 @@ function MechanicCancelEffect()
 {
     this.super('取消效果', Type.MECHANIC, false);
 
-    this.description = '提前取消粒子?效果';
+    this.description = '提前取消粒子效果';
 
     this.data.push(new StringValue('效果名称', 'effect-key', 'default')
         .setTooltip('效果被设置时所使用的名称')
