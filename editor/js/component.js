@@ -1473,21 +1473,21 @@ function ConditionWeather()
 extend('MechanicAttribute', 'Component');
 function MechanicAttribute()
 {
-    this.super('Attribute', Type.MECHANIC, false);
+    this.super('属性加成', Type.MECHANIC, false);
 
-    this.description = 'Gives a player bonus attributes temporarily.';
+    this.description = '给与目标玩家指定时间的属性加成';
 
-    this.data.push(new StringValue('Attribute', 'key', 'Intelligence')
-        .setTooltip('The name of the attribute to add to')
+    this.data.push(new StringValue('属性', 'key', 'Intelligence')
+        .setTooltip('需要加成的属性名称')
     );
-    this.data.push(new AttributeValue('Amount', 'amount', 5, 2)
-        .setTooltip('How much to add to the player\'s attribute')
+    this.data.push(new AttributeValue('数值', 'amount', 5, 2)
+        .setTooltip('需要加成的数值')
     );
-    this.data.push(new AttributeValue('Seconds', 'seconds', 3, 0)
-        .setTooltip('How long in seconds to give the attributes to the player')
+    this.data.push(new AttributeValue('时间', 'seconds', 3, 0)
+        .setTooltip('属性加成持续的时间')
     );
-    this.data.push(new ListValue('Stackable', 'stackable', [ 'True', 'False' ], 'False')
-        .setTooltip('[PREM] Whether or not applying multiple times stacks the effects')
+    this.data.push(new ListValue('堆叠', 'stackable', [ 'True', 'False' ], 'False')
+        .setTooltip('[付费版专享] 是否允许加成时间堆叠 False为不允许')
     );
 }
 
