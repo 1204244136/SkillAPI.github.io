@@ -1931,85 +1931,85 @@ function MechanicHealthSet()
 extend('MechanicHeldItem', 'Component');
 function MechanicHeldItem()
 {
-    this.super('Held Item', Type.MECHANIC, false);
+    this.super('移动手持物品', Type.MECHANIC, false);
 
-    this.description = 'Sets the held item slot of the target player. This will do nothing if trying to set it to a skill slot.';
+    this.description = '将目标手持的物品移动到其指定槽位中,如果槽位是技能快捷键将会无效';
 
-    this.data.push(new AttributeValue("Slot", "slot", 0, 0)
-        .setTooltip('The slot to set it to')
+    this.data.push(new AttributeValue("槽位", "slot", 0, 0)
+        .setTooltip('所移动到的槽位')
     );
 }
 
 extend('MechanicImmunity', 'Component');
 function MechanicImmunity()
 {
-    this.super('Immunity', Type.MECHANIC, false);
+    this.super('伤害免疫', Type.MECHANIC, false);
 
-    this.description = 'Provides damage immunity from one source for a duration.'
+    this.description = '使目标在指定时间内免疫指定的伤害'
 
-    this.data.push(new ListValue('Type', 'type', DAMAGE_TYPES, 'Poison')
-        .setTooltip('The damage type to give an immunity for')
+    this.data.push(new ListValue('类型', 'type', DAMAGE_TYPES, 'Poison')
+        .setTooltip('所需要免疫伤害的类型')
     );
-    this.data.push(new AttributeValue('Seconds', 'seconds', 3, 0)
-        .setTooltip('How long to give an immunity for')
+    this.data.push(new AttributeValue('时间', 'seconds', 3, 0)
+        .setTooltip('免疫所持续的时间')
     );
-    this.data.push(new AttributeValue('Multiplier', 'multiplier', 0, 0)
-        .setTooltip('The multiplier for the incoming damage. Use 0 if you want full immunity.')
+    this.data.push(new AttributeValue('百分比', 'multiplier', 0, 0)
+        .setTooltip('免疫伤害的百分比,设成0则完全免疫')
     );
 }
 
 extend('MechanicInterrupt', 'Component');
 function MechanicInterrupt()
 {
-    this.super('Interrupt', Type.MECHANIC, false);
+    this.super('中断', Type.MECHANIC, false);
 
-    this.description = 'Interrupts any channeling being done by each target if applicable.';
+    this.description = '中断每个目标的吟唱(如果适用)';
 }
 
 extend('MechanicItem', 'Component');
 function MechanicItem()
 {
-    this.super('Item', Type.MECHANIC, false);
+    this.super('给予物品', Type.MECHANIC, false);
 
-    this.description = 'Gives each player target the item defined by the settings.';
+    this.description = '给予目标指定的物品';
 
-    this.data.push(new ListValue('Material', 'material', getMaterials, 'Arrow')
-        .setTooltip('The type of item to give to the player')
+    this.data.push(new ListValue('物品', 'material', getMaterials, 'Arrow')
+        .setTooltip('给予物品的类型')
     );
-    this.data.push(new IntValue('Amount', 'amount', 1)
-        .setTooltip('The quantity of the item to give to the player')
+    this.data.push(new IntValue('数量', 'amount', 1)
+        .setTooltip('给予物品的数量')
     );
-    this.data.push(new IntValue('Durability', 'data', 0)
-        .setTooltip('The durability value of the item to give to the player')
+    this.data.push(new IntValue('耐久', 'data', 0)
+        .setTooltip('给予物品的耐久度')
     );
-    this.data.push(new IntValue('Data', 'byte', 0)
-        .setTooltip('The data value of the item to give to the player for things such as egg type or wool color')
+    this.data.push(new IntValue('数据', 'byte', 0)
+        .setTooltip('物品的数据值,如羊毛的颜色')
     );
-    this.data.push(new ListValue('Custom', 'custom', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to apply a custom name/lore to the item')
+    this.data.push(new ListValue('高级设置', 'custom', [ 'True', 'False' ], 'False')
+        .setTooltip('给予的物品是否需要有名字和lore')
     );
 
-    this.data.push(new StringValue('Name', 'name', 'Name').requireValue('custom', [ 'True' ])
-        .setTooltip('The name of the item')
+    this.data.push(new StringValue('名字', 'name', 'Name').requireValue('custom', [ 'True' ])
+        .setTooltip('给予物品的名字')
     );
     this.data.push(new StringListValue('Lore', 'lore', []).requireValue('custom', [ 'True' ])
-        .setTooltip('The lore text for the item (the text below the name)')
+        .setTooltip('给予物品的Lore)')
     );
 }
 
 extend('MechanicItemProjectile', 'Component');
 function MechanicItemProjectile()
 {
-    this.super('Item Projectile', Type.MECHANIC, true);
+    this.super('抛射物', Type.MECHANIC, true);
 
-    this.description = 'Launches a projectile using an item as its visual that applies child components upon landing. The target passed on will be the collided target or the location where it landed if it missed.';
+    this.description = '发射一个抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
 
-    this.data.push(new ListValue('Item', 'item', getMaterials, 'Jack O Lantern')
-        .setTooltip('The item type to use as a projectile')
+    this.data.push(new ListValue('物品', 'item', getMaterials, 'Jack O Lantern')
+        .setTooltip('抛射物的类型')
     ),
-    this.data.push(new IntValue('Item Data', 'item-data', 0)
-        .setTooltip('The durability value for the item to use as a projectile, most notably for dyes or colored items like wool')
+    this.data.push(new IntValue('物品数据', 'item-data', 0)
+        .setTooltip('物品的数据值,如羊毛的颜色')
     ),
 
     addProjectileOptions(this);
@@ -2881,48 +2881,48 @@ function addItemOptions(component) {
 function addProjectileOptions(component) {
     
     // General data
-    component.data.push(new ListValue("Group", "group", ["Ally", "Enemy"], "Enemy")
-        .setTooltip('The alignment of targets to hit')
+    component.data.push(new ListValue("群组", "group", ["Ally", "Enemy"], "Enemy")
+        .setTooltip('目标的群组 分别为：盟友 敌人')
     );
-    component.data.push(new ListValue('Spread', 'spread', [ 'Cone', 'Horizontal Cone', 'Rain' ], 'Cone')
-        .setTooltip('The orientation for firing projectiles. Cone will fire arrows in a cone centered on your reticle. Horizontal cone does the same as cone, just locked to the XZ axis (parallel to the ground). Rain drops the projectiles from above the target. For firing one arrow straight, use "Cone"')
+    component.data.push(new ListValue('路线类型', 'spread', [ 'Cone', 'Horizontal Cone', 'Rain' ], 'Cone')
+        .setTooltip('物品移动路线的类型物品移动的路线，分别为：抛物线 直线 下落 抛物线像箭一样 直线平行于地面 下落像雨一样')
     );
-    component.data.push(new AttributeValue('Amount', 'amount', 1, 0)
-        .setTooltip('The number of projectiles to fire')
+    component.data.push(new AttributeValue('数量', 'amount', 1, 0)
+        .setTooltip('抛射物的数量')
     );
-    component.data.push(new AttributeValue('Velocity', 'velocity', 3, 0)
-        .setTooltip('How fast the projectile is launched. A negative value fires it in the opposite direction.')
+    component.data.push(new AttributeValue('速度', 'velocity', 3, 0)
+        .setTooltip('抛射物发射的速度 负值则以相反方向发射')
     );
     
     // Cone values
-    component.data.push(new AttributeValue('Angle', 'angle', 30, 0)
+    component.data.push(new AttributeValue('偏离', 'angle', 30, 0)
         .requireValue('spread', [ 'Cone', 'Horizontal Cone' ])
-        .setTooltip('The angle in degrees of the cone arc to spread projectiles over. If you are only firing one projectile, this does not matter.')
+        .setTooltip('抛射物每枚偏离的角度（像弹道扩散），如果你只是射击一枚抛射物就不用管')
     );
-    component.data.push(new DoubleValue('Position', 'position', 0, 0)
+    component.data.push(new DoubleValue('高度', 'position', 0, 0)
         .requireValue('spread', [ 'Cone', 'Horizontal Cone' ])
-        .setTooltip('The height from the ground to start the projectile')
+        .setTooltip('抛射物起始位置与地面的距离')
     );
     
     // Rain values
-    component.data.push(new AttributeValue('Height', 'height', 8, 0)
+    component.data.push(new AttributeValue('高度', 'height', 8, 0)
         .requireValue('spread', [ 'Rain' ])
-        .setTooltip('The distance in blocks over the target to rain the projectiles from')
+        .setTooltip('抛射物下落位置与地面的距离')
     );
-    component.data.push(new AttributeValue('Radius', 'rain-radius', 2, 0)
+    component.data.push(new AttributeValue('半径', 'rain-radius', 2, 0)
         .requireValue('spread', [ 'Rain' ])
-        .setTooltip('The radius of the rain emission area in blocks')
+        .setTooltip('下落的半径')
     );
     
     // Offsets
-    component.data.push(new AttributeValue('Forward Offset', 'forward', 0, 0)
-        .setTooltip('How far forward in front of the target the projectile should fire from in blocks. A negative value will put it behind.')
+    component.data.push(new AttributeValue('向前偏移', 'forward', 0, 0)
+        .setTooltip('抛射物会在目标前方多远时发射,负数为后方')
     );
-    component.data.push(new AttributeValue('Upward Offset', 'upward', 0, 0)
-        .setTooltip('How far above the target the projectile should fire from in blocks. A negative value will put it below.')
+    component.data.push(new AttributeValue('向上偏移', 'upward', 0, 0)
+        .setTooltip('抛射物会在目标上方多远时发射,负数为下方')
     );
-    component.data.push(new AttributeValue('Right Offset', 'right', 0, 0)
-        .setTooltip('How far to the right of the target the projectile should fire from. A negative value will put it to the left.')
+    component.data.push(new AttributeValue('向右偏移', 'right', 0, 0)
+        .setTooltip('抛射物会在目标右方多远时发射,负数为左方')
     );
 }
 
@@ -3046,41 +3046,41 @@ function addEffectOptions(component, optional)
     {
         opt = appendOptional;
         
-        component.data.push(new ListValue('Use Effect', 'use-effect', [ 'True', 'False' ], 'False')
-            .setTooltip('Whether or not to use the premium particle effects.')
+        component.data.push(new ListValue('使用粒子效果', 'use-effect', [ 'True', 'False' ], 'False')
+            .setTooltip('[付费版专享]是否使用粒子效果 False为否')
         );
     }
     
-    component.data.push(opt(new StringValue('Effect Key', 'effect-key', 'default')
-        .setTooltip('The key to refer to the effect by. Only one effect of each key can be active at a time.')
+    component.data.push(opt(new StringValue('效果名称', 'effect-key', 'default')
+        .setTooltip('粒子效果的名称,每次只能动用一个粒子效果')
     ));
-    component.data.push(opt(new AttributeValue('Duration', 'duration', 1, 0)
-        .setTooltip('The time to play the effect for in seconds')
+    component.data.push(opt(new AttributeValue('时间', 'duration', 1, 0)
+        .setTooltip('粒子效果持续的时间')
     ));
     
-    component.data.push(opt(new StringValue('Shape', '-shape', 'hexagon')
-        .setTooltip('Key of a formula for deciding where particles are played each iteration. View "effects.yml" for a list of defined formulas and their keys.')
+    component.data.push(opt(new StringValue('形状', '-shape', 'hexagon')
+        .setTooltip('粒子形状的名称,可在"effects.yml"中获取')
     ));
-    component.data.push(opt(new ListValue('Shape Direction', '-shape-dir', [ 'XY', 'YZ', 'XZ' ], 'XY')
-        .setTooltip('The plane the shape formula applies to. XZ would be flat, the other two are vertical.')
+    component.data.push(opt(new ListValue('形状方向', '-shape-dir', [ 'XY', 'YZ', 'XZ' ], 'XY')
+        .setTooltip('形状适用的平面,XZ是扁平的，另外两个是垂直的')
     ));
-    component.data.push(opt(new StringValue('Shape Size', '-shape-size', '1')
-        .setTooltip('Formula for deciding the size of the shape. This can be any sort of formula using the operations defined in the wiki.')
+    component.data.push(opt(new StringValue('形状尺寸', '-shape-size', '1')
+        .setTooltip('形状的尺寸.可以是使用wiki中定义的任何类型的公式')
     ));
-    component.data.push(opt(new StringValue('Animation', '-animation', 'one-circle')
-        .setTooltip('Key of a formula for deciding where the particle effect moves relative to the target. View "effects.yml" for a list of defined formulas and their keys.')
+    component.data.push(opt(new StringValue('动画', '-animation', 'one-circle')
+        .setTooltip('粒子动画的名称.可在"effects.yml"中获取')
     ));
-    component.data.push(opt(new ListValue('Animation Direction', '-anim-dir', [ 'XY', 'YZ', 'XZ' ], 'XZ')
-        .setTooltip('The plane the animation motion moves through. XZ wold be flat, the other two are vertical.')
+    component.data.push(opt(new ListValue('动画方向', '-anim-dir', [ 'XY', 'YZ', 'XZ' ], 'XZ')
+        .setTooltip('动画的移动方向,XZ是扁平的，另外两个是垂直的')
     ));
-    component.data.push(opt(new StringValue('Animation Size', '-anim-size', '1')
-        .setTooltip('Formula for deciding the multiplier of the animation distance. This can be any sort of formula using the operations defined in the wiki.')
+    component.data.push(opt(new StringValue('动画尺寸', '-anim-size', '1')
+        .setTooltip('动画的尺寸.可以是使用wiki中定义的任何类型的公式')
     ));
-    component.data.push(opt(new IntValue('Interval', '-interval', 1)
-        .setTooltip('Number of ticks between playing particles.')
+    component.data.push(opt(new IntValue('间隔', '-interval', 1)
+        .setTooltip('粒子的播放间隔')
     ));
-    component.data.push(opt(new IntValue('View Range', '-view-range', 25)
-        .setTooltip('How far away the effect can be seen from')
+    component.data.push(opt(new IntValue('查看范围', '-view-range', 25)
+        .setTooltip('粒子效果在多远能被看到')
     ));
     
     component.data.push(opt(new ListValue('Particle Type', '-particle-type', [
