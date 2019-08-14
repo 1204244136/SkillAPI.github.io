@@ -473,7 +473,7 @@ Component.prototype.createFormHTML = function()
 
     var done = document.createElement('h5');
     done.className = 'doneButton';
-    done.innerHTML = 'Done';
+    done.innerHTML = '确定';
     done.component = this;
     done.addEventListener('click', function(e) {
         this.component.update();
@@ -2808,7 +2808,7 @@ function MechanicWolf()
     this.data.push(new ListValue('项圈颜色', 'color', getDyes(), 'Black')
         .setTooltip('狼项圈的颜色')
     );
-    this.data.push(new StringValue('名字', 'name', "{player}'s Wolf")
+    this.data.push(new StringValue('名字', 'name', "{player}的狼")
         .setTooltip('狼显示的名字,使用{player}代替施法者的名字')
     );
     this.data.push(new AttributeValue('血量', 'health', 10, 0)
