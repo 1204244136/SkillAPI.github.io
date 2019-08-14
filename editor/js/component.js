@@ -2040,10 +2040,10 @@ function MechanicLaunch()
     this.data.push(new ListValue('[付费版专享] 方向', 'relative', [ 'Target', 'Caster', 'Between'], 'Target')
         .setTooltip('冲刺的方向,"Target"为目标面朝的方向"Caster"为施法者面朝的方向"Between"为施法者到目标的方向')
     );
-    this.data.push(new AttributeValue('向前速度', 'forward', 0, 0)
+    this.data.push(new AttributeValue('向前速度', 'forward', 1, 0)
         .setTooltip('给与目标面朝方向的速度')
     );
-    this.data.push(new AttributeValue('向上速度', 'upward', 2, 0.5)
+    this.data.push(new AttributeValue('向上速度', 'upward', 0, 0)
         .setTooltip('给与目标向上的速度')
     );
     this.data.push(new AttributeValue('向右速度', 'right', 0, 0)
