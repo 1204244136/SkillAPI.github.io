@@ -2418,416 +2418,416 @@ function MechanicTaunt()
 extend('MechanicTrigger', 'Component');
 function MechanicTrigger()
 {
-    this.super('Trigger', Type.MECHANIC, true);
+    this.super('状态检测', Type.MECHANIC, true);
 
-    this.description = 'Listens for a trigger on the current targets for a duration.';
+    this.description = '在指定时间检测目标的状态';
 
-    this.data.push(new ListValue('Trigger', 'trigger', [ 'Crouch', 'Death', 'Environment Damage', 'Kill', 'Land', 'Launch', 'Physical Damage', 'Skill Damage', 'Took Physical Damage', 'Took Skill Damage' ], 'Death')
-        .setTooltip('The trigger to listen for')
+    this.data.push(new ListValue('状态', 'trigger', [ 'Crouch', 'Death', 'Environment Damage', 'Kill', 'Land', 'Launch', 'Physical Damage', 'Skill Damage', 'Took Physical Damage', 'Took Skill Damage' ], 'Crouch')
+        .setTooltip('需要检测的状态,分别为 下蹲 死亡 受到环境伤害 击杀 着陆 射击 物理伤害 技能伤害 受到物理伤害 受到技能伤害')
     );
-    this.data.push(new AttributeValue('Duration', 'duration', 5, 0)
-        .setTooltip('How long to listen to the trigger for')
+    this.data.push(new AttributeValue('时间', 'duration', 5, 0)
+        .setTooltip('检测目标的持续时间')
     );
-    this.data.push(new ListValue('Stackable', 'stackable', [ 'True', 'False', ], 'True')
-        .setTooltip('Whether or not different players (or the same player) can listen to the same target at the same time')
+    this.data.push(new ListValue('重复检测', 'stackable', [ 'True', 'False', ], 'True')
+        .setTooltip('不同的玩家(或同一玩家)是否可以同时检测同一目标,True为是')
     );
-    this.data.push(new ListValue('Once', 'once', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not the trigger should only be used once each cast. When false, the trigger can execute as many times as it happens for the duration.')
+    this.data.push(new ListValue('单次', 'once', [ 'True', 'False' ], 'True')
+        .setTooltip('在指定的时间中,是否只检测一次,将其设置为false表示可以在指定的时间中检测多次')
     );
 
     // CROUCH
-    this.data.push(new ListValue('Type', 'type', [ 'Start Crouching', 'Stop Crouching', 'Both' ], 'Start Crouching')
+    this.data.push(new ListValue('类型', 'type', [ 'Start Crouching', 'Stop Crouching', 'Both' ], 'Start Crouching')
         .requireValue('trigger', [ 'Crouch' ])
-        .setTooltip('Whether or not you want to apply components when crouching or not crouching')
+        .setTooltip('检测下蹲的类型 分别为 开始下蹲 取消下蹲 两者都检测')
     );
 
     // ENVIRONMENT_DAMAGE
-    this.data.push(new ListValue('Type', 'type', DAMAGE_TYPES, 'FALL')
+    this.data.push(new ListValue('类型', 'type', DAMAGE_TYPES, 'FALL')
         .requireValue('trigger', [ 'Environment Damage' ])
-        .setTooltip('The source of damage to apply for')
+        .setTooltip('检测环境伤害的类型')
     );
 
     // LAND
-    this.data.push(new DoubleValue('Min Distance', 'min-distance', 0)
+    this.data.push(new DoubleValue('最小距离', 'min-distance', 0)
         .requireValue('trigger', [ 'Land' ])
-        .setTooltip('The minimum distance the player should fall before effects activating.')
+        .setTooltip('检测着陆时的最小距离.')
     );
 
     // LAUNCH
-    this.data.push(new ListValue('Type', 'type', [ 'Any', 'Arrow', 'Egg', 'Ender Pearl', 'Fireball', 'Fishing Hook', 'Snowball' ], 'Any')
+    this.data.push(new ListValue('类型', 'type', [ 'Any', 'Arrow', 'Egg', 'Ender Pearl', 'Fireball', 'Fishing Hook', 'Snowball' ], 'Any')
         .requireValue('trigger', [ 'Launch' ])
-        .setTooltip('The type of projectile that should be launched.')
+        .setTooltip('检测射击的类型,分别为 任意 箭矢 鸡蛋 末影珍珠 火球 鱼钩 雪球')
     );
 
     // PHYSICAL
-    this.data.push(new ListValue('Type', 'type', [ 'Both', 'Melee', 'Projectile' ], 'Both')
+    this.data.push(new ListValue('类型', 'type', [ 'Both', 'Melee', 'Projectile' ], 'Both')
         .requireValue('trigger', [ 'Physical Damage', 'Took Physical Damage' ])
-        .setTooltip('The type of damage dealt')
+        .setTooltip('检测物理伤害的类型,分别为 两者 近战伤害 远程伤害')
     );
 
     // SKILL
-    this.data.push(new StringValue('Category', 'category', '')
+    this.data.push(new StringValue('技能名称', 'category', '')
         .requireValue('trigger', [ 'Skill Damage', 'Took Skill Damage' ])
-        .setTooltip('The type of skill damage to apply for. Leave this empty to apply to all skill damage.')
+        .setTooltip('需要检测技能的名称,留空以检测所有技能')
     );
 
     // DAMAGE
     var damageTriggers = [ 'Physical Damage', 'Skill Damage', 'Took Physical Damage', 'Took Skill Damage' ];
-    this.data.push(new ListValue('Target Listen Target', 'target', [ 'True', 'False' ], 'True')
+    this.data.push(new ListValue('子目标检测', 'target', [ 'True', 'False' ], 'True')
         .requireValue('trigger', damageTriggers)
-        .setTooltip('True makes children target the target that has been listened to. False makes children target the entity fighting the target entity.')
+        .setTooltip('True使子目标为之前被检测的目标,False使子目标为与之战斗的实体')
     );
-    this.data.push(new DoubleValue("Min Damage", "dmg-min", 0)
+    this.data.push(new DoubleValue("最小伤害", "dmg-min", 0)
         .requireValue('trigger', damageTriggers)
-        .setTooltip('The minimum damage that needs to be dealt')
+        .setTooltip('需要检测的最小伤害')
     );
-    this.data.push(new DoubleValue("Max Damage", "dmg-max", 999)
+    this.data.push(new DoubleValue("最大伤害", "dmg-max", 999)
         .requireValue('trigger', damageTriggers)
-        .setTooltip('The maximum damage that needs to be dealt')
+        .setTooltip('需要检测的最大伤害')
     );
 }
 
 extend('MechanicValueAdd', 'Component');
 function MechanicValueAdd()
 {
-    this.super('Value Add', Type.MECHANIC, false);
+    this.super('添加存储值', Type.MECHANIC, false);
     
-    this.description = 'Adds to a stored value under a unique key for the caster. If the value wasn\'t set before, this will set the value to the given amount.';
+    this.description = '给施法者指定的关键词增加存储值,如果该关键词没有存储任何值,则将该值设置为给定量';
     
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
-        .setTooltip('The amount to add to the value')
+    this.data.push(new AttributeValue('数值', 'amount', 1, 0)
+        .setTooltip('需要增加的数值')
     );
 }
 
 extend('MechanicValueAttribute', 'Component');
 function MechanicValueAttribute() 
 {
-    this.super('Value Attribute', Type.MECHANIC, false);
+    this.super('属性存储值', Type.MECHANIC, false);
     
-    this.description = 'Loads a player\'s attribute count for a specific attribute as a stored value to be used in other mechanics.';
+    this.description = '将目标指定属性的值计入指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'attribute')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'attribute')
+        .setTooltip('不可重复')
     );
-    this.data.push(new StringValue('Attribute', 'attribute', 'Vitality')
-        .setTooltip('The name of the attribute you are loading the value of')
+    this.data.push(new StringValue('属性', 'attribute', 'Vitality')
+        .setTooltip('需要计入关键词的存储值的属性')
     );
 }
 
 extend('MechanicValueCopy', 'Component');
 function MechanicValueCopy()
 {
-    this.super('Value Copy', Type.MECHANIC, false);
+    this.super('存储值复制', Type.MECHANIC, false);
     
-    this.description = 'Copies a stored value from the caster to the target or vice versa';
+    this.description = '将指定关键词的存储值从施法者复制到目标的另一个关键词,也可以反过来';
     
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new StringValue('Destination', 'destination', 'value')
-        .setTooltip('The key to copy the original value to')
+    this.data.push(new StringValue('另一个关键词', 'destination', 'value')
+        .setTooltip('所复制到的另一个关键词')
     );
-    this.data.push(new ListValue('To target', 'to-target', [ 'True', 'False' ], 'True')
-        .setTooltip('The amount to add to the value')
+    this.data.push(new ListValue('到目标', 'to-target', [ 'True', 'False' ], 'True')
+        .setTooltip('True为从施法者到目标,False为从目标到施法者')
     );
 }
 
 extend('MechanicValueDistance', 'Component');
 function MechanicValueDistance()
 {
-    this.super('Value Distance', Type.MECHANIC, false);
+    this.super('距离存储值', Type.MECHANIC, false);
 
-    this.description = 'Stores the distance between the target and the caster into a value';
+    this.description = '将目标与施法者的距离计入一个关键词的存储值';
 
-    this.data.push(new StringValue('Key', 'key', 'attribute')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'attribute')
+        .setTooltip('不可重复')
     );
 }
 
 extend('MechanicValueHealth', 'Component');
 function MechanicValueHealth()
 {
-    this.super('Value Health', Type.MECHANIC, false);
+    this.super('血量存储值', Type.MECHANIC, false);
     
-    this.description = 'Stores the target\'s current health as a value under a given key for the caster';
+    this.description = '将目标指定关键词的存储值计入施法者相应关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new ListValue('Type', 'type', [ 'Current', 'Max', 'Missing', 'Percent' ], 'Current')
-        .setTooltip('Current provides the health the target has, max provides their total health, missing provides how much health they have lost, and percent is the ratio of health to total health.')
+    this.data.push(new ListValue('类型', 'type', [ 'Current', 'Max', 'Missing', 'Percent' ], 'Current')
+        .setTooltip('Current表示目标的当前血量,max表示目标的最大血量,missing表示目标已损失的血量,percent表示目标当前血量与最大血量的百分比')
     );
 }
 
 extend('MechanicValueLocation', 'Component');
 function MechanicValueLocation() 
 {
-    this.super('Value Location', Type.MECHANIC, false);
+    this.super('位置存储值', Type.MECHANIC, false);
     
-    this.description = 'Loads the first target\'s current location into a stored value for use at a later time.';
+    this.description = '将第一个目标位置计入指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'location')
-        .setTooltip('The unique key to store the location under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'location')
+        .setTooltip('不可重复')
     );
 }
 
 extend('MechanicValueLore', 'Component');
 function MechanicValueLore()
 {
-    this.super('Value Lore', Type.MECHANIC, false);
+    this.super('Lore存储值', Type.MECHANIC, false);
     
-    this.description = 'Loads a value from a held item\'s lore into a stored value under the given unique key for the caster.';
+    this.description = '将手持物品Lore计入施法者指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'lore')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'lore')
+        .setTooltip('不可重复')
     );
-    this.data.push(new ListValue("Hand", "hand", [ 'Main', 'Offhand' ], 'Main')
-        .setTooltip('The hand to check for the item. Offhand items are MC 1.9+ only.')
+    this.data.push(new ListValue("主副手", "hand", [ 'Main', 'Offhand' ], 'Main')
+        .setTooltip('Main为主手')
     );
-    this.data.push(new StringValue('Regex', 'regex', 'Damage: {value}')
-        .setTooltip('The regex string to look for, using {value} as the number to store. If you do not know about regex, consider looking it up on Wikipedia or avoid using major characters such as [ ] { } ( ) . + ? * ^ \\ |')
+    this.data.push(new StringValue('正则表达式', 'regex', 'Damage: {value}')
+        .setTooltip('需要正则表达式所检索的值,使用{value}表示需要存储的值')
     );
-    this.data.push(new AttributeValue('Multiplier', 'multiplier', 1, 0)
-        .setTooltip('The multiplier for the acquired value. If you want the value to remain unchanged, leave this value at 1.')
+    this.data.push(new AttributeValue('倍数', 'multiplier', 1, 0)
+        .setTooltip('改变检索到的值的倍数然后再进行存储,如果你不想改变,将其设置为1')
     );
 }
 
 extend('MechanicValueLoreSlot', 'Component');
 function MechanicValueLoreSlot()
 {
-    this.super('Value Lore Slot', Type.MECHANIC, false);
+    this.super('槽存储值', Type.MECHANIC, false);
     
-    this.description = 'Loads a value from an item\'s lore into a stored value under the given unique key for the caster.';
+    this.description = '将指定槽内物品的Lore计入施法者指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'lore')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'lore')
+        .setTooltip('不可重复')
     );
-    this.data.push(new IntValue("Slot", "slot", 9)
-        .setTooltip('The slot of the inventory to fetch the item from. Slots 0-8 are the hotbar, 9-35 are the main inventory, 36-39 are armor, and 40 is the offhand slot.')
+    this.data.push(new IntValue("槽位", "slot", 9)
+        .setTooltip('槽位的位置 0-8代表快捷栏 9-35代表物品栏 36-39是护甲栏 40是副手')
     );
-    this.data.push(new StringValue('Regex', 'regex', 'Damage: {value}')
-        .setTooltip('The regex string to look for, using {value} as the number to store. If you do not know about regex, consider looking it up on Wikipedia or avoid using major characters such as [ ] { } ( ) . + ? * ^ \\ |')
+    this.data.push(new StringValue('正则表达式', 'regex', 'Damage: {value}')
+        .setTooltip('需要正则表达式所检索的值,使用{value}表示需要存储的值')
     );
-    this.data.push(new AttributeValue('Multiplier', 'multiplier', 1, 0)
-        .setTooltip('The multiplier for the acquired value. If you want the value to remain unchanged, leave this value at 1.')
+    this.data.push(new AttributeValue('倍数', 'multiplier', 1, 0)
+        .setTooltip('改变检索到的值的倍数然后再进行存储,如果你不想改变,将其设置为1')
     );
 }
 
 extend('MechanicValueMana', 'Component');
 function MechanicValueMana()
 {
-    this.super('Value Mana', Type.MECHANIC, false);
+    this.super('法力存储值', Type.MECHANIC, false);
     
-    this.description = 'Stores the target player\'s current mana as a value under a given key for the caster';
+    this.description = '将目标玩家的法力值计入施法者指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new ListValue('Type', 'type', [ 'Current', 'Max', 'Missing', 'Percent' ], 'Current')
-        .setTooltip('Current provides the mana the target has, max provides their total mana, missing provides how much mana they have lost, and percent is the ratio of health to total mana.')
+    this.data.push(new ListValue('类型', 'type', [ 'Current', 'Max', 'Missing', 'Percent' ], 'Current')
+        .setTooltip('Current表示目标的当前法力值,max表示目标的最大法力值,missing表示目标已损失的法力值,percent表示目标当前法力值与最大法力值的百分比')
     );
 }
 
 extend('MechanicValueMultiply', 'Component');
 function MechanicValueMultiply()
 {
-    this.super('Value Multiply', Type.MECHANIC, false);
+    this.super('存储值翻倍', Type.MECHANIC, false);
 
-    this.description = 'Multiplies a stored value under a unique key for the caster. If the value wasn\'t set before, this will not do anything.';
+    this.description = '将施法者指定关键词的存储值进行倍数变化';
 
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new AttributeValue('Multiplier', 'multiplier', 1, 0)
-        .setTooltip('The amount to multiply the value by')
+    this.data.push(new AttributeValue('倍数', 'multiplier', 1, 0)
+        .setTooltip('需要变化的倍数,1代表不变')
     );
 }
 
 extend('MechanicValuePlaceholder', 'Component');
 function MechanicValuePlaceholder()
 {
-    this.super('Value Placeholder', Type.MECHANIC, false);
+    this.super('变量存储值', Type.MECHANIC, false);
 
-    this.description = 'Uses a placeholder string and stores it as a value for the caster';
+    this.description = '将一个变量计入施法者指定关键词的存储值';
 
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new ListValue("Type", "type", [ 'Number', 'String' ], 'Number')
-        .setTooltip('The type of value to store. Number values require numeric placeholders. String values can be used in messages or commands.')
+    this.data.push(new ListValue("类型", "type", [ 'Number', 'String' ], 'Number')
+        .setTooltip('存储值的类型,Number表示数值,String表示字符,可以用于信息或指令')
     );
-    this.data.push(new StringValue('Placeholder', 'placeholder', '%player_food_level%')
-        .setTooltip('The placeholder string to use. Can contain multiple placeholders if using the String type.')
+    this.data.push(new StringValue('变量', 'placeholder', '%player_food_level%')
+        .setTooltip('所计入的变量名 如果使用String类型，可以包含多个变量')
     );
 }
 
 extend('MechanicValueRandom', 'Component')
 function MechanicValueRandom()
 {
-    this.super('Value Random', Type.MECHANIC, false);
+    this.super('随机存储值', Type.MECHANIC, false);
     
-    this.description = 'Stores a specified value under a given key for the caster.';
+    this.description = '将一个随机数计入施法者指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'value')
+    this.data.push(new StringValue('关键词', 'key', 'value')
         .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
     );
-    this.data.push(new ListValue('Type', 'type', [ 'Normal', 'Triangular' ], 'Normal')
-        .setTooltip('The type of random to use. Triangular favors numbers in the middle, similar to rolling two dice.')
+    this.data.push(new ListValue('类型', 'type', [ 'Normal', 'Triangular' ], 'Normal')
+        .setTooltip('Normal表示普通随机,Triangular更倾向于随机中间的数字,类似摇两个骰子')
     );
-    this.data.push(new AttributeValue('Min', 'min', 0, 0)
-        .setTooltip('The minimum value it can be')
+    this.data.push(new AttributeValue('最小', 'min', 0, 0)
+        .setTooltip('随机的最小值')
     );
-    this.data.push(new AttributeValue('Max', 'max', 0, 0)
-        .setTooltip('The maximum value it can be')
+    this.data.push(new AttributeValue('最大', 'max', 0, 0)
+        .setTooltip('随机的最大值')
     );
 }
 
 extend('MechanicValueSet', 'Component');
 function MechanicValueSet()
 {
-    this.super('Value Set', Type.MECHANIC, false);
+    this.super('普通存储值', Type.MECHANIC, false);
     
-    this.description = 'Stores a specified value under a given key for the caster.';
+    this.description = '将指定数值计入施法者指定关键词的存储值';
     
-    this.data.push(new StringValue('Key', 'key', 'value')
-        .setTooltip('The unique key to store the value under. This key can be used in place of attribute values to use the stored value.')
+    this.data.push(new StringValue('关键词', 'key', 'value')
+        .setTooltip('不可重复')
     );
-    this.data.push(new AttributeValue('Value', 'value', 1, 0)
-        .setTooltip('The value to store under the key')
+    this.data.push(new AttributeValue('数值', 'value', 1, 0)
+        .setTooltip('需要计入关键词的数值')
     );
 }
 
 extend('MechanicWarp', 'Component');
 function MechanicWarp()
 {
-    this.super('Warp', Type.MECHANIC, false);
+    this.super('传送', Type.MECHANIC, false);
     
-    this.description = 'Warps the target relative to their forward direction. Use negative numbers to go in the opposite direction (e.g. negative forward will cause the target to warp backwards).';
+    this.description = '在目标前进方向进行传送';
     
-    this.data.push(new ListValue('Through Walls', 'walls', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to allow the target to teleport through walls')
+    this.data.push(new ListValue('穿墙', 'walls', [ 'True', 'False' ], 'False')
+        .setTooltip('传送是否能穿墙,False为否')
     );
-    this.data.push(new AttributeValue('Forward', 'forward', 3, 1)
-        .setTooltip('How far forward in blocks to teleport. A negative value teleports backwards.')
+    this.data.push(new AttributeValue('向前', 'forward', 3, 1)
+        .setTooltip('向前传送的距离,负数表示向后传送')
     );
-    this.data.push(new AttributeValue('Upward', 'upward', 0, 0)
-        .setTooltip('How far upward in blocks to teleport. A negative value teleports downward.')
+    this.data.push(new AttributeValue('向上', 'upward', 0, 0)
+        .setTooltip('向上传送的距离,负数表示向下传送')
     );
-    this.data.push(new AttributeValue('Right', 'right', 0, 0)
-        .setTooltip('How far to the right in blocks to teleport. A negative value teleports to the left.')
+    this.data.push(new AttributeValue('向右', 'right', 0, 0)
+        .setTooltip('向右传送的距离,负数表示向左传送')
     );
 }
 
 extend('MechanicWarpLoc', 'Component');
 function MechanicWarpLoc()
 {
-    this.super('Warp Location', Type.MECHANIC, false);
+    this.super('坐标传送', Type.MECHANIC, false);
     
-    this.description = 'Warps the target to a specified location.';
+    this.description = '将目标传送至指定世界的指定坐标';
     
-    this.data.push(new StringValue('World (or "current")', 'world', 'current')
-        .setTooltip('The name of the world that the location is in')
+    this.data.push(new StringValue('世界', 'world', 'current')
+        .setTooltip('需要传送到的世界的名称,current表示当前世界')
     );
     this.data.push(new DoubleValue('X', 'x', 0)
-        .setTooltip('The X-coordinate of the desired position')
+        .setTooltip('坐标的X轴')
     );
     this.data.push(new DoubleValue('Y', 'y', 0)
-        .setTooltip('The Y-coordinate of the desired position')
+        .setTooltip('坐标的Y轴')
     );
     this.data.push(new DoubleValue('Z', 'z', 0)
-        .setTooltip('The Z-coordinate of the desired position')
+        .setTooltip('坐标的Z轴')
     );
-    this.data.push(new DoubleValue('Yaw', 'yaw', 0)
-        .setTooltip('The Yaw of the desired position (left/right orientation)')
+    this.data.push(new DoubleValue('左右偏差', 'yaw', 0)
+        .setTooltip('左右方向的偏差')
     );
-    this.data.push(new DoubleValue('Pitch', 'pitch', 0)
-        .setTooltip('The Pitch of the desired position (up/down orientation)')
+    this.data.push(new DoubleValue('上下偏差', 'pitch', 0)
+        .setTooltip('上下方向的偏差')
     );
 }
 
 extend('MechanicWarpRandom', 'Component');
 function MechanicWarpRandom()
 {
-    this.super('Warp Random', Type.MECHANIC, false);
+    this.super('随机传送', Type.MECHANIC, false);
     
-    this.description = 'Warps the target in a random direction the given distance.';
+    this.description = '在给定距离的情况下将目标传送随机方向';
     
-    this.data.push(new ListValue('Only Horizontal', 'horizontal', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not to limit the random position to the horizontal plane')
+    this.data.push(new ListValue('水平传送', 'horizontal', [ 'True', 'False' ], 'True')
+        .setTooltip('是否只允许水平传送,True为是')
     );
-    this.data.push(new ListValue('Through Walls', 'walls', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to allow the target to teleport through walls')
+    this.data.push(new ListValue('穿墙', 'walls', [ 'True', 'False' ], 'False')
+        .setTooltip('传送是否能穿墙,False为否')
     );
-    this.data.push(new AttributeValue('Distance', 'distance', 3, 1)
-        .setTooltip('The max distance in blocks to teleport')
+    this.data.push(new AttributeValue('距离', 'distance', 3, 1)
+        .setTooltip('传送的最大距离')
     );
 }
 
 extend('MechanicWarpSwap', 'Component');
 function MechanicWarpSwap()
 {
-    this.super('Warp Swap', Type.MECHANIC, false);
+    this.super('相互传送', Type.MECHANIC, false);
     
-    this.description = 'Switches the location of the caster and the target. If multiple targets are provided, this takes the first one.';
+    this.description = '切换施法者和目标的位置 如果指向多个目标,则选取第一个目标';
 }
 
 extend('MechanicWarpTarget', 'Component');
 function MechanicWarpTarget()
 {
-    this.super('Warp Target', Type.MECHANIC, false);
+    this.super('单向传送', Type.MECHANIC, false);
     
-    this.description = 'Warps either the target or the caster to the other. This does nothing when the target is the caster.';
+    this.description = '将施法者传送至目标位置,或将目标传送至施法者位置';
     
-    this.data.push(new ListValue('Type', 'type', [ 'Caster to Target', 'Target to Caster' ], 'Caster to Target')
-        .setTooltip('The direction to warp the involved targets')
+    this.data.push(new ListValue('类型', 'type', [ 'Caster to Target', 'Target to Caster' ], 'Caster to Target')
+        .setTooltip('分别为 将施法者传送至目标位置 将目标传送至施法者位置')
     );
 }
 
 extend('MechanicWarpValue', 'Component');
 function MechanicWarpValue() 
 {
-    this.super('Warp Value', Type.MECHANIC, false);
+    this.super('存储值传送', Type.MECHANIC, false);
     
-    this.description = 'Warps all targets to a location remembered using the Value Location mechanic.';
+    this.description = '将所有目标传送至指定关键词的存储值所代表的坐标';
     
-    this.data.push(new StringValue('Key', 'key', 'location')
-        .setTooltip('The unique key the location is stored under. This should be the same key used in the Value Location mechanic.')
+    this.data.push(new StringValue('存储值', 'key', 'location')
+        .setTooltip('不可重复')
     );
 }
 
 extend('MechanicWolf', 'Component');
 function MechanicWolf()
 {
-    this.super('Wolf', Type.MECHANIC, true);
+    this.super('狼', Type.MECHANIC, true);
     
-    this.description = 'Summons a wolf on each target for a duration. Child components will start off targeting the wolf so you can add effects to it. You can also give it its own skillset, though Cast triggers will not occur.';
+    this.description = '在每个目标处召唤若干只狼,子内容的目标将指向狼,因此你可以给它们施加效果,你也可以给它自己的技能组,但不能视为主动释放.';
     
-    this.data.push(new ListValue('Collar Color', 'color', getDyes(), 'Black')
-        .setTooltip('The color of the collar that the wolf should wear')
+    this.data.push(new ListValue('项圈颜色', 'color', getDyes(), 'Black')
+        .setTooltip('狼项圈的颜色')
     );
-    this.data.push(new StringValue('Wolf Name', 'name', "{player}'s Wolf")
-        .setTooltip('The displayed name of the wolf. Use {player} to embed the caster\'s name.')
+    this.data.push(new StringValue('名字', 'name', "{player}'s Wolf")
+        .setTooltip('狼显示的名字,使用{player}代替施法者的名字')
     );
-    this.data.push(new AttributeValue('Health', 'health', 10, 0)
-        .setTooltip('The starting health of the wolf')
+    this.data.push(new AttributeValue('血量', 'health', 10, 0)
+        .setTooltip('狼的起始血量')
     );
-    this.data.push(new AttributeValue('Damage', 'damage', 3, 0)
-        .setTooltip('The damage dealt by the wolf each attack')
+    this.data.push(new AttributeValue('伤害', 'damage', 3, 0)
+        .setTooltip('狼每次攻击所造成的伤害')
     );
-    this.data.push(new ListValue('Sitting', 'sitting', [ 'True', 'False' ], 'False')
-        .setTooltip('[PREMIUM] whether or not the wolf starts of sitting')
+    this.data.push(new ListValue('坐着', 'sitting', [ 'True', 'False' ], 'False')
+        .setTooltip('[付费版专享]狼被召唤出来时是否坐着')
     );
-    this.data.push(new AttributeValue('Duration', 'seconds', 10, 0)
-        .setTooltip('How long to summon the wolf for')
+    this.data.push(new AttributeValue('时间', 'seconds', 10, 0)
+        .setTooltip('狼的持续时间')
     );
-    this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
-        .setTooltip('How many wolves to summon')
+    this.data.push(new AttributeValue('数量', 'amount', 1, 0)
+        .setTooltip('狼的数量')
     );
-    this.data.push(new StringListValue('Skills (one per line)', 'skills', [])
-        .setTooltip('The skills to give the wolf. Skills are executed at the level of the skill summoning the wolf. Skills needing a Cast trigger will not work.')
+    this.data.push(new StringListValue('技能(一行一个)', 'skills', [])
+        .setTooltip('狼的技能 技能使为狼释放,因此主动释放的技能无效')
     );
 }
 
