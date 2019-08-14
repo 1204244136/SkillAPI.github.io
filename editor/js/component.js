@@ -2000,7 +2000,7 @@ function MechanicItem()
 extend('MechanicItemProjectile', 'Component');
 function MechanicItemProjectile()
 {
-    this.super('抛射物', Type.MECHANIC, true);
+    this.super('物品抛射', Type.MECHANIC, true);
 
     this.description = '发射一个抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
@@ -2019,12 +2019,12 @@ function MechanicItemProjectile()
 extend('MechanicItemRemove', 'Component');
 function MechanicItemRemove()
 {
-    this.super('Item Remove', Type.MECHANIC, false);
+    this.super('物品移除', Type.MECHANIC, false);
 
-    this.description = 'Removes an item from a player inventory. This does nothing to mobs.';
+    this.description = '移除目标玩家背包内的指定物品,对怪物无效';
 
-    this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
-        .setTooltip('The amount of the item needed in the player\'s inventory')
+    this.data.push(new AttributeValue('数量', 'amount', 1, 0)
+        .setTooltip('移除物品的数量')
     );
 
     addItemOptions(this);
@@ -2033,143 +2033,143 @@ function MechanicItemRemove()
 extend('MechanicLaunch', 'Component');
 function MechanicLaunch()
 {
-    this.super('Launch', Type.MECHANIC, false);
+    this.super('冲刺', Type.MECHANIC, false);
 
-    this.description = 'Launches the target relative to their forward direction. Use negative values to go in the opposite direction (e.g. negative forward makes the target go backwards)';
+    this.description = '使目标向一个方向位移一段距离,如果值是负数,则向反方向冲刺';
 
-    this.data.push(new ListValue('[PREM] Relative', 'relative', [ 'Target', 'Caster', 'Between'], 'Target')
-        .setTooltip('Determines what is considered "forward". Target uses the direction the target is facing, Caster uses the direction the caster is facing, and Between uses the direction from the caster to the target.')
+    this.data.push(new ListValue('[付费版专享] 方向', 'relative', [ 'Target', 'Caster', 'Between'], 'Target')
+        .setTooltip('冲刺的方向,"Target"为目标面朝的方向"Caster"为施法者面朝的方向"Between"为施法者到目标的方向')
     );
-    this.data.push(new AttributeValue('Forward Speed', 'forward', 0, 0)
-        .setTooltip('The speed to give the target in the direction they are facing')
+    this.data.push(new AttributeValue('向前速度', 'forward', 0, 0)
+        .setTooltip('给与目标面朝方向的速度')
     );
-    this.data.push(new AttributeValue('Upward Speed', 'upward', 2, 0.5)
-        .setTooltip('The speed to give the target upwards')
+    this.data.push(new AttributeValue('向上速度', 'upward', 2, 0.5)
+        .setTooltip('给与目标向上的速度')
     );
-    this.data.push(new AttributeValue('Right Speed', 'right', 0, 0)
-        .setTooltip('The speed to give the target to their right')
+    this.data.push(new AttributeValue('向右速度', 'right', 0, 0)
+        .setTooltip('给与目标向右的速度')
     );
 }
 
 extend('MechanicLightning', 'Component');
 function MechanicLightning()
 {
-    this.super('Lightning', Type.MECHANIC, false);
+    this.super('闪电', Type.MECHANIC, false);
 
-    this.description = 'Strikes lightning on or near the target. Negative offsets will offset it in the opposite direction (e.g. negative forward offset puts it behind the target).';
+    this.description = '向目标或目标附近释放闪电,负值则向反方向释放';
 
-    this.data.push(new ListValue('Damage', 'damage', ['True', 'False'], 'True')
-        .setTooltip('Whether or not the lightning should deal damage')
+    this.data.push(new ListValue('造成伤害', 'damage', ['True', 'False'], 'True')
+        .setTooltip('闪电是否造成伤害,True为是')
     );
-    this.data.push(new AttributeValue('Forward Offset', 'forward', 0, 0)
-        .setTooltip('How far in front of the target in blocks to place the lightning')
+    this.data.push(new AttributeValue('向前偏移', 'forward', 0, 0)
+        .setTooltip('在目标前方释放闪电')
     );
-    this.data.push(new AttributeValue('Right Offset', 'right', 0, 0)
-        .setTooltip('How far to the right of the target in blocks to place the lightning')
+    this.data.push(new AttributeValue('向右偏移', 'right', 0, 0)
+        .setTooltip('在目标右方释放闪电')
     );
 }
 
 extend('MechanicMana', 'Component');
 function MechanicMana()
 {
-    this.super('Mana', Type.MECHANIC, false);
+    this.super('法力值', Type.MECHANIC, false);
 
-    this.description = 'Restores or deducts mana from the target.';
+    this.description = '扣除或回复目标法力值';
 
-    this.data.push(new ListValue('Type', 'type', [ 'Mana', 'Percent' ], 'Mana')
-        .setTooltip('The unit to use for the amount of mana to restore/drain. Mana does a flat amount while Percent does a percentage of their max mana')
+    this.data.push(new ListValue('类型', 'type', [ 'Mana', 'Percent' ], 'Mana')
+        .setTooltip('分别为 数值 百分比(按法力值上限)')
     );
-    this.data.push(new AttributeValue('Value', 'value', 1, 0)
-        .setTooltip('The amount of mana to restore/drain')
+    this.data.push(new AttributeValue('数值', 'value', 1, 0)
+        .setTooltip('扣除或回复的数值,百分比类型下自带百分号')
     );
 }
 
 extend('MechanicMessage', 'Component');
 function MechanicMessage()
 {
-    this.super('Message', Type.MECHANIC, false);
+    this.super('聊天信息', Type.MECHANIC, false);
 
-    this.description = 'Sends a message to each player target. To include numbers from Value mechanics, use the filters {<key>} where <key> is the key the value is stored under.'
+    this.description = '对每个目标玩家发送指定信息,如果要引用value插件的数值,请使用 {value储存的值}';
 
-    this.data.push(new StringValue('Message', 'message', 'text')
-        .setTooltip('The message to display')
+    this.data.push(new StringValue('信息', 'message', 'text')
+        .setTooltip('所发送的信息内容')
     );
 }
 
 extend('MechanicParticle', 'Component');
 function MechanicParticle()
 {
-    this.super('Particle', Type.MECHANIC, false);
+    this.super('粒子', Type.MECHANIC, false);
 
-    this.description = 'Plays a particle effect about the target.';
+    this.description = '在目标处播放粒子效果';
 
     addParticleOptions(this);
 
-    this.data.push(new DoubleValue('Forward Offset', 'forward', 0)
-        .setTooltip('How far forward in front of the target in blocks to play the particles. A negative value will go behind.')
+    this.data.push(new DoubleValue('向前偏移', 'forward', 0)
+        .setTooltip('在目标前方指定距离播放粒子效果,负数为后方')
     );
-    this.data.push(new DoubleValue('Upward Offset', 'upward', 0)
-        .setTooltip('How far above the target in blocks to play the particles. A negative value will go below.')
+    this.data.push(new DoubleValue('向上偏移', 'upward', 0)
+        .setTooltip('在目标上方指定距离播放粒子效果,负数为下方')
     );
-    this.data.push(new DoubleValue('Right Offset', 'right', 0)
-        .setTooltip('How far to the right of the target to play the particles. A negative value will go to the left.')
+    this.data.push(new DoubleValue('向右偏移', 'right', 0)
+        .setTooltip('在目标右方指定距离播放粒子效果,负数为左方')
     );
 }
 
 extend('MechanicParticleAnimation', 'Component');
 function MechanicParticleAnimation()
 {
-    this.super('Particle Animation', Type.MECHANIC, false);
+    this.super('粒子动画', Type.MECHANIC, false);
 
-    this.description = 'Plays an animated particle effect at the location of each target over time by applying various transformations.';
+    this.description = '随着时间的推移在目标位置播放各种粒子动画';
 
-    this.data.push(new IntValue('Steps', 'steps', 1, 0)
-        .setTooltip('The number of times to play particles and apply translations each application.')
+    this.data.push(new IntValue('次数', 'steps', 1, 0)
+        .setTooltip('播放并应用粒子的次数.')
     );
-    this.data.push(new DoubleValue('Frequency', 'frequency', 0.05, 0)
-        .setTooltip('How often to apply the animation in seconds. 0.05 is the fastest (1 tick). Lower than that will act the same.')
+    this.data.push(new DoubleValue('频率', 'frequency', 0.05, 0)
+        .setTooltip('应用动画的频率 0.05 是最快(1 tick),低于该值无效')
     );
-    this.data.push(new IntValue('Angle', 'angle', 0)
-        .setTooltip('How far the animation should rotate over the duration in degrees')
+    this.data.push(new IntValue('角度', 'angle', 0)
+        .setTooltip('动画在持续时间内旋转的角度')
     );
-    this.data.push(new IntValue('Start Angle', 'start', 0)
-        .setTooltip('The starting orientation of the animation. Horizontal translations and the forward/right offsets will be based off of this.')
+    this.data.push(new IntValue('起始角度', 'start', 0)
+        .setTooltip('动画的开始方向. 水平升降和偏移将基于此')
     );
-    this.data.push(new AttributeValue('Duration', 'duration', 5, 0)
-        .setTooltip('How long the animation should last for in seconds')
+    this.data.push(new AttributeValue('时间', 'duration', 5, 0)
+        .setTooltip('动画播放的时间')
     );
-    this.data.push(new AttributeValue('H-Translation', 'h-translation', 0, 0)
-        .setTooltip('How far the animation moves horizontally relative to the center over a cycle. Positive values make it expand from the center while negative values make it contract.')
+    this.data.push(new AttributeValue('水平收缩', 'h-translation', 0, 0)
+        .setTooltip('动画在一个周期内相对于中心水平移动的距离 正值使其从中心扩展 而负值使其向中间合拢')
     );
-    this.data.push(new AttributeValue('V-Translation', 'v-translation', 0, 0)
-        .setTooltip('How far the animation moves vertically over a cycle. Positive values make it rise while negative values make it sink.')
+    this.data.push(new AttributeValue('垂直升降', 'v-translation', 0, 0)
+        .setTooltip('动画在一个周期内垂直移动的距离 正值使其上升 而负值使其下降')
     );
-    this.data.push(new IntValue('H-Cycles', 'h-cycles', 1)
-        .setTooltip('How many times to move the animation position throughout the animation. Every other cycle moves it back to where it started. For example, two cycles would move it out and then back in.')
+    this.data.push(new IntValue('水平收缩次数', 'h-cycles', 1)
+        .setTooltip('在整个动画中水平移动动画位置的次数 每隔一个循环将其移回到起始位置 例如,两个周期会将其扩展，然后重新合拢.')
     );
-    this.data.push(new IntValue('V-Cycles', 'v-cycles', 1)
-        .setTooltip('How many times to move the animation position throughout the animation. Every other cycle moves it back to where it started. For example, two cycles would move it up and then back down.')
+    this.data.push(new IntValue('垂直升降次数', 'v-cycles', 1)
+        .setTooltip('在整个动画中垂直移动动画位置的次数 每隔一个循环将其移回到起始位置 例如,两个周期会将其上升，然后下降')
     );
 
     addParticleOptions(this);
 
-    this.data.push(new DoubleValue('Forward Offset', 'forward', 0)
-        .setTooltip('How far forward in front of the target in blocks to play the particles. A negative value will go behind.')
+    this.data.push(new DoubleValue('向前偏移', 'forward', 0)
+        .setTooltip('在目标前方指定距离播放粒子动画,负数为后方')
     );
-    this.data.push(new DoubleValue('Upward Offset', 'upward', 0)
-        .setTooltip('How far above the target in blocks to play the particles. A negative value will go below.')
+    this.data.push(new DoubleValue('向上偏移', 'upward', 0)
+        .setTooltip('在目标上方指定距离播放粒子动画,负数为下方')
     );
-    this.data.push(new DoubleValue('Right Offset', 'right', 0)
-        .setTooltip('How far to the right of the target to play the particles. A negative value will go to the left.')
+    this.data.push(new DoubleValue('向右偏移', 'right', 0)
+        .setTooltip('在目标右方指定距离播放粒子动画,负数为左方')
     );
 }
 
 extend('MechanicParticleEffect', 'Component');
 function MechanicParticleEffect()
 {
-    this.super('Particle Effect', Type.MECHANIC, false);
+    this.super('粒子跟随', Type.MECHANIC, false);
 
-    this.description = 'Plays a particle effect that follows the current target, using formulas to determine shape, size, and motion';
+    this.description = '跟随目标播放粒子效果,使用公式来确定形状，大小和运动';
 
     addEffectOptions(this, false);
 }
@@ -2177,26 +2177,26 @@ function MechanicParticleEffect()
 extend('MechanicParticleProjectile', 'Component');
 function MechanicParticleProjectile()
 {
-    this.super('Particle Projectile', Type.MECHANIC, true);
+    this.super('粒子抛射', Type.MECHANIC, true);
 
-    this.description = 'Launches a projectile using particles as its visual that applies child components upon landing. The target passed on will be the collided target or the location where it landed if it missed.';
+    this.description = '发射一个粒子抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
     addProjectileOptions(this);
 
-    this.data.push(new DoubleValue('Gravity', 'gravity', 0)
-        .setTooltip('How much gravity to apply each tick. Negative values make it fall while positive values make it rise')
+    this.data.push(new DoubleValue('重力', 'gravity', 0)
+        .setTooltip('抛射所受到重力的影响程度,负数会使物品按照重力下降,正数则会使物品受到反重力上升,0为直线射击')
     );
-    this.data.push(new ListValue('Pierce', 'pierce', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not this projectile should pierce through initial targets and continue hitting those behind them')
+    this.data.push(new ListValue('穿透', 'pierce', [ 'True', 'False' ], 'False')
+        .setTooltip('是否穿透第一个目标并对以后的目标也造成效果,False为否')
     );
 
     addParticleOptions(this);
 
-    this.data.push(new DoubleValue('Frequency', 'frequency', 0.05)
-        .setTooltip('How often to play a particle effect where the projectile is. It is recommended not to change this value unless there are too many particles playing')
+    this.data.push(new DoubleValue('频率', 'frequency', 0.05)
+        .setTooltip('抛射物粒子播放的频率,除非播放的粒子太多,否则建议不要更改此值')
     );
-    this.data.push(new DoubleValue('Lifespan', 'lifespan', 3)
-        .setTooltip('How long in seconds before the projectile will expire in case it doesn\'t hit anything')
+    this.data.push(new DoubleValue('持续时间', 'lifespan', 3)
+        .setTooltip('如果它没有击中任何东西,该抛射物会在多久后消失,时间太长会加重服务器负担')
     );
 
     addEffectOptions(this, true);
@@ -2205,84 +2205,84 @@ function MechanicParticleProjectile()
 extend('MechanicPassive', 'Component');
 function MechanicPassive()
 {
-    this.super('Passive', Type.MECHANIC, true);
+    this.super('被动', Type.MECHANIC, true);
 
-    this.description = 'Applies child components continuously every period. The seconds value below is the period or how often it applies.';
+    this.description = '不断应用子内容,下面的时间是应用间隔';
 
     this.data.push(new AttributeValue('Seconds', 'seconds', 1, 0)
-        .setTooltip('The delay in seconds between each application')
+        .setTooltip('每个子内容之间的间隔,单位为秒')
     );
 }
 
 extend('MechanicPermission', 'Component');
 function MechanicPermission()
 {
-    this.super('Permission', Type.MECHANIC, true);
+    this.super('权限', Type.MECHANIC, true);
 
-    this.description = 'Grants each player target a permission for a limited duration. This mechanic requires Vault with an accompanying permissions plugin in order to work.';
+    this.description = '在指定时间内使目标玩家拥有指定权限.需要在Vault的基础上有相应的权限插件';
 
-    this.data.push(new StringValue('Permission', 'perm', 'plugin.perm.key')
-        .setTooltip('The permission to give to the player')
+    this.data.push(new StringValue('权限', 'perm', 'plugin.perm.key')
+        .setTooltip('权限的名称')
     );
-    this.data.push(new AttributeValue('Seconds', 'seconds', 3, 0)
-        .setTooltip('How long in seconds to give the permission to the player')
+    this.data.push(new AttributeValue('时间', 'seconds', 3, 0)
+        .setTooltip('拥有权限的时间')
     );
 }
 
 extend('MechanicPotion', 'Component');
 function MechanicPotion()
 {
-    this.super('Potion', Type.MECHANIC, false);
+    this.super('药水', Type.MECHANIC, false);
 
-    this.description = 'Applies a potion effect to the target for a duration.';
+    this.description = '在指定时间对目标造成指定的药水效果';
 
-    this.data.push(new ListValue('Potion', 'potion', getPotionTypes, 'Absorption')
-        .setTooltip('The type of potion effect to apply')
+    this.data.push(new ListValue('类型', 'potion', getPotionTypes, 'Absorption')
+        .setTooltip('药水的类型')
     );
-    this.data.push(new ListValue('Ambient Particles', 'ambient', [ 'True', 'False' ], 'True')
-        .setTooltip('Whether or not to show ambient particles')
+    this.data.push(new ListValue('粒子效果', 'ambient', [ 'True', 'False' ], 'True')
+        .setTooltip('是否应用粒子效果.True为是')
     );
-    this.data.push(new AttributeValue('Tier', 'tier', 1, 0)
-        .setTooltip('The strength of the potion')
+    this.data.push(new AttributeValue('等级', 'tier', 1, 0)
+        .setTooltip('药水效果的等级')
     );
-    this.data.push(new AttributeValue('Seconds', 'seconds', 3, 1)
-        .setTooltip('How long to apply the effect for')
+    this.data.push(new AttributeValue('时间', 'seconds', 3, 1)
+        .setTooltip('药水效果持续的时间')
     );
 }
 
 extend('MechanicPotionProjectile', 'Component');
 function MechanicPotionProjectile()
 {
-    this.super('Potion Projectile', Type.MECHANIC, true);
+    this.super('药水抛射', Type.MECHANIC, true);
 
-    this.description = 'Drops a splash potion from each target that does not apply potion effects by default. This will apply child elements when the potion lands. The targets supplied will be everything hit by the potion. If nothing is hit by the potion, the target will be the location it landed.';
+    this.description = '从每个目标上掉落一个没有任何效果的喷溅型药水.在落地时应用子内容,子内容的目标指向药水所命中的所有单位,如果没有命中任何单位,子内容的目标将指向落地点的坐标';
 
-    this.data.push(new ListValue('Type', 'type', getPotionTypes, 'Fire Resistance')
-        .setTooltip('The type of the potion to use for the visuals')
+    this.data.push(new ListValue('视觉效果', 'type', getPotionTypes, 'Fire Resistance')
+        .setTooltip('药水的视觉效果,不会造成真实效果')
     );
-    this.data.push(new ListValue("Group", "group", ["Ally", "Enemy", "Both"], "Enemy")
-        .setTooltip('The alignment of entities to hit')
+    this.data.push(new ListValue("群组", "group", ["Ally", "Enemy", "Both"], "Enemy")
+        .setTooltip('子内容的目标群组,分别为：盟友 敌人 两者')
     );
-    this.data.push(new ListValue('Linger', 'linger', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not the potion should be a lingering potion (for 1.9+ only)')
+    this.data.push(new ListValue('龙息', 'linger', [ 'True', 'False' ], 'False')
+        .setTooltip('药水是否为龙息药水(适用于1.9及以上版本)')
     );
 }
 
 extend('MechanicProjectile', 'Component');
 function MechanicProjectile()
 {
-    this.super('Projectile', Type.MECHANIC, true);
+    this.super('抛射物', Type.MECHANIC, true);
 
-    this.description = 'Launches a projectile that applies child components on hit. The target supplied will be the struck target.';
+    this.description = '发射一个抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
-    this.data.push(new ListValue('Projectile', 'projectile', [ 'Arrow', 'Egg', 'Ghast Fireball', 'Snowball' ], 'Arrow')
-        .setTooltip('The type of projectile to fire')
+    this.data.push(new ListValue('类型', 'projectile', [ 'Arrow', 'Egg', 'Ghast Fireball', 'Snowball' ], 'Arrow')
+        .setTooltip('抛射物的类型,分别为 箭矢 鸡蛋 火球 雪球')
     );
-    this.data.push(new ListValue('Flaming', 'flaming', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to make the launched projectiles on fire.')
+    this.data.push(new ListValue('燃烧', 'flaming', [ 'True', 'False' ], 'False')
+        .setTooltip('抛射物是否燃烧,False为否')
     );
-    this.data.push(new ListValue('Cost', 'cost', [ 'None', 'All', 'One' ], 'None')
-        .setTooltip('The cost of the skill of the fired item. All will cost the same number of items as the skill fired.')
+    this.data.push(new ListValue('消耗', 'cost', [ 'None', 'All', 'One' ], 'None')
+        .setTooltip('发动技能时是否消耗目标身上的相应物品,None为不消耗,All为全消耗,One为消耗一个')
     );
 
     addProjectileOptions(this);
@@ -2292,111 +2292,111 @@ function MechanicProjectile()
 extend('MechanicPurge', 'Component');
 function MechanicPurge()
 {
-    this.super('Purge', Type.MECHANIC, false);
+    this.super('清除', Type.MECHANIC, false);
 
-    this.description = 'Purges the target of positive potion effects or statuses';
+    this.description = '清除目标的身上的正面的药水效果或状态';
 
-    this.data.push(new ListValue('Potion', 'potion', getGoodPotions, 'All')
-        .setTooltip('The potion effect to remove from the target, if any')
+    this.data.push(new ListValue('药水效果', 'potion', getGoodPotions, 'All')
+        .setTooltip('需要清除的正面药水效果,All表示所有')
     );
-    this.data.push(new ListValue('Status', 'status', [ 'None', 'All', 'Absorb', 'Invincible' ], 'All')
-        .setTooltip('The status to remove from the target, if any')
+    this.data.push(new ListValue('状态', 'status', [ 'None', 'All', 'Absorb', 'Invincible' ], 'All')
+        .setTooltip('需要清除的正面状态,All表示所有')
     );
 }
 
 extend('MechanicPush', 'Component');
 function MechanicPush()
 {
-    this.super('Push', Type.MECHANIC, false);
+    this.super('击退', Type.MECHANIC, false);
 
-    this.description = 'Pushes the target relative to the caster. This will do nothing if used with the caster as the target. Positive numbers apply knockback while negative numbers pull them in.';
+    this.description = '对目标造成基于施法者(可在"基于目标中更换")位置的击退,目标是施法者则无效';
 
-  this.data.push(new ListValue('Type', 'type', [ 'Fixed', 'Inverse', 'Scaled' ], 'Fixed')
-    .setTooltip('How to scale the speed based on relative position. Fixed does the same speed to all targets. Inverse pushes enemies farther away faster. Scaled pushes enemies closer faster.')
+  this.data.push(new ListValue('击退类型', 'type', [ 'Fixed', 'Inverse', 'Scaled' ], 'Fixed')
+    .setTooltip('根据目标的位置造成不同的击退程度,Fixed对所有目标造成相同的击退程度,Inverse表示目标越远击退程度越大,Scaled表示目标越近击退程度越大')
   );
-    this.data.push(new AttributeValue('Speed', 'speed', 3, 1)
-      .setTooltip('How fast to push the target away. Use a negative value to pull them closer.')
+    this.data.push(new AttributeValue('速度', 'speed', 3, 1)
+      .setTooltip('击退目标的速度,负值将会拉扯目标')
   );
-    this.data.push(new StringValue('Source', 'source', 'none')
-        .setTooltip('The source to push/pull from. This should be a key used in a Remember Targets mechanic. If no targets are remembered, this will default to the caster.')
+    this.data.push(new StringValue('基于目标', 'source', 'none')
+        .setTooltip('内容应填"记住目标"效果中被记住关键词,默认是施法者')
     );
 }
 
 extend('MechanicRememberTargets', 'Component');
 function MechanicRememberTargets()
 {
-    this.super('Remember Targets', Type.MECHANIC, false);
+    this.super('记住目标', Type.MECHANIC, false);
 
-    this.description = 'Stores the current targets for later use under a specified key';
+    this.description = '以一个关键词的方式来记住目标';
 
-    this.data.push(new StringValue('Key', 'key', 'target')
-        .setTooltip('The unique key to store the targets under. The "Remember" target will use this key to apply effects to the targets later on.')
+    this.data.push(new StringValue('关键词', 'key', 'target')
+        .setTooltip('不可重复,用这个关键词来表示被记住的目标')
     );
 }
 
 extend('MechanicRepeat', 'Component');
 function MechanicRepeat()
 {
-    this.super('Repeat', Type.MECHANIC, true);
+    this.super('重复', Type.MECHANIC, true);
 
-    this.description = 'Applies child components multiple times. When it applies them is determined by the delay (seconds before the first application) and period (seconds between successive applications).';
+    this.description = '应用子内容指定次数';
 
-    this.data.push(new AttributeValue('Repetitions', 'repetitions', 3, 0)
-        .setTooltip('How many times to activate child components')
+    this.data.push(new AttributeValue('重复次数', 'repetitions', 3, 0)
+        .setTooltip('子内容的重复次数')
     );
-    this.data.push(new DoubleValue('Period', 'period', 1)
-        .setTooltip('The time in seconds between each time applying child components')
+    this.data.push(new DoubleValue('间隔', 'period', 1)
+        .setTooltip('每个子内容被应用之间的时间间隔')
     );
-    this.data.push(new DoubleValue('Delay', 'delay', 0)
-        .setTooltip('The initial delay before starting to apply child components')
+    this.data.push(new DoubleValue('延迟', 'delay', 0)
+        .setTooltip('应用第一个子内容前的延迟时间')
     );
-    this.data.push(new ListValue('Stop on Fail', 'stop-on-fail', [ 'True', 'False' ], 'False')
-        .setTooltip('Whether or not to stop the repeat task early if the effects fail')
+    this.data.push(new ListValue('失败停止', 'stop-on-fail', [ 'True', 'False' ], 'False')
+        .setTooltip('如果效果失败,是否提前终止重复,False为否')
     );
 }
 
 extend('MechanicSound', 'Component');
 function MechanicSound()
 {
-    this.super('Sound', Type.MECHANIC, false);
+    this.super('声音', Type.MECHANIC, false);
 
-    this.description = "Plays a sound at the target's location.";
+    this.description = "在目标位置播放指定声音";
 
-    this.data.push(new ListValue('Sound', 'sound', getSounds, 'Ambience Cave')
-        .setTooltip('The sound clip to play')
+    this.data.push(new ListValue('声音', 'sound', getSounds, 'Ambience Cave')
+        .setTooltip('需要播放的声音')
     );
-    this.data.push(new AttributeValue('Volume', 'volume', 100, 0)
-        .setTooltip('The volume of the sound as a percentage. Numbers above 100 will not get any louder, but will be heard from a farther distance')
+    this.data.push(new AttributeValue('音量', 'volume', 100, 0)
+        .setTooltip('音量的百分比,100以上声音并不会变大,但是可以从更远的地方听到')
     );
-    this.data.push(new AttributeValue('Pitch', 'pitch', 1, 0)
-        .setTooltip('The pitch of the sound as a numeric speed multiplier between 0.5 and 2.')
+    this.data.push(new AttributeValue('音调', 'pitch', 1, 0)
+        .setTooltip('声音的音调,在0.5和2之间.')
     );
 }
 
 extend('MechanicSpeed', 'Component');
 function MechanicSpeed()
 {
-    this.super('Speed', Type.MECHANIC, false);
+    this.super('速度', Type.MECHANIC, false);
 
-    this.description = 'Modifies the base speed of a player using a multiplier (stacks with potions)';
+    this.description = '将指定目标玩家的速度调整到一定倍数,于药水效果相堆叠';
 
-    this.data.push(new AttributeValue('Multiplier', 'multiplier', 1.2, 0)
-        .setTooltip('The multiplier of the player\'s base speed to use')
+    this.data.push(new AttributeValue('倍数', 'multiplier', 1.2, 0)
+        .setTooltip('需要调整的倍数')
     );
-    this.data.push(new AttributeValue('Duration', 'duration', 3, 1)
-        .setTooltip('How long to multiply their speed for')
+    this.data.push(new AttributeValue('持续时间', 'duration', 3, 1)
+        .setTooltip('速度调整的持续时间')
     );
 }
 
 extend('MechanicStatus', 'Component');
 function MechanicStatus()
 {
-    this.super('Status', Type.MECHANIC, false);
+    this.super('状态', Type.MECHANIC, false);
 
-    this.description = 'Applies a status effect to the target for a duration.';
+    this.description = '对目标造成指定状态效果,持续指定时间';
 
-    this.data.push(new ListValue('Status', 'status', [ 'Absorb', 'Curse', 'Disarm', 'Invincible', 'Root', 'Silence', 'Stun' ], 'Stun')
-        .setTooltip('The status to apply')
+    this.data.push(new ListValue('状态', 'status', [ 'Absorb', 'Curse', 'Disarm', 'Invincible', 'Root', 'Silence', 'Stun' ], 'Stun')
+        .setTooltip('分别为 吸收 诅咒 缴械 无敌 禁锢 沉默 眩晕')
     );
     this.data.push(new AttributeValue('Duration', 'duration', 3, 1)
         .setTooltip('How long in seconds to apply the status')
@@ -2406,12 +2406,12 @@ function MechanicStatus()
 extend('MechanicTaunt', 'Component');
 function MechanicTaunt()
 {
-    this.super('Taunt', Type.MECHANIC, false);
+    this.super('嘲讽', Type.MECHANIC, false);
 
-    this.description = 'Draws aggro of targeted creatures. Regular mobs are set to attack the caster. The Spigot/Bukkit API for this was not functional on older versions, so it may not work on older servers. For MythicMobs, this uses their aggro system using the amount chosen below.';
+    this.description = '吸引目标生物的仇恨,使其攻击施法者.在Spigot或Bukkit端上,只有老版本有效，如果有MythicMobs,可以目标的仇恨值';
 
-    this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
-        .setTooltip('The amount of aggro to apply if MythicMobs is active. Use negative amounts to reduce aggro')
+    this.data.push(new AttributeValue('仇恨值', 'amount', 1, 0)
+        .setTooltip('目标增加的仇恨值,使用负数来消除仇恨,在服务端安装MythicMobs的情况下有效')
     );
 }
 
@@ -2932,7 +2932,7 @@ function addProjectileOptions(component) {
  * @param {Component} component - the component to add to
  */
 function addParticleOptions(component) {
-    component.data.push(new ListValue('Particle', 'particle', 
+    component.data.push(new ListValue('粒子种类', 'particle', 
         [ 
             'Angry Villager', 
             'Barrier',
@@ -2987,55 +2987,55 @@ function addParticleOptions(component) {
             'Wolf Shake', 
             'Wolf Smoke' 
         ], 'Angry Villager')
-        .setTooltip('The type of particle to display. Particle effects that show the DX, DY, and DZ options are not compatible with Cauldron')
+        .setTooltip('粒子播放的种类. 显示DX，DY和DZ选项的粒子效果与Cauldron服务端不兼容')
     );
     
-    component.data.push(new ListValue('Material', 'material', getMaterials, 'Dirt').requireValue('particle', [ 'Block Crack', 'Icon Crack' ])
-        .setTooltip('The material to use for the Block Crack or Icon Crack particles')
+    component.data.push(new ListValue('材质', 'material', getMaterials, 'Dirt').requireValue('particle', [ 'Block Crack', 'Icon Crack' ])
+        .setTooltip('Block Crack 或 Icon Crack 所需要用到的材质')
     );
-    component.data.push(new IntValue('Type', 'type', 0).requireValue('particle', [ 'Block Crack', 'Icon Crack' ])
-        .setTooltip('The material data value to se for the Block Crack or Icon Crack particles')
+    component.data.push(new IntValue('数据值', 'type', 0).requireValue('particle', [ 'Block Crack', 'Icon Crack' ])
+        .setTooltip('Block Crack 或 Icon Crack 所需要用到的材质的数据值')
     );
     
-    component.data.push(new ListValue('Arrangement', 'arrangement', [ 'Circle', 'Hemisphere', 'Sphere' ], 'Circle')
-        .setTooltip('The arrangement to use for the particles. Circle is a 2D circle, Hemisphere is half a 3D sphere, and Sphere is a 3D sphere')
+    component.data.push(new ListValue('布置方式', 'arrangement', [ 'Circle', 'Hemisphere', 'Sphere' ], 'Circle')
+        .setTooltip('粒子的布置方式.Circle是一个2D圆,Hemisphere是一半的3D球体,Sphere是一个3D球体')
     );
-    component.data.push(new AttributeValue('Radius', 'radius', 4, 0)
-        .setTooltip('The radius of the arrangement in blocks')
+    component.data.push(new AttributeValue('半径', 'radius', 4, 0)
+        .setTooltip('粒子的半径')
     );
-    component.data.push(new AttributeValue('Particles', 'particles', 20, 0)
-        .setTooltip('The amount of particles to play')
+    component.data.push(new AttributeValue('粒子数量', 'particles', 20, 0)
+        .setTooltip('播放的粒子的数量')
     );
     
     // Circle arrangement direction
-    component.data.push(new ListValue('Circle Direction', 'direction', [ 'XY', 'XZ', 'YZ' ], 'XZ').requireValue('arrangement', [ 'Circle' ])
-        .setTooltip('The orientation of the circle. XY and YZ are vertical circles while XZ is a horizontal circle.')
+    component.data.push(new ListValue('2D圆的方向', 'direction', [ 'XY', 'XZ', 'YZ' ], 'XZ').requireValue('arrangement', [ 'Circle' ])
+        .setTooltip('XY 和 YZ 是垂直的圆 XZ是水平的圆')
     );
     
     // Bukkit particle data value
-    component.data.push(new IntValue('Data', 'data', 0).requireValue('particle', [ 'Smoke', 'Ender Signal', 'Mobspawner Flames', 'Potion Break' ])
-        .setTooltip('The data value to use for the particle. The effect changes between particles such as the orientation for smoke particles or the color for potion break')
+    component.data.push(new IntValue('数据值', 'data', 0).requireValue('particle', [ 'Smoke', 'Ender Signal', 'Mobspawner Flames', 'Potion Break' ])
+        .setTooltip('粒子所用到的数据值,表示颗粒之间的效果发生的变化,例如烟雾颗粒的方向或药水破裂的颜色')
     );
     
     // Reflection particle data
     var reflectList = [ 'Angry Villager', 'Bubble', 'Cloud', 'Crit', 'Damage Indicator', 'Death Suspend', 'Dragon Breath', 'Drip Lava', 'Drip Water', 'Enchantment Table', 'End Rod', 'Explode', 'Fireworks Spark', 'Flame', 'Footstep', 'Happy Villager', 'Hear', 'Huge Explosion', 'Instant Spell', 'Large Explode', 'Large Smoke', 'Lava', 'Magic Crit', 'Mob Spell', 'Mob Spell Ambient', 'Note', 'Portal', 'Red Dust', 'Slime', 'Snowball Poof', 'Snow Shovel', 'Spell', 'Splash', 'Suspend', 'Sweep Attack', 'Town Aura', 'Water Drop', 'Water Wake', 'Witch Magic' ];
-    component.data.push(new IntValue('Visible Radius', 'visible-radius', 25).requireValue('particle', reflectList)
-        .setTooltip('How far away players can see the particles from in blocks')
+    component.data.push(new IntValue('可视半径', 'visible-radius', 25).requireValue('particle', reflectList)
+        .setTooltip('玩家在多远能看到粒子效果')
     );
     component.data.push(new DoubleValue('DX', 'dx', 0).requireValue('particle', reflectList)
-        .setTooltip('A packet variable that varies between particles. It generally is used for how far from the position a particle can move in the X direction.')
+        .setTooltip('粒子移动的最大距离,用于距离粒子在X方向上移动的位置有多远')
     );
     component.data.push(new DoubleValue('DY', 'dy', 0).requireValue('particle', reflectList)
-        .setTooltip('A packet variable that varies between particles. It generally is used for how far from the position a particle can move in the Y direction.')
+        .setTooltip('粒子移动的最大距离,用于距离粒子在Y方向上移动的位置有多远')
     );
     component.data.push(new DoubleValue('DZ', 'dz', 0).requireValue('particle', reflectList)
-        .setTooltip('A packet variable that varies between particles. It generally is used for how far from the position a particle can move in the Z direction.')
+        .setTooltip('粒子移动的最大距离,用于距离粒子在Z方向上移动的位置有多远')
     );
-    component.data.push(new DoubleValue('Particle Speed', 'speed', 1).requireValue('particle', reflectList)
-        .setTooltip('A packet variable that varies between particles. It generally controlls the color or velocity of the particle.')
+    component.data.push(new DoubleValue('播放速度', 'speed', 1).requireValue('particle', reflectList)
+        .setTooltip('控制粒子的颜色或速度')
     );
-    component.data.push(new DoubleValue('Packet Amount', 'amount', 1).requireValue('particle', reflectList)
-        .setTooltip('A packet variable that varies between particles. Setting this to 0 lets you control the color of some particles.')
+    component.data.push(new DoubleValue('波动数值', 'amount', 1).requireValue('particle', reflectList)
+        .setTooltip('将此值设置为0可以控制某些粒子的颜色')
     );
 }
 
@@ -3083,7 +3083,7 @@ function addEffectOptions(component, optional)
         .setTooltip('粒子效果在多远能被看到')
     ));
     
-    component.data.push(opt(new ListValue('Particle Type', '-particle-type', [
+    component.data.push(opt(new ListValue('粒子类型', '-particle-type', [
             'BARRIER',
             'BLOCK_CRACK',
             'CLOUD',
@@ -3127,30 +3127,30 @@ function addEffectOptions(component, optional)
             'WATER_SPLASH',
             'WATER_WAKE'
         ], 'BARRIER')
-        .setTooltip('The type of particle to use')
+        .setTooltip('粒子的类型')
     ));
-    component.data.push(opt(new ListValue('Particle Material', '-particle-material', getMaterials, 'WOOD')
+    component.data.push(opt(new ListValue('粒子材质', '-particle-material', getMaterials, 'WOOD')
         .requireValue('-particle-type', [ 'BLOCK_CRACK' ])
-        .setTooltip('The material to use for the particle')
+        .setTooltip('粒子的材质')
     ));
-    component.data.push(opt(new IntValue('Particle Data', '-particle-data', 0)
+    component.data.push(opt(new IntValue('粒子数据', '-particle-data', 0)
         .requireValue('-particle-type', [ 'BLOCK_CRACK' ])
-        .setTooltip('The data value for the material used by the particle')
+        .setTooltip('粒子的数据值')
     ));
     component.data.push(opt(new IntValue('Particle Num', '-particle-amount', 0)
-        .setTooltip('The integer data for the particle, often labeled as "amount"')
+        .setTooltip('粒子的整数数据,通常标记为“数量”')
     ));
     component.data.push(opt(new DoubleValue('DX', '-particle-dx', 0)
-        .setTooltip('Particle DX value, often used for color')
+        .setTooltip('粒子的DX值，通常用于颜色')
     ));
     component.data.push(opt(new DoubleValue('DY', '-particle-dy', 0)
-        .setTooltip('Particle DY value, often used for color')
+        .setTooltip('粒子的DY值，通常用于颜色')
     ));
     component.data.push(opt(new DoubleValue('DZ', '-particle-dz', 0)
-        .setTooltip('Particle DZ value, often used for color')
+        .setTooltip('粒子的DZ值，通常用于颜色')
     ));
-    component.data.push(opt(new DoubleValue('Speed', '-particle-speed', 1)
-        .setTooltip('Speed value for the particle, sometimes relating to velocity')
+    component.data.push(opt(new DoubleValue('速度', '-particle-speed', 1)
+        .setTooltip('粒子的速度')
     ));
 }
 
