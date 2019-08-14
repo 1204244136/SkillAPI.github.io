@@ -594,8 +594,8 @@ function CustomComponent(data) {
 
 extend('TriggerBlockBreak', 'Component');
 function TriggerBlockBreak() {
-    this.super('方块破坏', Type.TRIGGER, true);
-    this.description = '当玩家破坏指定信息的方块时触发技能';
+    this.super('Block Break', Type.TRIGGER, true);
+    this.description = 'Applies skill effects when a player breaks a block matching  the given details';
 
     this.data.push(new MultiListValue('方块类型', 'material', getAnyMaterials, [ 'Any' ])
         .setTooltip('The type of block expected to be broken')
@@ -607,8 +607,8 @@ function TriggerBlockBreak() {
 
 extend('TriggerBlockPlace', 'Component');
 function TriggerBlockPlace() {
-    this.super('方块放置', Type.TRIGGER, true);
-    this.description = '当玩家放置指定信息的方块时触发技能';
+    this.super('Block Place', Type.TRIGGER, true);
+    this.description = 'Applies skill effects when a player places a block matching  the given details';
 
     this.data.push(new MultiListValue('方块类型', 'material', getAnyMaterials, [ 'Any' ])
         .setTooltip('The type of block expected to be placed')
@@ -621,7 +621,7 @@ function TriggerBlockPlace() {
 extend('TriggerCast', 'Component');
 function TriggerCast()
 {
-    this.super('主动释放', Type.TRIGGER, true);
+    this.super('Cast', Type.TRIGGER, true);
 
     this.description = '使用技能栏/组合键/指令来触发技能';
 }
@@ -629,7 +629,7 @@ function TriggerCast()
 extend('TriggerCleanup', 'Component');
 function TriggerCleanup()
 {
-    this.super('技能清除', Type.TRIGGER, true);
+    this.super('Cleanup', Type.TRIGGER, true);
 
     this.description = '当玩家遗忘或删除技能时触发,通常用于限定技';
 }
@@ -637,7 +637,7 @@ function TriggerCleanup()
 extend('TriggerCrouch', 'Component');
 function TriggerCrouch()
 {
-    this.super('下蹲', Type.TRIGGER, true);
+    this.super('Crouch', Type.TRIGGER, true);
 
     this.description = '当玩家按下或松开下蹲键(shift)触发技能';
 
@@ -649,7 +649,7 @@ function TriggerCrouch()
 extend('TriggerDeath', 'Component');
 function TriggerDeath()
 {
-    this.super('死亡', Type.TRIGGER, true);
+    this.super('Death', Type.TRIGGER, true);
 
     this.description = '玩家死亡时触发技能';
 }
@@ -657,7 +657,7 @@ function TriggerDeath()
 extend('TriggerEnvironmentDamage', 'Component');
 function TriggerEnvironmentDamage()
 {
-    this.super('环境伤害', Type.TRIGGER, true);
+    this.super('Environment Damage', Type.TRIGGER, true);
 
     this.description = '当玩家受到指定种类的环境伤害时触发技能';
 
@@ -670,7 +670,7 @@ function TriggerEnvironmentDamage()
 extend('TriggerInitialize', 'Component');
 function TriggerInitialize()
 {
-    this.super('复活', Type.TRIGGER, true);
+    this.super('Initialize', Type.TRIGGER, true);
 
     this.description = '玩家复活时触发技能,可以用来做被动技能';
 }
@@ -678,7 +678,7 @@ function TriggerInitialize()
 extend('TriggerKill', 'Component');
 function TriggerKill()
 {
-    this.super('击杀', Type.TRIGGER, true);
+    this.super('Kill', Type.TRIGGER, true);
 
     this.description = '击杀实体时触发技能';
 }
@@ -686,7 +686,7 @@ function TriggerKill()
 extend('TriggerLand', 'Component');
 function TriggerLand()
 {
-    this.super('落地', Type.TRIGGER, true);
+    this.super('Land', Type.TRIGGER, true);
 
     this.description = '玩家落地时触发技能';
 
@@ -698,7 +698,7 @@ function TriggerLand()
 extend('TriggerLaunch', 'Component');
 function TriggerLaunch()
 {
-    this.super('射击', Type.TRIGGER, true);
+    this.super('Launch', Type.TRIGGER, true);
 
     this.description = '玩家射击/投掷指定物品时触发技能';
 
@@ -710,7 +710,7 @@ function TriggerLaunch()
 extend('TriggerMove', 'Component');
 function TriggerMove()
 {
-    this.super('移动', Type.TRIGGER, true);
+    this.super('Move', Type.TRIGGER, true);
 
     this.description = '玩家移动时发动.这会占用大量资源,尽量少用.使用 "api-moved" 去查看/调用移动距离';
 }
@@ -718,7 +718,7 @@ function TriggerMove()
 extend('TriggerPhysicalDamage', 'Component');
 function TriggerPhysicalDamage()
 {
-    this.super('物理伤害', Type.TRIGGER, true);
+    this.super('Physical Damage', Type.TRIGGER, true);
 
     this.description = '当玩家造成物理伤害(即非技能伤害)时触发.包括近战攻击和火焰伤害';
 
@@ -739,7 +739,7 @@ function TriggerPhysicalDamage()
 extend('TriggerSkillDamage', 'Component');
 function TriggerSkillDamage()
 {
-    this.super('技能伤害', Type.TRIGGER, true);
+    this.super('Skill Damage', Type.TRIGGER, true);
 
     this.description = '当玩家造成技能伤害时触发';
 
@@ -760,7 +760,7 @@ function TriggerSkillDamage()
 extend('TriggerTookPhysicalDamage', 'Component');
 function TriggerTookPhysicalDamage()
 {
-    this.super('受到物理伤害', Type.TRIGGER, true);
+    this.super('Took Physical Damage', Type.TRIGGER, true);
 
     this.description = '当玩家受到物理伤害(即非技能伤害)时触发.包括近战攻击和火焰伤害';
 
@@ -781,7 +781,7 @@ function TriggerTookPhysicalDamage()
 extend('TriggerTookSkillDamage', 'Component');
 function TriggerTookSkillDamage()
 {
-    this.super('受到技能伤害', Type.TRIGGER, true);
+    this.super('Took Skill Damage', Type.TRIGGER, true);
 
     this.description = '当玩家受到技能伤害时触发，包括对自己的伤害';
 
@@ -804,7 +804,7 @@ function TriggerTookSkillDamage()
 extend('TargetArea', 'Component');
 function TargetArea()
 {
-    this.super('范围', Type.TARGET, true);
+    this.super('Area', Type.TARGET, true);
 
     this.description = '将目标指向指定半径内的所有实体';
 
@@ -831,7 +831,7 @@ function TargetArea()
 extend('TargetCone', 'Component');
 function TargetCone()
 {
-    this.super('圆锥', Type.TARGET, true);
+    this.super('Cone', Type.TARGET, true);
 
     this.description = '将目标指向施法者前面的一行中的所有实体(圆锥形).';
 
@@ -858,7 +858,7 @@ function TargetCone()
 extend('TargetLinear', 'Component');
 function TargetLinear()
 {
-    this.super('直线', Type.TARGET, true);
+    this.super('Linear', Type.TARGET, true);
 
     this.description = '将目标指向施法者前面的一行中的所有实体(直线)';
 
@@ -885,7 +885,7 @@ function TargetLinear()
 extend('TargetLocation', 'Component');
 function TargetLocation()
 {
-    this.super('坐标', Type.TARGET, true);
+    this.super('Location', Type.TARGET, true);
 
     this.description = '目标指向玩家十字准星所在位置. 将另一种目标选取与此结合以实现远程区域效果(与"范围"结合类似火男的W)';
 
@@ -900,7 +900,7 @@ function TargetLocation()
 extend('TargetNearest', 'Component');
 function TargetNearest()
 {
-    this.super('最近', Type.TARGET, true);
+    this.super('Nearest', Type.TARGET, true);
 
     this.description = '以施法者为中心，指向最近的实体';
 
@@ -924,7 +924,7 @@ function TargetNearest()
 extend('TargetOffset', 'Component');
 function TargetOffset()
 {
-    this.super('偏移', Type.TARGET, true);
+    this.super('Offset', Type.TARGET, true);
 
     this.description = '对目标选取的范围进行指定的偏移(需要之前就有一个"目标选取")并重新指向偏移后的范围';
 
@@ -942,7 +942,7 @@ function TargetOffset()
 extend('TargetRemember', 'Component');
 function TargetRemember()
 {
-    this.super('记忆', Type.TARGET, true);
+    this.super('Remember', Type.TARGET, true);
 
     this.description = '指向被记忆目标,使用"Remember Targets"(标记目标)效果来记忆目标,没有记忆目标则释放失败';
 
@@ -954,7 +954,7 @@ function TargetRemember()
 extend('TargetSelf', 'Component');
 function TargetSelf()
 {
-    this.super('自身', Type.TARGET, true);
+    this.super('Self', Type.TARGET, true);
 
     this.description = '指向自己';
 }
@@ -962,7 +962,7 @@ function TargetSelf()
 extend('TargetSingle', 'Component');
 function TargetSingle()
 {
-    this.super('单体', Type.TARGET, true);
+    this.super('Single', Type.TARGET, true);
 
     this.description = '指向在施法者前面的一个单位';
 
@@ -985,8 +985,8 @@ function TargetSingle()
 extend('ConditionArmor', 'Component');
 function ConditionArmor()
 {
-    this.super('装备', Type.CONDITION, true);
-    this.description = "目标需要穿戴物品至指定槽位";
+    this.super('Armor', Type.CONDITION, true);
+    this.description = "Applies child components when the target is wearing an armor item matching the given details.";
 
     this.data.push(new ListValue('护甲槽', 'armor', [ 'Helmet', 'Chestplate', 'Leggings', 'Boots', 'Any' ], 'Any')
         .setTooltip('指定的槽位,分别为头盔 胸甲 护腿 靴子 任意')
@@ -998,7 +998,7 @@ function ConditionArmor()
 extend('ConditionAttribute', 'Component');
 function ConditionAttribute()
 {
-    this.super('属性', Type.CONDITION, true);
+    this.super('Attribute', Type.CONDITION, true);
 
     this.description = '目标需要拥有指定属性的指定值';
 
@@ -1016,7 +1016,7 @@ function ConditionAttribute()
 extend('ConditionBiome', 'Component');
 function ConditionBiome()
 {
-    this.super('生物群系', Type.CONDITION, true);
+    this.super('Biome', Type.CONDITION, true);
 
     this.description = '目标需要在(或不在)指定的生物群系';
 
@@ -1031,7 +1031,7 @@ function ConditionBiome()
 extend('ConditionBlock', 'Component');
 function ConditionBlock()
 {
-    this.super('方块', Type.CONDITION, true);
+    this.super('Block', Type.CONDITION, true);
 
     this.description = '目标需要以指定方式接触指定方块';
 
@@ -1046,7 +1046,7 @@ function ConditionBlock()
 extend('ConditionCeiling', 'Component');
 function ConditionCeiling()
 {
-    this.super('头上空间', Type.CONDITION, true);
+    this.super('Ceiling', Type.CONDITION, true);
 
     this.description = '目标需要与头上空间保持指定距离';
 
@@ -1061,7 +1061,7 @@ function ConditionCeiling()
 extend('ConditionChance', 'Component');
 function ConditionChance()
 {
-    this.super('几率', Type.CONDITION, true);
+    this.super('Chance', Type.CONDITION, true);
 
     this.description = '有几率释放技能';
 
@@ -1073,7 +1073,7 @@ function ConditionChance()
 extend('ConditionClass', 'Component');
 function ConditionClass()
 {
-    this.super('职业', Type.CONDITION, true);
+    this.super('Class', Type.CONDITION, true);
 
     this.description = '目标需要为指定职业';
 
@@ -1088,7 +1088,7 @@ function ConditionClass()
 extend('ConditionClassLevel', 'Component');
 function ConditionClassLevel()
 {
-    this.super('职业等级', Type.CONDITION, true);
+    this.super('Class Level', Type.CONDITION, true);
 
     this.description = '施法者职业等级需要在指定范围内';
 
@@ -1103,7 +1103,7 @@ function ConditionClassLevel()
 extend('ConditionCombat', 'Component');
 function ConditionCombat()
 {
-    this.super('战斗状态', Type.CONDITION, true);
+    this.super('Combat', Type.CONDITION, true);
 
     this.description = '目标需要在指定战斗状态保持指定时间';
 
@@ -1118,7 +1118,7 @@ function ConditionCombat()
 extend('ConditionCrouch', 'Component');
 function ConditionCrouch()
 {
-    this.super('下蹲', Type.CONDITION, true);
+    this.super('Crouch', Type.CONDITION, true);
 
     this.description = '目标需要在(或不在)下蹲状态';
 
@@ -1130,7 +1130,7 @@ function ConditionCrouch()
 extend('ConditionDirection', 'Component');
 function ConditionDirection()
 {
-    this.super('朝向', Type.CONDITION, true);
+    this.super('Direction', Type.CONDITION, true);
 
     this.description = '当施法者或目标需要朝向(或不朝)对方';
 
@@ -1145,7 +1145,7 @@ function ConditionDirection()
 extend('ConditionElevation', 'Component');
 function ConditionElevation()
 {
-    this.super('高度', Type.CONDITION, true);
+    this.super('Elevation', Type.CONDITION, true);
 
     this.description = '目标需要到达指定高度';
 
@@ -1163,7 +1163,7 @@ function ConditionElevation()
 extend('ConditionElse', 'Component');
 function ConditionElse()
 {
-    this.super('或', Type.CONDITION, true);
+    this.super('Else', Type.CONDITION, true);
 
     this.description = '如果上一个触发条件没满足,则检查下一个触发条件,需要在这个的下面再填写一个触发条件,如果上一个条件满足,则跳过下面的触发条件.这不仅适用于条件未满足,还用于由于没有目标或其他情况而导致的技能释放失败';
 }
@@ -1171,7 +1171,7 @@ function ConditionElse()
 extend('ConditionEntityType', 'Component');
 function ConditionEntityType()
 {
-    this.super('实体类型', Type.CONDITION, true);
+    this.super('Entity Type', Type.CONDITION, true);
 
     this.description = '需要目标与指定的实体类型相同'
 
@@ -1183,7 +1183,7 @@ function ConditionEntityType()
 extend('ConditionFire', 'Component');
 function ConditionFire()
 {
-    this.super('燃烧', Type.CONDITION, true);
+    this.super('Fire', Type.CONDITION, true);
 
     this.description = '需要目标在(或不在)燃烧';
 
@@ -1195,7 +1195,7 @@ function ConditionFire()
 extend('ConditionFlag', 'Component');
 function ConditionFlag()
 {
-    this.super('标记', Type.CONDITION, true);
+    this.super('Flag', Type.CONDITION, true);
 
     this.description = '需要目标被(或不被)标记(与"选取目标"中的"记忆"区别在于,"记忆"是永久的,而"标记"可以设置持续时间,并且二者用于不同的位置)';
 
@@ -1210,7 +1210,7 @@ function ConditionFlag()
 extend('ConditionGround', 'Component');
 function ConditionGround()
 {
-    this.super('地面', Type.CONDITION, true);
+    this.super('Ground', Type.CONDITION, true);
 
     this.description = '需要目标在(或不在)地面上';
 
@@ -1222,7 +1222,7 @@ function ConditionGround()
 extend('ConditionHealth', 'Component');
 function ConditionHealth()
 {
-    this.super('血量', Type.CONDITION, true);
+    this.super('Health', Type.CONDITION, true);
 
     this.description = "需要目标血量在指定范围内";
 
@@ -1240,8 +1240,8 @@ function ConditionHealth()
 extend('ConditionItem', 'Component');
 function ConditionItem()
 {
-    this.super('手持物品', Type.CONDITION, true);
-    this.description = "目标需要手持指定物品";
+    this.super('Item', Type.CONDITION, true);
+    this.description = "Applies child components when the target is wielding an item matching the given material.";
 
     addItemOptions(this);
 }
@@ -1249,7 +1249,7 @@ function ConditionItem()
 extend('ConditionInventory', 'Component');
 function ConditionInventory()
 {
-    this.super('背包物品', Type.CONDITION, true);
+    this.super('Inventory', Type.CONDITION, true);
 
     this.description = '目标背包的指定区域需要有指定物品(对怪物无效)';
 
@@ -1263,7 +1263,7 @@ function ConditionInventory()
 extend('ConditionLight', 'Component');
 function ConditionLight()
 {
-    this.super('亮度', Type.CONDITION, true);
+    this.super('Light', Type.CONDITION, true);
 
     this.description = "需要目标位置的亮度到达指定数值";
 
@@ -1278,7 +1278,7 @@ function ConditionLight()
 extend('ConditionMana', 'Component');
 function ConditionMana()
 {
-    this.super('法力值', Type.CONDITION, true);
+    this.super('Mana', Type.CONDITION, true);
 
     this.description = "目标的法力值需要在指定范围";
 
@@ -1296,7 +1296,7 @@ function ConditionMana()
 extend('ConditionName', 'Component');
 function ConditionName()
 {
-    this.super('名字', Type.CONDITION, true);
+    this.super('Name', Type.CONDITION, true);
 
     this.description = '目标的名字需要包含(或不包含)指定文本';
 
@@ -1314,8 +1314,8 @@ function ConditionName()
 extend('ConditionOffhand', 'Component');
 function ConditionOffhand()
 {
-    this.super('副手', Type.CONDITION, true);
-    this.description = "需要副手所持有的物品与指定物品一致,这个设置只对1.9及以上的服务器生效";
+    this.super('Offhand', Type.CONDITION, true);
+    this.description = "Applies child components when the target is wielding an item matching the given material as an offhand item. This is for v1.9+ servers only.";
 
     addItemOptions(this);
 }
@@ -1323,7 +1323,7 @@ function ConditionOffhand()
 extend('ConditionPermission', 'Component');
 function ConditionPermission()
 {
-    this.super('权限', Type.CONDITION, true);
+    this.super('Permission', Type.CONDITION, true);
 
     this.description = '需要施法者拥有指定权限';
 
@@ -1335,7 +1335,7 @@ function ConditionPermission()
 extend('ConditionPotion', 'Component');
 function ConditionPotion()
 {
-    this.super('药水效果', Type.CONDITION, true);
+    this.super('Potion', Type.CONDITION, true);
 
     this.description = '需要目标有(或没有)指定的药水效果';
 
@@ -1356,7 +1356,7 @@ function ConditionPotion()
 extend('ConditionSkillLevel', 'Component');
 function ConditionSkillLevel(skill)
 {
-    this.super('技能等级', Type.CONDITION, true);
+    this.super('Skill Level', Type.CONDITION, true);
 
     this.description = '需要施法者的技能等级在指定范围内,可用于技能到达一定等级后增加效果';
 
@@ -1374,8 +1374,8 @@ function ConditionSkillLevel(skill)
 extend('ConditionSlot', 'Component');
 function ConditionSlot()
 {
-    this.super('槽位', Type.CONDITION, true);
-    this.description = "需要目标玩家指定槽位有指定物品";
+    this.super('Slot', Type.CONDITION, true);
+    this.description = "Applies child components when the target player has a matching item in the given slot.";
 
     this.data.push(new StringListValue('槽位(一行一个)', 'slot', [9])
         .setTooltip('位的位置 0-8代表快捷栏 9-35代表物品栏 36-39是护甲栏 40是副手,如果有多个,则需要全部满足')
@@ -1387,7 +1387,7 @@ function ConditionSlot()
 extend('ConditionStatus', 'Component');
 function ConditionStatus()
 {
-    this.super('状态', Type.CONDITION, true);
+    this.super('Status', Type.CONDITION, true);
 
     this.description = '目标需要在(或不在)指定状态';
 
@@ -1402,7 +1402,7 @@ function ConditionStatus()
 extend('ConditionTime', 'Component');
 function ConditionTime()
 {
-    this.super('时间', Type.CONDITION, true);
+    this.super('Time', Type.CONDITION, true);
 
     this.description = '需要当前世界到达指定时间';
 
@@ -1414,7 +1414,7 @@ function ConditionTime()
 extend('ConditionTool', 'Component');
 function ConditionTool()
 {
-    this.super('工具', Type.CONDITION, true);
+    this.super('Tool', Type.CONDITION, true);
 
     this.description = '需要目标挥舞指定工具';
 
@@ -1429,7 +1429,7 @@ function ConditionTool()
 extend('ConditionValue', 'Component');
 function ConditionValue()
 {
-    this.super('数值', Type.CONDITION, true);
+    this.super('Value', Type.CONDITION, true);
 
     this.description = '需要目标的指定数值达到指定范围';
 
@@ -1447,7 +1447,7 @@ function ConditionValue()
 extend('ConditionWater', 'Component');
 function ConditionWater()
 {
-    this.super('水', Type.CONDITION, true);
+    this.super('Water', Type.CONDITION, true);
 
     this.description = '目标需要在(或不在)水中';
 
@@ -1459,7 +1459,7 @@ function ConditionWater()
 extend('ConditionWeather', 'Component');
 function ConditionWeather()
 {
-    this.super('天气', Type.CONDITION, true);
+    this.super('Weather', Type.CONDITION, true);
 
     this.description = '目标所在位置需要有指定的天气';
 
@@ -1473,7 +1473,7 @@ function ConditionWeather()
 extend('MechanicAttribute', 'Component');
 function MechanicAttribute()
 {
-    this.super('属性加成', Type.MECHANIC, false);
+    this.super('Attribute', Type.MECHANIC, false);
 
     this.description = '给与目标玩家指定时间的属性加成';
 
@@ -1494,7 +1494,7 @@ function MechanicAttribute()
 extend('MechanicBlock', 'Component');
 function MechanicBlock()
 {
-    this.super('生成方块', Type.MECHANIC, false);
+    this.super('Block', Type.MECHANIC, false);
 
     this.description = '在指定时间内将指定地区的方块替换为指定方块';
 
@@ -1543,7 +1543,7 @@ function MechanicBlock()
 extend('MechanicBuff', 'Component');
 function MechanicBuff()
 {
-    this.super('战斗加成', Type.MECHANIC, false);
+    this.super('Buff', Type.MECHANIC, false);
 
     this.description = '给与目标战斗加成';
 
@@ -1573,7 +1573,7 @@ function MechanicBuff()
 extend('MechanicCancel', 'Component');
 function MechanicCancel()
 {
-    this.super('伤害取消', Type.MECHANIC, false);
+    this.super('Cancel', Type.MECHANIC, false);
 
     this.description = '取消由于该技能被触发的伤害.例如,如果该技能的触发需要"进行一次射击"则技能效果为该选项会取消射击所造成的伤害,应该与其他技能效果配合';
 }
@@ -1581,7 +1581,7 @@ function MechanicCancel()
 extend('MechanicCancelEffect', 'Component');
 function MechanicCancelEffect()
 {
-    this.super('取消效果', Type.MECHANIC, false);
+    this.super('Cancel Effect', Type.MECHANIC, false);
 
     this.description = '提前取消粒子效果';
 
@@ -1593,7 +1593,7 @@ function MechanicCancelEffect()
 extend('MechanicChannel', 'Component');
 function MechanicChannel()
 {
-    this.super('吟唱', Type.MECHANIC, true);
+    this.super('Channel', Type.MECHANIC, true);
 
     this.description = '在吟唱过后应用子效果(可以中断).期间玩家不能移动(移动则取消),攻击或释放其他技能';
 
@@ -1608,7 +1608,7 @@ function MechanicChannel()
 extend('MechanicCleanse', 'Component');
 function MechanicCleanse()
 {
-    this.super('净化', Type.MECHANIC, false);
+    this.super('Cleanse', Type.MECHANIC, false);
 
     this.description = '清除目标的负面药水效果或状态';
 
@@ -1623,7 +1623,7 @@ function MechanicCleanse()
 extend('MechanicCommand', 'Component');
 function MechanicCommand()
 {
-    this.super('指令', Type.MECHANIC, false);
+    this.super('Command', Type.MECHANIC, false);
 
     this.description ='以OP或控制台作为身份对每个目标执行指定指令';
 
@@ -1638,7 +1638,7 @@ function MechanicCommand()
 extend('MechanicCooldown', 'Component');
 function MechanicCooldown()
 {
-    this.super('冷却', Type.MECHANIC, false);
+    this.super('Cooldown', Type.MECHANIC, false);
 
     this.description = "减少目标指定技能的冷却时间,如果值为负数,则增加冷却";
 
@@ -1656,7 +1656,7 @@ function MechanicCooldown()
 extend('MechanicDamage', 'Component');
 function MechanicDamage()
 {
-    this.super('造成伤害', Type.MECHANIC, false);
+    this.super('Damage', Type.MECHANIC, false);
 
     this.description = '对每个目标造成伤害,百分比类型中将造成百分比伤害';
 
@@ -1677,7 +1677,7 @@ function MechanicDamage()
 extend('MechanicDamageBuff', 'Component');
 function MechanicDamageBuff()
 {
-    this.super('伤害加成', Type.MECHANIC, false);
+    this.super('Damage Buff', Type.MECHANIC, false);
 
     this.description = '在指定时间使每个目标增加指定数值的物理伤害';
 
@@ -1698,7 +1698,7 @@ function MechanicDamageBuff()
 extend('MechanicDamageLore', 'Component');
 function MechanicDamageLore()
 {
-    this.super('Lore伤害', Type.MECHANIC, false);
+    this.super('Damage Lore', Type.MECHANIC, false);
 
     this.description = '根据手持物品的Lore对每个目标造成伤害';
 
@@ -1722,7 +1722,7 @@ function MechanicDamageLore()
 extend('MechanicDefenseBuff', 'Component');
 function MechanicDefenseBuff()
 {
-    this.super('伤害减免', Type.MECHANIC, false);
+    this.super('Defense Buff', Type.MECHANIC, false);
 
     this.description = '在指定时间使每个目标减免指定数值的物理伤害';
 
@@ -1743,7 +1743,7 @@ function MechanicDefenseBuff()
 extend('MechanicDelay', 'Component');
 function MechanicDelay()
 {
-    this.super('延迟', Type.MECHANIC, true);
+    this.super('Delay', Type.MECHANIC, true);
 
     this.description = '在指定延迟后应用子内容';
 
@@ -1755,7 +1755,7 @@ function MechanicDelay()
 extend('MechanicDisguise', 'Component');
 function MechanicDisguise()
 {
-    this.super('伪装', Type.MECHANIC, false);
+    this.super('Disguise', Type.MECHANIC, false);
 
     this.description = '将目标进行指定的伪装,需要有LibsDisguise插件支持';
 
@@ -1793,7 +1793,7 @@ function MechanicDisguise()
 extend('MechanicDurability', 'Component');
 function MechanicDurability()
 {
-    this.super('耐久度', Type.MECHANIC, false);
+    this.super('Durability', Type.MECHANIC, false);
 
     this.description = '降低目标所持物品的耐久度';
 
@@ -1808,7 +1808,7 @@ function MechanicDurability()
 extend('MechanicExplosion', 'Component');
 function MechanicExplosion()
 {
-    this.super('爆炸', Type.MECHANIC, false);
+    this.super('Explosion', Type.MECHANIC, false);
 
     this.description = '在目标位置造成一次爆炸';
 
@@ -1826,7 +1826,7 @@ function MechanicExplosion()
 extend('MechanicFire', 'Component');
 function MechanicFire()
 {
-    this.super('燃烧', Type.MECHANIC, false);
+    this.super('Fire', Type.MECHANIC, false);
 
     this.description = '引燃目标指定时间';
 
@@ -1838,7 +1838,7 @@ function MechanicFire()
 extend('MechanicFlag', 'Component');
 function MechanicFlag()
 {
-    this.super('标记', Type.MECHANIC, false);
+    this.super('Flag', Type.MECHANIC, false);
 
     this.description = '标记目标一段时间,标记可以被"触发条件"和一些其他的东西所检测';
 
@@ -1853,7 +1853,7 @@ function MechanicFlag()
 extend('MechanicFlagClear', 'Component');
 function MechanicFlagClear()
 {
-    this.super('标记清除', Type.MECHANIC, false);
+    this.super('Flag Clear', Type.MECHANIC, false);
 
     this.description = '清除目标的标记';
 
@@ -1865,7 +1865,7 @@ function MechanicFlagClear()
 extend('MechanicFlagToggle', 'Component');
 function MechanicFlagToggle()
 {
-    this.super('标记切换', Type.MECHANIC, false);
+    this.super('Flag Toggle', Type.MECHANIC, false);
 
     this.description = '切换目标标记的有无("有"标记的话持续时间应该是永久的)';
 
@@ -1877,7 +1877,7 @@ function MechanicFlagToggle()
 extend('MechanicFood', 'Component');
 function MechanicFood()
 {
-    this.super('饱食度', Type.MECHANIC, false);
+    this.super('Food', Type.MECHANIC, false);
 
     this.description = '增加或减少目标的饱食度';
 
@@ -1892,7 +1892,7 @@ function MechanicFood()
 extend('MechanicForgetTargets', 'Component');
 function MechanicForgetTargets()
 {
-    this.super('遗忘目标', Type.MECHANIC, false);
+    this.super('Forget Targets', Type.MECHANIC, false);
 
     this.description = '清除目标从"记住目标（很后面有）"那的存储';
 
@@ -1904,7 +1904,7 @@ function MechanicForgetTargets()
 extend('MechanicHeal', 'Component');
 function MechanicHeal()
 {
-    this.super('治疗', Type.MECHANIC, false);
+    this.super('Heal', Type.MECHANIC, false);
 
     this.description = '回复每个目标的指定血量';
 
@@ -1919,7 +1919,7 @@ function MechanicHeal()
 extend('MechanicHealthSet', 'Component');
 function MechanicHealthSet()
 {
-    this.super('生命值设置', Type.MECHANIC, false);
+    this.super('Health Set', Type.MECHANIC, false);
 
     this.description = '将目标血量设置为指定数值,无视其他任何效果';
 
@@ -1931,7 +1931,7 @@ function MechanicHealthSet()
 extend('MechanicHeldItem', 'Component');
 function MechanicHeldItem()
 {
-    this.super('移动手持物品', Type.MECHANIC, false);
+    this.super('Held Item', Type.MECHANIC, false);
 
     this.description = '将目标手持的物品移动到其指定槽位中,如果槽位是技能快捷键将会无效';
 
@@ -1943,7 +1943,7 @@ function MechanicHeldItem()
 extend('MechanicImmunity', 'Component');
 function MechanicImmunity()
 {
-    this.super('伤害免疫', Type.MECHANIC, false);
+    this.super('Immunity', Type.MECHANIC, false);
 
     this.description = '使目标在指定时间内免疫指定的伤害'
 
@@ -1961,7 +1961,7 @@ function MechanicImmunity()
 extend('MechanicInterrupt', 'Component');
 function MechanicInterrupt()
 {
-    this.super('中断', Type.MECHANIC, false);
+    this.super('Interrupt', Type.MECHANIC, false);
 
     this.description = '中断每个目标的吟唱(如果适用)';
 }
@@ -1969,7 +1969,7 @@ function MechanicInterrupt()
 extend('MechanicItem', 'Component');
 function MechanicItem()
 {
-    this.super('给予物品', Type.MECHANIC, false);
+    this.super('Item', Type.MECHANIC, false);
 
     this.description = '给予目标指定的物品';
 
@@ -2000,7 +2000,7 @@ function MechanicItem()
 extend('MechanicItemProjectile', 'Component');
 function MechanicItemProjectile()
 {
-    this.super('物品抛射', Type.MECHANIC, true);
+    this.super('Item Projectile', Type.MECHANIC, true);
 
     this.description = '发射一个抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
@@ -2019,7 +2019,7 @@ function MechanicItemProjectile()
 extend('MechanicItemRemove', 'Component');
 function MechanicItemRemove()
 {
-    this.super('物品移除', Type.MECHANIC, false);
+    this.super('Item Remove', Type.MECHANIC, false);
 
     this.description = '移除目标玩家背包内的指定物品,对怪物无效';
 
@@ -2033,7 +2033,7 @@ function MechanicItemRemove()
 extend('MechanicLaunch', 'Component');
 function MechanicLaunch()
 {
-    this.super('冲刺', Type.MECHANIC, false);
+    this.super('Launch', Type.MECHANIC, false);
 
     this.description = '使目标向一个方向位移一段距离,如果值是负数,则向反方向冲刺';
 
@@ -2054,7 +2054,7 @@ function MechanicLaunch()
 extend('MechanicLightning', 'Component');
 function MechanicLightning()
 {
-    this.super('闪电', Type.MECHANIC, false);
+    this.super('Lightning', Type.MECHANIC, false);
 
     this.description = '向目标或目标附近释放闪电,负值则向反方向释放';
 
@@ -2072,7 +2072,7 @@ function MechanicLightning()
 extend('MechanicMana', 'Component');
 function MechanicMana()
 {
-    this.super('法力值', Type.MECHANIC, false);
+    this.super('Mana', Type.MECHANIC, false);
 
     this.description = '扣除或回复目标法力值';
 
@@ -2087,7 +2087,7 @@ function MechanicMana()
 extend('MechanicMessage', 'Component');
 function MechanicMessage()
 {
-    this.super('聊天信息', Type.MECHANIC, false);
+    this.super('Message', Type.MECHANIC, false);
 
     this.description = '对每个目标玩家发送指定信息,如果要引用value插件的数值,请使用 {value储存的值}';
 
@@ -2099,7 +2099,7 @@ function MechanicMessage()
 extend('MechanicParticle', 'Component');
 function MechanicParticle()
 {
-    this.super('粒子', Type.MECHANIC, false);
+    this.super('Particle', Type.MECHANIC, false);
 
     this.description = '在目标处播放粒子效果';
 
@@ -2119,7 +2119,7 @@ function MechanicParticle()
 extend('MechanicParticleAnimation', 'Component');
 function MechanicParticleAnimation()
 {
-    this.super('粒子动画', Type.MECHANIC, false);
+    this.super('Particle Animation', Type.MECHANIC, false);
 
     this.description = '随着时间的推移在目标位置播放各种粒子动画';
 
@@ -2167,7 +2167,7 @@ function MechanicParticleAnimation()
 extend('MechanicParticleEffect', 'Component');
 function MechanicParticleEffect()
 {
-    this.super('粒子跟随', Type.MECHANIC, false);
+    this.super('Particle Effect', Type.MECHANIC, false);
 
     this.description = '跟随目标播放粒子效果,使用公式来确定形状，大小和运动';
 
@@ -2177,7 +2177,7 @@ function MechanicParticleEffect()
 extend('MechanicParticleProjectile', 'Component');
 function MechanicParticleProjectile()
 {
-    this.super('粒子抛射', Type.MECHANIC, true);
+    this.super('Particle Projectile', Type.MECHANIC, true);
 
     this.description = '发射一个粒子抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
@@ -2205,7 +2205,7 @@ function MechanicParticleProjectile()
 extend('MechanicPassive', 'Component');
 function MechanicPassive()
 {
-    this.super('被动', Type.MECHANIC, true);
+    this.super('Passive', Type.MECHANIC, true);
 
     this.description = '不断应用子内容,下面的时间是应用间隔';
 
@@ -2217,7 +2217,7 @@ function MechanicPassive()
 extend('MechanicPermission', 'Component');
 function MechanicPermission()
 {
-    this.super('权限', Type.MECHANIC, true);
+    this.super('Permission', Type.MECHANIC, true);
 
     this.description = '在指定时间内使目标玩家拥有指定权限.需要在Vault的基础上有相应的权限插件';
 
@@ -2232,7 +2232,7 @@ function MechanicPermission()
 extend('MechanicPotion', 'Component');
 function MechanicPotion()
 {
-    this.super('药水', Type.MECHANIC, false);
+    this.super('Potion', Type.MECHANIC, false);
 
     this.description = '在指定时间对目标造成指定的药水效果';
 
@@ -2253,7 +2253,7 @@ function MechanicPotion()
 extend('MechanicPotionProjectile', 'Component');
 function MechanicPotionProjectile()
 {
-    this.super('药水抛射', Type.MECHANIC, true);
+    this.super('Potion Projectile', Type.MECHANIC, true);
 
     this.description = '从每个目标上掉落一个没有任何效果的喷溅型药水.在落地时应用子内容,子内容的目标指向药水所命中的所有单位,如果没有命中任何单位,子内容的目标将指向落地点的坐标';
 
@@ -2271,7 +2271,7 @@ function MechanicPotionProjectile()
 extend('MechanicProjectile', 'Component');
 function MechanicProjectile()
 {
-    this.super('普通抛射', Type.MECHANIC, true);
+    this.super('Projectile', Type.MECHANIC, true);
 
     this.description = '发射一个抛射物，在着陆时应用子内容,该子内容的目标指向经过的生物或着陆的坐标';
 
@@ -2292,7 +2292,7 @@ function MechanicProjectile()
 extend('MechanicPurge', 'Component');
 function MechanicPurge()
 {
-    this.super('清除', Type.MECHANIC, false);
+    this.super('Purge', Type.MECHANIC, false);
 
     this.description = '清除目标的身上的正面的药水效果或状态';
 
@@ -2307,7 +2307,7 @@ function MechanicPurge()
 extend('MechanicPush', 'Component');
 function MechanicPush()
 {
-    this.super('击退', Type.MECHANIC, false);
+    this.super('Push', Type.MECHANIC, false);
 
     this.description = '对目标造成基于施法者(可在"基于目标中更换")位置的击退,目标是施法者则无效';
 
@@ -2325,7 +2325,7 @@ function MechanicPush()
 extend('MechanicRememberTargets', 'Component');
 function MechanicRememberTargets()
 {
-    this.super('记住目标', Type.MECHANIC, false);
+    this.super('Remember Targets', Type.MECHANIC, false);
 
     this.description = '以一个关键词的方式来记住目标';
 
@@ -2337,7 +2337,7 @@ function MechanicRememberTargets()
 extend('MechanicRepeat', 'Component');
 function MechanicRepeat()
 {
-    this.super('重复', Type.MECHANIC, true);
+    this.super('Repeat', Type.MECHANIC, true);
 
     this.description = '应用子内容指定次数';
 
@@ -2358,7 +2358,7 @@ function MechanicRepeat()
 extend('MechanicSound', 'Component');
 function MechanicSound()
 {
-    this.super('声音', Type.MECHANIC, false);
+    this.super('Sound', Type.MECHANIC, false);
 
     this.description = "在目标位置播放指定声音";
 
@@ -2376,7 +2376,7 @@ function MechanicSound()
 extend('MechanicSpeed', 'Component');
 function MechanicSpeed()
 {
-    this.super('速度', Type.MECHANIC, false);
+    this.super('Speed', Type.MECHANIC, false);
 
     this.description = '将指定目标玩家的速度调整到一定倍数,于药水效果相堆叠';
 
@@ -2391,7 +2391,7 @@ function MechanicSpeed()
 extend('MechanicStatus', 'Component');
 function MechanicStatus()
 {
-    this.super('状态', Type.MECHANIC, false);
+    this.super('Status', Type.MECHANIC, false);
 
     this.description = '对目标造成指定状态效果,持续指定时间';
 
@@ -2406,7 +2406,7 @@ function MechanicStatus()
 extend('MechanicTaunt', 'Component');
 function MechanicTaunt()
 {
-    this.super('嘲讽', Type.MECHANIC, false);
+    this.super('Taunt', Type.MECHANIC, false);
 
     this.description = '吸引目标生物的仇恨,使其攻击施法者.在Spigot或Bukkit端上,只有老版本有效，如果有MythicMobs,可以目标的仇恨值';
 
@@ -2418,7 +2418,7 @@ function MechanicTaunt()
 extend('MechanicTrigger', 'Component');
 function MechanicTrigger()
 {
-    this.super('状态检测', Type.MECHANIC, true);
+    this.super('Trigger', Type.MECHANIC, true);
 
     this.description = '在指定时间检测目标的状态';
 
@@ -2490,7 +2490,7 @@ function MechanicTrigger()
 extend('MechanicValueAdd', 'Component');
 function MechanicValueAdd()
 {
-    this.super('添加存储值', Type.MECHANIC, false);
+    this.super('Value Add', Type.MECHANIC, false);
     
     this.description = '给施法者指定的关键词增加存储值,如果该关键词没有存储任何值,则将该值设置为给定量';
     
@@ -2505,7 +2505,7 @@ function MechanicValueAdd()
 extend('MechanicValueAttribute', 'Component');
 function MechanicValueAttribute() 
 {
-    this.super('属性存储值', Type.MECHANIC, false);
+    this.super('Value Attribute', Type.MECHANIC, false);
     
     this.description = '将目标指定属性的值计入指定关键词的存储值';
     
@@ -2520,7 +2520,7 @@ function MechanicValueAttribute()
 extend('MechanicValueCopy', 'Component');
 function MechanicValueCopy()
 {
-    this.super('存储值复制', Type.MECHANIC, false);
+    this.super('Value Copy', Type.MECHANIC, false);
     
     this.description = '将指定关键词的存储值从施法者复制到目标的另一个关键词,也可以反过来';
     
@@ -2538,7 +2538,7 @@ function MechanicValueCopy()
 extend('MechanicValueDistance', 'Component');
 function MechanicValueDistance()
 {
-    this.super('距离存储值', Type.MECHANIC, false);
+    this.super('Value Distance', Type.MECHANIC, false);
 
     this.description = '将目标与施法者的距离计入一个关键词的存储值';
 
@@ -2550,7 +2550,7 @@ function MechanicValueDistance()
 extend('MechanicValueHealth', 'Component');
 function MechanicValueHealth()
 {
-    this.super('血量存储值', Type.MECHANIC, false);
+    this.super('Value Health', Type.MECHANIC, false);
     
     this.description = '将目标指定关键词的存储值计入施法者相应关键词的存储值';
     
@@ -2565,7 +2565,7 @@ function MechanicValueHealth()
 extend('MechanicValueLocation', 'Component');
 function MechanicValueLocation() 
 {
-    this.super('位置存储值', Type.MECHANIC, false);
+    this.super('Value Location', Type.MECHANIC, false);
     
     this.description = '将第一个目标位置计入指定关键词的存储值';
     
@@ -2577,7 +2577,7 @@ function MechanicValueLocation()
 extend('MechanicValueLore', 'Component');
 function MechanicValueLore()
 {
-    this.super('Lore存储值', Type.MECHANIC, false);
+    this.super('Value Lore', Type.MECHANIC, false);
     
     this.description = '将手持物品Lore计入施法者指定关键词的存储值';
     
@@ -2598,7 +2598,7 @@ function MechanicValueLore()
 extend('MechanicValueLoreSlot', 'Component');
 function MechanicValueLoreSlot()
 {
-    this.super('槽存储值', Type.MECHANIC, false);
+    this.super('Value Lore Slot', Type.MECHANIC, false);
     
     this.description = '将指定槽内物品的Lore计入施法者指定关键词的存储值';
     
@@ -2619,7 +2619,7 @@ function MechanicValueLoreSlot()
 extend('MechanicValueMana', 'Component');
 function MechanicValueMana()
 {
-    this.super('法力存储值', Type.MECHANIC, false);
+    this.super('Value Mana', Type.MECHANIC, false);
     
     this.description = '将目标玩家的法力值计入施法者指定关键词的存储值';
     
@@ -2634,7 +2634,7 @@ function MechanicValueMana()
 extend('MechanicValueMultiply', 'Component');
 function MechanicValueMultiply()
 {
-    this.super('存储值翻倍', Type.MECHANIC, false);
+    this.super('Value Multiply', Type.MECHANIC, false);
 
     this.description = '将施法者指定关键词的存储值进行倍数变化';
 
@@ -2649,7 +2649,7 @@ function MechanicValueMultiply()
 extend('MechanicValuePlaceholder', 'Component');
 function MechanicValuePlaceholder()
 {
-    this.super('变量存储值', Type.MECHANIC, false);
+    this.super('Value Placeholder', Type.MECHANIC, false);
 
     this.description = '将一个变量计入施法者指定关键词的存储值';
 
@@ -2667,7 +2667,7 @@ function MechanicValuePlaceholder()
 extend('MechanicValueRandom', 'Component')
 function MechanicValueRandom()
 {
-    this.super('随机存储值', Type.MECHANIC, false);
+    this.super('Value Random', Type.MECHANIC, false);
     
     this.description = '将一个随机数计入施法者指定关键词的存储值';
     
@@ -2688,7 +2688,7 @@ function MechanicValueRandom()
 extend('MechanicValueSet', 'Component');
 function MechanicValueSet()
 {
-    this.super('普通存储值', Type.MECHANIC, false);
+    this.super('Value Set', Type.MECHANIC, false);
     
     this.description = '将指定数值计入施法者指定关键词的存储值';
     
@@ -2703,7 +2703,7 @@ function MechanicValueSet()
 extend('MechanicWarp', 'Component');
 function MechanicWarp()
 {
-    this.super('传送', Type.MECHANIC, false);
+    this.super('Warp', Type.MECHANIC, false);
     
     this.description = '在目标前进方向进行传送';
     
@@ -2724,7 +2724,7 @@ function MechanicWarp()
 extend('MechanicWarpLoc', 'Component');
 function MechanicWarpLoc()
 {
-    this.super('坐标传送', Type.MECHANIC, false);
+    this.super('Warp Location', Type.MECHANIC, false);
     
     this.description = '将目标传送至指定世界的指定坐标';
     
@@ -2751,7 +2751,7 @@ function MechanicWarpLoc()
 extend('MechanicWarpRandom', 'Component');
 function MechanicWarpRandom()
 {
-    this.super('随机传送', Type.MECHANIC, false);
+    this.super('Warp Random', Type.MECHANIC, false);
     
     this.description = '在给定距离的情况下将目标传送随机方向';
     
@@ -2769,7 +2769,7 @@ function MechanicWarpRandom()
 extend('MechanicWarpSwap', 'Component');
 function MechanicWarpSwap()
 {
-    this.super('相互传送', Type.MECHANIC, false);
+    this.super('Warp Swap', Type.MECHANIC, false);
     
     this.description = '切换施法者和目标的位置 如果指向多个目标,则选取第一个目标';
 }
@@ -2777,7 +2777,7 @@ function MechanicWarpSwap()
 extend('MechanicWarpTarget', 'Component');
 function MechanicWarpTarget()
 {
-    this.super('单向传送', Type.MECHANIC, false);
+    this.super('Warp Target', Type.MECHANIC, false);
     
     this.description = '将施法者传送至目标位置,或将目标传送至施法者位置';
     
@@ -2789,7 +2789,7 @@ function MechanicWarpTarget()
 extend('MechanicWarpValue', 'Component');
 function MechanicWarpValue() 
 {
-    this.super('存储值传送', Type.MECHANIC, false);
+    this.super('Warp Value', Type.MECHANIC, false);
     
     this.description = '将所有目标传送至指定关键词的存储值所代表的坐标';
     
@@ -2801,7 +2801,7 @@ function MechanicWarpValue()
 extend('MechanicWolf', 'Component');
 function MechanicWolf()
 {
-    this.super('狼', Type.MECHANIC, true);
+    this.super('Wolf', Type.MECHANIC, true);
     
     this.description = '在每个目标处召唤若干只狼,子内容的目标将指向狼,因此你可以给它们施加效果,你也可以给它自己的技能组,但不能视为主动释放.';
     
