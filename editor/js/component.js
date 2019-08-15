@@ -595,7 +595,7 @@ function CustomComponent(data) {
 extend('TriggerBlockBreak', 'Component');
 function TriggerBlockBreak() {
     this.super('Block Break', Type.TRIGGER, true);
-    this.description = 'Applies skill effects when a player breaks a block matching  the given details';
+    this.description = '当玩家破坏指定信息的方块时触发';
 
     this.data.push(new MultiListValue('方块类型', 'material', getAnyMaterials, [ 'Any' ])
         .setTooltip('The type of block expected to be broken')
@@ -608,7 +608,7 @@ function TriggerBlockBreak() {
 extend('TriggerBlockPlace', 'Component');
 function TriggerBlockPlace() {
     this.super('Block Place', Type.TRIGGER, true);
-    this.description = 'Applies skill effects when a player places a block matching  the given details';
+    this.description = '当玩家放置指定信息的方块时触发';
 
     this.data.push(new MultiListValue('方块类型', 'material', getAnyMaterials, [ 'Any' ])
         .setTooltip('The type of block expected to be placed')
